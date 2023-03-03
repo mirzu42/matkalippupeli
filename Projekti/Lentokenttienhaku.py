@@ -71,7 +71,7 @@ def lipunKohde():
     tulos = cursor.fetchall()
     return tulos
 '''
-def lippu():
+def lippu(): #tulostus siistitty.
     cursor = yhteys.cursor(dictionary=True)
     lahto = "select name from airport where iso_country = 'fi' and type in('medium_airport', 'large_airport') order by rand() limit 1"
     cursor.execute(lahto)
@@ -83,12 +83,18 @@ def lippu():
         kohde = "select name from airport where iso_country = 'fi' and type in('medium_airport', 'large_airport') order by rand() limit 1"
         cursor.execute(kohde)
         result2 = cursor.fetchall()
-    return result1, result2
-'''tän tulostus pitää vielä siistiä'''
+    merkkijono1 = ''.join(str(x) for x in result1)
+    merkkijono2= ''.join(str(y) for y in result2)
+
+    return merkkijono1[10:-2], merkkijono2[10:-2]
+
 
 
 
 kentät = haeKaikkiKentat()
 
-print(lippu())
+
+print(lippu()[0])
+print(lippu()[1])
+
 
