@@ -3,9 +3,9 @@ import mysql.connector
 yhteys = mysql.connector.connect(
          host="127.0.0.1",
          port= 3306,
-         database="flight_game",
+         database="matkalippupeli",
          user="root",
-         password="root1234",
+         password="1234",
          autocommit=True
          )
 
@@ -38,8 +38,57 @@ def laskeValimatka(icaoEka, icaoToka):
     longitudeTwo = haeSijainti(icaoToka)[1]
     a = latitudeOne, longitudeOne
     b = latitudeTwo, longitudeTwo
-    print(distance(a, b))
+    return (distance(a, b))
+
+def saavutettavatLentokentät(icao, a_ports, p_range):
+    in_range = []
+    for a_port in a_ports:
+        dist = laskeValimatka(icao, a_port['ident'])
+        if dist <= p_range and not dist == 0:
+            in_range.append(a_port)
+    return in_range
+
+# ei mitään käryy toimiiko tää oikein:
+def päivitäLokaatio(icao, p_id):
+    sql = f'''UPDATE player SET location = %s WHERE id = %s '''
+    cursor = yhteys.cursor(dictionary=True)
+    cursor.execute(sql(icao, p_id))
+
+'''def lipunLähtö():
+    lähtö = 'select name from airport where iso_country = "FI" and type in("medium_airport", "large_airport") order by rand() limit 1;'
+
+    cursor = yhteys.cursor(dictionary=True)
+    cursor.execute(lähtö)
+   # if lähtö == kohde:
+    #    kohde = 'select name from airport where iso_country = "FI" and type in("medium_airport", "large_airport") order by rand() limit 1;'
+    tulos = cursor.fetchall()
+    return tulos
+def lipunKohde():
+    kohde = 'select name from airport where iso_country = "FI" and type in("medium_airport", "large_airport") order by rand() limit 1;'
+
+    cursor = yhteys.cursor(dictionary=True)
+    cursor.execute(kohde)
+    tulos = cursor.fetchall()
+    return tulos
+'''
+def lippu():
+    cursor = yhteys.cursor(dictionary=True)
+    lahto = "select name from airport where iso_country = 'fi' and type in('medium_airport', 'large_airport') order by rand() limit 1"
+    cursor.execute(lahto)
+    result1 = cursor.fetchall()
+    kohde = "select name from airport where iso_country = 'fi' and type in('medium_airport', 'large_airport') order by rand() limit 1"
+    cursor.execute(kohde)
+    result2 = cursor.fetchall()
+    if result2 == result1:
+        kohde = "select name from airport where iso_country = 'fi' and type in('medium_airport', 'large_airport') order by rand() limit 1"
+        cursor.execute(kohde)
+        result2 = cursor.fetchall()
+    return result1, result2
+'''tän tulostus pitää vielä siistiä'''
+
+
 
 kentät = haeKaikkiKentat()
 
+print(lippu())
 
