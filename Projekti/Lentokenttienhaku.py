@@ -1,3 +1,5 @@
+import random
+
 from geopy.distance import distance
 import mysql.connector
 
@@ -76,4 +78,3 @@ def lipunKohde():
 
 
 kentät = haeKaikkiKentat()
-

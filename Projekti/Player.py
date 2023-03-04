@@ -5,7 +5,7 @@ yhteys = mysql.connector.connect(
          port= 3306,
          database="matkalippupeli",
          user="root",
-         password="Salasana",
+         password="1234",
          autocommit=True
          )
 #ei muuten mitään hajuu tarviiks tätä ees
@@ -51,8 +51,8 @@ class PelaajanHallinta():
         cursor = yhteys.cursor(dictionary=True)  # mitä tää dictionary ees tekee
         cursor.execute(sql)
 
-    def PelaajaAloitus(self):
-        sql = "Select ident from airport WHERE iso_country = 'FI'"
+    def pelaajaAloitus(self):
+        sql = "select airport.ident from airport inner join country on airport.iso_country = country.iso_country where country.name = 'Finland' and type != 'closed' and type !='heliport' and type !='small_airport';"
         kursori = yhteys.cursor()
         kursori.execute(sql)
         tulokset = kursori.fetchall()
@@ -60,7 +60,10 @@ class PelaajanHallinta():
         if tulokset:
             aloituslokaatio = random.choice(tulokset)[0]
             return aloituslokaatio
-        print(tulokset);
+        print(tulokset)
+
+
+
 
 
 
