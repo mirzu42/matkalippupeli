@@ -12,6 +12,8 @@ lh.createLippu()'''
 kh = KortinHallinta
 kh.createKortti("Punainen")
 
+def PlayerMove():
+    print()
 
 
 
