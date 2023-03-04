@@ -8,6 +8,7 @@ yhteys = mysql.connector.connect(
          password="1234",
          autocommit=True
          )
+#ei muuten mitään hajuu tarviiks tätä ees
 class Player():
     def __init__(self, id, name):
         self.id = id
@@ -19,7 +20,7 @@ class Player():
 
 class PelaajanHallinta():
     def create_player(self): # Lisää yhden pelaajan tietokantaan. Default lokaatio Helsinki-Vantaa
-
+        #also menee paskaks jos koittaa tehä yli 5 käyttäjää jostai syyst idk
         sql = "select id from player;"
         kursori = yhteys.cursor()
         kursori.execute(sql)
@@ -38,10 +39,15 @@ class PelaajanHallinta():
         sql = "delete from player;"
         kursori = yhteys.cursor()
         kursori.execute(sql)
+    def tulosta_pelaajat(self):
+        sql = "select nimi from player;"
+        k = yhteys.cursor()
+        k.execute(sql)
+        x = k.fetchall()
+        for i in range(len(x)):
+            print(x[i][0])
 
 
-PH = PelaajanHallinta()
-PH.create_player()
 
 
 

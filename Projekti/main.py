@@ -1,17 +1,8 @@
-from Player import Player
-import random
-import mysql.connector
-
-yhteys = mysql.connector.connect(
-         host="127.0.0.1",
-         port= 3306,
-         database="matkalippupeli",
-         user="root",
-         password="1234",
-         autocommit=True
-         )
-
-
+from Player import *
+from Lentokenttienhaku import *
+ph = PelaajanHallinta()
+ph.create_player()
+ph.tulosta_pelaajat()
 
 
 
