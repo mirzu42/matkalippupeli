@@ -46,6 +46,10 @@ class PelaajanHallinta():
         x = k.fetchall()
         for i in range(len(x)):
             print(x[i][0])
+    def paivitaLokaatio(self, icao, p_id):
+        sql = f"UPDATE player SET location = '{icao}' WHERE id = '{p_id}'"
+        cursor = yhteys.cursor(dictionary=True)  # mitä tää dictionary ees tekee
+        cursor.execute(sql)
 
 
 

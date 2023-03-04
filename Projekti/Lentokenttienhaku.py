@@ -49,12 +49,8 @@ def saavutettavatLentokentät(icao, a_ports, p_range):
             in_range.append(a_port)
     return in_range
 
-# ei mitään käryy toimiiko tää oikein:
-#Toimii nyt
-def paivitaLokaatio(icao, p_id):
-    sql = f"UPDATE player SET location = '{icao}' WHERE id = '{p_id}'"
-    cursor = yhteys.cursor(dictionary=True) #mitä tää dictionary ees tekee
-    cursor.execute(sql)
+
+
 
 '''def lipunLähtö():
     lähtö = 'select name from airport where iso_country = "FI" and type in("medium_airport", "large_airport") order by rand() limit 1;'
@@ -73,30 +69,10 @@ def lipunKohde():
     tulos = cursor.fetchall()
     return tulos
 '''
-def lippu(): #tulostus siistitty.
-    cursor = yhteys.cursor(dictionary=True)
-    lahto = "select name from airport where iso_country = 'fi' and type in('medium_airport', 'large_airport') order by rand() limit 1"
-    cursor.execute(lahto)
-    result1 = cursor.fetchall()
-    kohde = "select name from airport where iso_country = 'fi' and type in('medium_airport', 'large_airport') order by rand() limit 1"
-    cursor.execute(kohde)
-    result2 = cursor.fetchall()
-    if result2 == result1:
-        kohde = "select name from airport where iso_country = 'fi' and type in('medium_airport', 'large_airport') order by rand() limit 1"
-        cursor.execute(kohde)
-        result2 = cursor.fetchall()
-    merkkijono1 = ''.join(str(x) for x in result1)
-    merkkijono2= ''.join(str(y) for y in result2)
 
-    return merkkijono1[10:-2], merkkijono2[10:-2]
 
 
 
 
 kentät = haeKaikkiKentat()
-paivitaLokaatio("EFPE", 4)
-
-#print(lippu()[0])
-#print(lippu()[1])
-
 
