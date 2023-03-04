@@ -9,6 +9,7 @@ yhteys = mysql.connector.connect(
          )
 class LipunHallinta():
 
+
     def createLippu(self):  # joo tää on sit ihan vitun sekava mut toimii. Jos joku keksii paremman tavan saa korjata
         cursor = yhteys.cursor(dictionary=True)
         lahto = "select name from airport where iso_country = 'fi' and type in('medium_airport', 'large_airport') order by rand() limit 1"

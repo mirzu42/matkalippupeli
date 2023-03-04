@@ -32,6 +32,7 @@ def haeSijainti(icaoKoodi):
             lon=rivi[2]
     return lat, lon
 
+
 def laskeValimatka(icaoEka, icaoToka):
     latitudeOne = haeSijainti(icaoEka)[0]
     longitudeOne = haeSijainti(icaoEka)[1]

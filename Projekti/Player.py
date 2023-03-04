@@ -1,4 +1,4 @@
-
+import random
 import mysql.connector
 yhteys = mysql.connector.connect(
          host="127.0.0.1",
@@ -50,6 +50,17 @@ class PelaajanHallinta():
         sql = f"UPDATE player SET location = '{icao}' WHERE id = '{p_id}'"
         cursor = yhteys.cursor(dictionary=True)  # mitä tää dictionary ees tekee
         cursor.execute(sql)
+
+    def PelaajaAloitus(self):
+        sql = "Select ident from airport WHERE iso_country = 'FI'"
+        kursori = yhteys.cursor()
+        kursori.execute(sql)
+        tulokset = kursori.fetchall()
+
+        if tulokset:
+            aloituslokaatio = random.choice(tulokset)[0]
+            return aloituslokaatio
+        print(tulokset);
 
 
 
