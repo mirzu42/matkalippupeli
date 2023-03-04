@@ -1,12 +1,13 @@
 from geopy.distance import distance
 import mysql.connector
+import random
 
 yhteys = mysql.connector.connect(
          host="127.0.0.1",
          port= 3306,
-         database="matkalippupeli",
+         database="flight_game",
          user="root",
-         password="1234",
+         password="Salasana",
          autocommit=True
          )
 
@@ -39,64 +40,18 @@ def laskeValimatka(icaoEka, icaoToka):
     longitudeTwo = haeSijainti(icaoToka)[1]
     a = latitudeOne, longitudeOne
     b = latitudeTwo, longitudeTwo
-    return (distance(a, b))
-
-def saavutettavatLentokentät(icao, a_ports, p_range):
-    in_range = []
-    for a_port in a_ports:
-        dist = laskeValimatka(icao, a_port['ident'])
-        if dist <= p_range and not dist == 0:
-            in_range.append(a_port)
-    return in_range
-
-# ei mitään käryy toimiiko tää oikein:
-#Toimii nyt
-def paivitaLokaatio(icao, p_id):
-    sql = f"UPDATE player SET location = '{icao}' WHERE id = '{p_id}'"
-    cursor = yhteys.cursor(dictionary=True) #mitä tää dictionary ees tekee
-    cursor.execute(sql)
-
-'''def lipunLähtö():
-    lähtö = 'select name from airport where iso_country = "FI" and type in("medium_airport", "large_airport") order by rand() limit 1;'
-
-    cursor = yhteys.cursor(dictionary=True)
-    cursor.execute(lähtö)
-   # if lähtö == kohde:
-    #    kohde = 'select name from airport where iso_country = "FI" and type in("medium_airport", "large_airport") order by rand() limit 1;'
-    tulos = cursor.fetchall()
-    return tulos
-def lipunKohde():
-    kohde = 'select name from airport where iso_country = "FI" and type in("medium_airport", "large_airport") order by rand() limit 1;'
-
-    cursor = yhteys.cursor(dictionary=True)
-    cursor.execute(kohde)
-    tulos = cursor.fetchall()
-    return tulos
-'''
-def lippu(): #tulostus siistitty.
-    cursor = yhteys.cursor(dictionary=True)
-    lahto = "select name from airport where iso_country = 'fi' and type in('medium_airport', 'large_airport') order by rand() limit 1"
-    cursor.execute(lahto)
-    result1 = cursor.fetchall()
-    kohde = "select name from airport where iso_country = 'fi' and type in('medium_airport', 'large_airport') order by rand() limit 1"
-    cursor.execute(kohde)
-    result2 = cursor.fetchall()
-    if result2 == result1:
-        kohde = "select name from airport where iso_country = 'fi' and type in('medium_airport', 'large_airport') order by rand() limit 1"
-        cursor.execute(kohde)
-        result2 = cursor.fetchall()
-    merkkijono1 = ''.join(str(x) for x in result1)
-    merkkijono2= ''.join(str(y) for y in result2)
-
-    return merkkijono1[10:-2], merkkijono2[10:-2]
-
-
-
+    print(distance(a, b))
 
 kentät = haeKaikkiKentat()
-paivitaLokaatio("EFPE", 4)
 
-#print(lippu()[0])
-#print(lippu()[1])
+def PelaajaAloitus():
+    sql="Select ident from airport WHERE iso_country = 'FI'"
+    kursori = yhteys.cursor()
+    kursori.execute(sql)
+    tulokset = kursori.fetchall()
 
+    if tulokset:
+        aloituslokaatio = random.choice(tulokset)[0]
+        return aloituslokaatio
+    print(tulokset);
 

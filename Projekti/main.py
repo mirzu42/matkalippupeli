@@ -5,6 +5,8 @@ ph.create_player()
 ph.tulosta_pelaajat()
 
 
+def PlayerMove():
+    print()
 
 
 
