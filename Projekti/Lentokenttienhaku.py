@@ -50,10 +50,11 @@ def saavutettavatLentokentät(icao, a_ports, p_range):
     return in_range
 
 # ei mitään käryy toimiiko tää oikein:
-def päivitäLokaatio(icao, p_id):
-    sql = f'''UPDATE player SET location = %s WHERE id = %s '''
-    cursor = yhteys.cursor(dictionary=True)
-    cursor.execute(sql(icao, p_id))
+#Toimii nyt
+def paivitaLokaatio(icao, p_id):
+    sql = f"UPDATE player SET location = '{icao}' WHERE id = '{p_id}'"
+    cursor = yhteys.cursor(dictionary=True) #mitä tää dictionary ees tekee
+    cursor.execute(sql)
 
 '''def lipunLähtö():
     lähtö = 'select name from airport where iso_country = "FI" and type in("medium_airport", "large_airport") order by rand() limit 1;'
@@ -93,9 +94,9 @@ def lippu(): #tulostus siistitty.
 
 
 kentät = haeKaikkiKentat()
+paivitaLokaatio("EFPE", 4)
 
-
-print(lippu()[0])
-print(lippu()[1])
+#print(lippu()[0])
+#print(lippu()[1])
 
 
