@@ -19,7 +19,7 @@ class Player():
         return self.name
 
 class PelaajanHallinta():
-    def create_player(self): # Lisää yhden pelaajan tietokantaan. Default lokaatio Helsinki-Vantaa
+    def create_player(self, nimi): # Lisää yhden pelaajan tietokantaan. Default lokaatio Helsinki-Vantaa
         #also menee paskaks jos koittaa tehä yli 5 käyttäjää jostai syyst idk
         sql = "select id from player;"
         kursori = yhteys.cursor()
@@ -29,11 +29,12 @@ class PelaajanHallinta():
             id = tulos[-1][0]+1 #viimeinen id + 1
         else:
             id = 1
-        nimi = input("Nimi: ")
+        #nimi = input("Nimi: ")
         player = Player(id, nimi)
         sql2 = f"insert into player (id, kokonais_pisteet, bensa, nimi, location) values ({id}, 0, 500, '{nimi}', 'EFHK');"
 
         kursori.execute(sql2)
+        print(f"Tietokantaan lisätty pelaaja: \nID: {id}\nKokonaispisteet: 0\nBensa: 500\nNimi:{nimi}\nLocation: EFHK")
         return player
     def delete_all_players(self):
         sql = "delete from player;"

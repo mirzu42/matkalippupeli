@@ -20,4 +20,5 @@ class KortinHallinta():
 
         sql2 = f"insert into kortit (id, tyyppi) values ('{id}', '{tyyppi}');"
         cursor.execute(sql2)
+        print(f"Tietokantaan listätty kortti:\nId:{id}\nTyyppi: {tyyppi}")
 

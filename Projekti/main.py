@@ -1,19 +1,22 @@
 from Player import *
 from Lippu import *
 from Kortit import *
+from PelaajanKortit import*
 #from Lentokenttienhaku import *
 ph = PelaajanHallinta()
-'''ph.create_player()
-ph.tulosta_pelaajat()'''
-print(ph.pelaajaAloitus())
+'''nimi = input("Nimi: ")
+ph.create_player(nimi)'''
 
-'''lh = LipunHallinta()
-lh.createLippu()'''
+#print(ph.pelaajaAloitus())
 
-'''kh = KortinHallinta
-kh.createKortti("Punainen")'''
+lh = LipunHallinta()
+#lh.createLippu()
 
+kh = KortinHallinta
+#kh.createKortti("Punainen")
 
+pkh = PelaajanKorttienHallinta
+#pkh.uusiPelaajanKortti(2,2)
 '''def PlayerMove():
     print()
 '''
