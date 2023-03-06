@@ -68,8 +68,10 @@ def ilmanSuunnat(current_aport, in_range):
 
 
 def KenttienSkannaus(lentokenttä, lentokentät, lentokenttä_lat, lentokenttä_lon):
+    kentät = haeKaikkiKentat()
     lentokenttä_lat, lentokenttä_lon = haeSijainti(lentokenttä)
     lentokenttäetäisyys = []
+
     for kenttä in lentokentät:
         if kenttä != lentokenttä and kenttä in kentät:
             lat, lon = haeSijainti(kenttä)
@@ -80,7 +82,7 @@ def KenttienSkannaus(lentokenttä, lentokentät, lentokenttä_lat, lentokenttä_
     Lähimmätkentät = Lähimmätkentät[:5]
     return Lähimmätkentät
 
-    kentät = haeKaikkiKentat()
+
     aloituslokaatio = PelaajanHallinta.pelaajaAloitus()
     aloituslat, aloituslon = haeSijainti(aloituslokaatio)
     lähimmätKentät = KenttienSkannaus(aloituslokaatio, kentät, aloituslat, aloituslon)
