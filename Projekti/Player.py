@@ -86,12 +86,29 @@ class PelaajanHallinta():
         kursori = yhteys.cursor()
         kursori.execute(sql)
     def kaytaPelaajanKortti(self, kortti_tyyppi, pelaaja_id):
-        sql = f"delete t1 from pelaajan_kortit AS t1 INNER JOIN kortit AS t2 ON t1.kortti_id = t2.id where t2.tyyppi = '{kortti_tyyppi}' and t1.player_id = {pelaaja_id};"
+        sql1 = f" select kortit.id from kortit inner join pelaajan_kortit on pelaajan_kortit.kortti_id = kortit.id where player_id = {pelaaja_id} and kortit.tyyppi = '{kortti_tyyppi}' order by kortit.id desc limit 1;"
         cursor = yhteys.cursor()
+        cursor.execute(sql1)
+        muuttuja = cursor.fetchone()
+
+        sql2 = f"delete from pelaajan_kortit where kortti_id = '{muuttuja[0]}';"
+        cursor.execute((sql2))
+        sql3 = f"delete from kortit where id = '{muuttuja[0]}';"
+        cursor.execute(sql3)
+
+    def getPelaajanKorttienLkm(self, pelaaja_id):
+        sql = f"select count(*) as pelaajan_korttien_lkm from pelaajan_kortit where player_id = '{pelaaja_id}';"
+        cursor =  yhteys.cursor()
         cursor.execute(sql)
-        #pitää viel käytää bensaa
-    def bensakulutus(self, player_id, lkm):
-        sql1 = f"update player set bensa = bensa - 8 * '{lkm}' where id = '{player_id}';"
+        tulos = cursor.fetchone()
+        return tulos[0]
+
+    def kaytaMontaKorttia(self, lkm,  kortti_tyyppi, pelaaja_id):
+        for i in range(lkm):
+            self.kaytaPelaajanKortti(kortti_tyyppi, pelaaja_id)
+
+    def bensaKulutus(self, player_id, korttiLkm):
+        sql1 = f"update player set bensa = bensa - 8 * '{korttiLkm}' where id = '{player_id}';"
         sql2 = f"select bensa from player where id = '{player_id}';"
         kursori = yhteys.cursor()
         kursori.execute(sql1)

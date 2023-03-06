@@ -28,3 +28,9 @@ class KortinHallinta():
         sql3 = f"insert into pelaajan_kortit (kortti_id, player_id) values ('{id}', '{pelaaja_id}');"
         cursor.execute(sql3)
         print(f"Tietokantaan listätty kortti:\nId:{id}\nTyyppi: {kortti}")
+
+    def delete_all_kortit(self):
+        sql1 = f'delete from pelaajan_kortit;'
+        sql2 = f'delete from kortit;'
+        cursor = yhteys.cursor()
+        cursor.execute(sql1, sql2)
