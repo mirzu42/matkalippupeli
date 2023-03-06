@@ -1,7 +1,6 @@
 import random
-
 import mysql.connector
-import math
+
 yhteys = mysql.connector.connect(
          host="127.0.0.1",
          port= 3306,
@@ -15,20 +14,17 @@ class KortinHallinta():
         kortitLista = ["punainen", "keltainen", "sininen", "punainen", "keltainen", "sininen", "punainen", "keltainen",
                   "sininen", "jokeri"]
         kortti = random.choice(kortitLista)
-        sql1="select id from kortit;"
+        sql1 = "select id from kortit"
         cursor = yhteys.cursor()
         cursor.execute(sql1)
         result = cursor.fetchall()
-        if (len(result))>0:
+        if (len(result)) > 0:
             id = result[-1][0]+1
         else:
             id = 1
 
         sql2 = f"insert into kortit (id, tyyppi) values ('{id}', '{kortti}');"
         cursor.execute(sql2)
-        sql3 = f"insert into pelaajan_kortit (kortti_id, player_id) values ({pelaaja_id});"
+        sql3 = f"insert into pelaajan_kortit (kortti_id, player_id) values ('{id}', '{pelaaja_id}');"
         cursor.execute(sql3)
         print(f"Tietokantaan listätty kortti:\nId:{id}\nTyyppi: {kortti}")
-
-
-

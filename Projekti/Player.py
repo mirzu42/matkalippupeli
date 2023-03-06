@@ -100,6 +100,3 @@ class PelaajanHallinta():
         bensa = result[0]
         return bensa
 
-
-
-
