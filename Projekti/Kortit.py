@@ -22,3 +22,5 @@ class KortinHallinta():
         cursor.execute(sql2)
         print(f"Tietokantaan listätty kortti:\nId:{id}\nTyyppi: {tyyppi}")
 
+
+

@@ -5,8 +5,9 @@ from Reitti import *
 from Lentokenttienhaku import *
 
 ph = PelaajanHallinta()
-rh =ReittiHallinta()
-rh.createReitti(4)
+#rh =ReittiHallinta()
+#rh.createReitti(4)
+ph.uusiPelaajanKortti(1, 2)
 
 
 '''nimi = input("Nimi: ")

@@ -83,6 +83,10 @@ class PelaajanHallinta():
         sql = "delete from pelaajan_liput;"
         kursori = yhteys.cursor()
         kursori.execute(sql)
-
+    def kaytaPelaajanKortti(self, kortti_tyyppi, pelaaja_id):
+        sql = f"delete t1 from pelaajan_kortit AS t1 INNER JOIN kortit AS t2 ON t1.kortti_id = t2.id where t2.tyyppi = '{kortti_tyyppi}' and t1.player_id = {pelaaja_id};"
+        cursor = yhteys.cursor()
+        cursor.execute(sql)
+        #pitää viel käytää bensaa
 
 
