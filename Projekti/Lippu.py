@@ -1,4 +1,6 @@
 import mysql.connector
+import geopy
+from Lentokenttienhaku import laskeValimatka
 yhteys = mysql.connector.connect(
          host="127.0.0.1",
          port= 3306,
@@ -34,14 +36,17 @@ class LipunHallinta():
 
         if (len(result5)) > 0:
             lippuID = result5[-1]['id']+1
-            print(lippuID)
+
         else:
             lippuID = 1
-            print(lippuID)
 
-        #print(merkkijono3)
-        #print(merkkijono4)
-        updateLahtoJaKohde = f"insert into liput (id, lähtö, kohde, pisteet) values ({lippuID}, '{merkkijono3}', '{merkkijono4}', 40);"
+
+        #pisteiden lasku
+        pisteet = round(laskeValimatka(merkkijono3, merkkijono4))
+
+
+
+        updateLahtoJaKohde = f"insert into liput (id, lähtö, kohde, pisteet) values ({lippuID}, '{merkkijono3}', '{merkkijono4}', {pisteet});"
         cursor.execute(updateLahtoJaKohde)
 
         return merkkijono1, merkkijono2

@@ -20,7 +20,8 @@ kh.createKortti(1)
 kh.delete_all_kortit()
 lh = LipunHallinta()
 lh.createLippu()'''
-
+lh = LipunHallinta()
+lh.createLippu()
 #kh = KortinHallinta
 #kh.createKortti("Punainen")
 
