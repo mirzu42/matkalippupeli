@@ -52,7 +52,7 @@ class PelaajanHallinta():
         cursor = yhteys.cursor(dictionary=True)  # mitä tää dictionary ees tekee
         cursor.execute(sql)
 
-    def pelaajaAloitus(self):
+    def pelaajaAloitus(self): #ei salee tarvita tätä? lippu() tekee jo muutenki randomil ton
         sql = "select airport.ident from airport inner join country on airport.iso_country = country.iso_country where country.name = 'Finland' and type != 'closed' and type !='heliport' and type !='small_airport';"
         kursori = yhteys.cursor()
         kursori.execute(sql)
@@ -62,6 +62,17 @@ class PelaajanHallinta():
             aloituslokaatio = random.choice(tulokset)[0]
             return aloituslokaatio
         print(tulokset)
+
+    def uusiPelaajanKortti(self, pelaaja_id, kortti_id):
+        sql = f"insert into pelaajan_kortit (kortti_id, player_id) values ({pelaaja_id}, {kortti_id})"
+        cursor = yhteys.cursor()
+        cursor.execute(sql)
+        print (f"Tietokantaan lisätty pelaajan kortti: \nKortti_id: {kortti_id}\npelaaja_id: {pelaaja_id}")
+    def uusiPelaajanLippu(self, pelaaja_id, lippu_id):
+        sql = f"insert into pelaajan_liput (player_id, liput_id) values ({pelaaja_id}, {lippu_id})"
+        cursor = yhteys.cursor()
+        cursor.execute(sql)
+        print(f"Tietokantaan lisätty pelaajan lippu: \nlippuID: {lippu_id}\nPelaajaID: {pelaaja_id}")
 
 
 
