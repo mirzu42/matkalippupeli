@@ -12,26 +12,20 @@ class LipunHallinta():
 
     def createLippu(self):  # joo tää on sit ihan vitun sekava mut toimii. Jos joku keksii paremman tavan saa korjata
         cursor = yhteys.cursor(dictionary=True)
-        lahto = "select name from airport where iso_country = 'fi' and type in('medium_airport', 'large_airport') order by rand() limit 1"
-        cursor.execute(lahto)
-        result1 = cursor.fetchall()
-        kohde = "select name from airport where iso_country = 'fi' and type in('medium_airport', 'large_airport') order by rand() limit 1"
-        cursor.execute(kohde)
-        result2 = cursor.fetchall()
-        if result2 == result1:
-            kohde = "select name from airport where iso_country = 'fi' and type in('medium_airport', 'large_airport') order by rand() limit 1"
-            cursor.execute(kohde)
-            result2 = cursor.fetchall()
-        merkkijono1 = ''.join(str(x) for x in result1)
-        merkkijono2 = ''.join(str(y) for y in result2)
-        sql1 = f"select ident from airport where name = '{merkkijono1[10:-2]}'"
+        sql = "select name from airport where iso_country = 'fi' and type in('medium_airport', 'large_airport') order by rand() limit 2"
+        cursor.execute(sql)
+        result = cursor.fetchall()
+        result1, result2 = result
+        merkkijono1 = result1['name']
+        merkkijono2 = result2['name']
+        sql1 = f"select ident from airport where name = '{merkkijono1}'"
         cursor.execute(sql1)
-        result3 = cursor.fetchall()
-        sql2 = f"select ident from airport where name = '{merkkijono2[10:-2]}'"
+        result3 = cursor.fetchone()
+        sql2 = f"select ident from airport where name = '{merkkijono2}'"
         cursor.execute(sql2)
-        result4 = cursor.fetchall()
-        merkkijono3 = ''.join(str(x) for x in result3)
-        merkkijono4 = ''.join(str(x) for x in result4)
+        result4 = cursor.fetchone()
+        merkkijono3 = result3['ident']
+        merkkijono4 = result4['ident']
 
         #insert into sql
         sql3 = "select id from liput order by id asc;"
@@ -45,9 +39,9 @@ class LipunHallinta():
             lippuID = 1
             print(lippuID)
 
-        print(merkkijono3[11:-2])
-        print(merkkijono4[11:-2])
-        updateLahtoJaKohde = f"insert into liput (id, lähtö, kohde, pisteet) values ({lippuID}, '{merkkijono3[11:-2]}', '{merkkijono4[11:-2]}', 40);"
+        print(merkkijono3)
+        print(merkkijono4)
+        updateLahtoJaKohde = f"insert into liput (id, lähtö, kohde, pisteet) values ({lippuID}, '{merkkijono3}', '{merkkijono4}', 40);"
         cursor.execute(updateLahtoJaKohde)
 
-        return merkkijono1[10:-2], merkkijono2[10:-2]
+        return merkkijono1, merkkijono2
