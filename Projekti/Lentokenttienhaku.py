@@ -1,6 +1,5 @@
 import math
 from geopy.distance import distance
-from geopy.distance import geodesic
 import mysql.connector
 
 yhteys = mysql.connector.connect(
@@ -10,7 +9,7 @@ yhteys = mysql.connector.connect(
          user="root",
          password="1234",
          autocommit=True
-         )
+)
 
 def haeKaikkiKentat():
     sql = """SELECT ident, name, latitude_deg, longitude_deg
@@ -38,15 +37,17 @@ def haeSijainti(icaoKoodi):
 def laskeValimatka(icaoEka, icaoToka):
     a = haeSijainti(icaoEka)
     b = haeSijainti(icaoToka)
-    return (distance(a, b))
+    return (distance(a, b)).km
 
 
 def saavutettavatLentokentat(icao, a_ports, p_range):
     in_range = []
     for a_port in a_ports:
         dist = laskeValimatka(icao, a_port['ident'])
-        if dist <= p_range and not dist == 0:
+        a_port['distance'] = dist
+        if dist <= p_range and not dist == 0 and not dist > 374:
             in_range.append(a_port)
+    in_range = sorted(in_range, key=lambda x: x['distance'])[:5]
     return in_range
 
 
@@ -64,27 +65,11 @@ def ilmanSuunnat(current_aport, in_range):
         a_port['ilmansuunta'] = compass_brackets[compass_lookup]
     return in_range
 
+current_aport = "EFOU"
+all_aports = haeKaikkiKentat()
+p_range = 2000
+# Call the function
+in_range = saavutettavatLentokentat(current_aport, all_aports, p_range)
+testi = ilmanSuunnat(current_aport, in_range)
 
-
-
-def KenttienSkannaus(lentokenttä, lentokentät, lentokenttä_lat, lentokenttä_lon):
-    kentät = haeKaikkiKentat()
-    lentokenttä_lat, lentokenttä_lon = haeSijainti(lentokenttä)
-    lentokenttäetäisyys = []
-
-    for kenttä in lentokentät:
-        if kenttä != lentokenttä and kenttä in kentät:
-            lat, lon = haeSijainti(kenttä)
-            etäisyys = geodesic((lentokenttä_lat, lentokenttä_lon), (lat, lon)).km
-            lentokenttäetäisyys.append((kenttä, etäisyys))
-
-    Lähimmätkentät = sorted(lentokenttäetäisyys, key=lambda x: x[1])
-    Lähimmätkentät = Lähimmätkentät[:5]
-    return Lähimmätkentät
-
-
-    aloituslokaatio = PelaajanHallinta.pelaajaAloitus()
-    aloituslat, aloituslon = haeSijainti(aloituslokaatio)
-    lähimmätKentät = KenttienSkannaus(aloituslokaatio, kentät, aloituslat, aloituslon)
-    print(lähimmätKentät)
-
+print(testi)
