@@ -5,12 +5,11 @@ import mysql.connector
 yhteys = mysql.connector.connect(
          host="127.0.0.1",
          port= 3306,
-         database="lentopeli",
+         database="matkalippupeli",
          user="root",
-         password="wombat",
+         password="1234",
          autocommit=True
          )
-
 
 def haeKaikkiKentat():
     sql = """SELECT ident, name, latitude_deg, longitude_deg
@@ -26,7 +25,7 @@ def haeKaikkiKentat():
 
 def haeSijainti(icaoKoodi):
     lat, lon = (0, 0)
-    sql = "select latitude_deg, longitude_deg from airport where ident ='"+icaoKoodi+"'"
+    sql = "select latitude_deg, longitude_deg from airport where ident ='" + icaoKoodi + "'"
     kursori = yhteys.cursor()
     kursori.execute(sql)
     tulos = kursori.fetchone()
