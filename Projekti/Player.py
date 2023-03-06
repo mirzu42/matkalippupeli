@@ -1,5 +1,6 @@
 import random
 import mysql.connector
+
 yhteys = mysql.connector.connect(
          host="127.0.0.1",
          port= 3306,
@@ -62,11 +63,6 @@ class PelaajanHallinta():
             aloituslokaatio = random.choice(tulokset)[0]
             return aloituslokaatio
         print(tulokset)
-
-
-
-
-
 
 
 
