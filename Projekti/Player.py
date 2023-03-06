@@ -1,5 +1,6 @@
 import random
 import mysql.connector
+
 yhteys = mysql.connector.connect(
          host="127.0.0.1",
          port= 3306,
@@ -82,11 +83,6 @@ class PelaajanHallinta():
         sql = "delete from pelaajan_liput;"
         kursori = yhteys.cursor()
         kursori.execute(sql)
-
-
-
-
-
 
 
 
