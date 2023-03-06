@@ -21,7 +21,7 @@ class Player():
 
 class PelaajanHallinta():
     def create_player(self, nimi): # Lisää yhden pelaajan tietokantaan. Default lokaatio Helsinki-Vantaa
-        #also menee paskaks jos koittaa tehä yli 5 käyttäjää jostai syyst idk
+
         sql = "select id from player;"
         kursori = yhteys.cursor()
         kursori.execute(sql)

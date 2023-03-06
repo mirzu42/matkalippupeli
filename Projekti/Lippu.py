@@ -39,8 +39,8 @@ class LipunHallinta():
             lippuID = 1
             print(lippuID)
 
-        print(merkkijono3)
-        print(merkkijono4)
+        #print(merkkijono3)
+        #print(merkkijono4)
         updateLahtoJaKohde = f"insert into liput (id, lähtö, kohde, pisteet) values ({lippuID}, '{merkkijono3}', '{merkkijono4}', 40);"
         cursor.execute(updateLahtoJaKohde)
 
