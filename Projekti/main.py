@@ -19,10 +19,10 @@ print(ph.getId("f"))
 kh = KortinHallinta()
 #kh.createKortti(2)
 #kh.createKortti(1)
-#ph.kaytaPelaajanKortti("sininen", 2)
+ph.kaytaPelaajanKortti("punainen", 2)
 #print(ph.getPuuttuva(lista, len(lista)))
 #ph.kaytaMontaKorttia(2, "keltainen", 2)
-print(ph.getPelaajanKorttienLkm(2))
+#print(ph.getPelaajanKorttienLkm(2))
 '''kh.delete_all_kortit()
 
 

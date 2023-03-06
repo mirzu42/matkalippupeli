@@ -91,17 +91,27 @@ class PelaajanHallinta():
         cursor.execute(sql1)
         muuttuja = cursor.fetchone()
 
-        sql2 = f"delete from pelaajan_kortit where kortti_id = '{muuttuja[0]}';"
-        cursor.execute((sql2))
-        sql3 = f"delete from kortit where id = '{muuttuja[0]}';"
-        cursor.execute(sql3)
+        ookkoNääPorvari = self.onkoPelaajaPaVaiPorvari(pelaaja_id, kortti_tyyppi, 1)
+        if ookkoNääPorvari == True :
+            sql2 = f"delete from pelaajan_kortit where kortti_id = '{muuttuja[0]}';"
+            cursor.execute((sql2))
+            sql3 = f"delete from kortit where id = '{muuttuja[0]}';"
+            cursor.execute(sql3)
+        else:
+            print("Vittu sää oot köyhä")
 
-    def getPelaajanKorttienLkm(self, pelaaja_id):
-        sql = f"select count(*) as pelaajan_korttien_lkm from pelaajan_kortit where player_id = '{pelaaja_id}';"
-        cursor =  yhteys.cursor()
+    def onkoPelaajaPaVaiPorvari(self, pelaaja_id, kortinVari, tarvittavaLkm):
+        sql = f"select count(*) as pelaajan_korttien_lkm from pelaajan_kortit inner join kortit on id = kortti_id where tyyppi = '{kortinVari}' and player_id = '{pelaaja_id}';"
+        cursor = yhteys.cursor()
         cursor.execute(sql)
         tulos = cursor.fetchone()
-        return tulos[0]
+        if tulos[0] >= tarvittavaLkm:
+            return True
+            #Pelaaja on porvari
+        else:
+            return False
+            #Pelaaja on persaukinen :)
+
 
     def kaytaMontaKorttia(self, lkm,  kortti_tyyppi, pelaaja_id):
         for i in range(lkm):
@@ -121,7 +131,6 @@ class PelaajanHallinta():
         cursor = yhteys.cursor()
         cursor.execute(getid)
         x = cursor.fetchone()
-
 
         return x[0]
 
