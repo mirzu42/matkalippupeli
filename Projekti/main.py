@@ -1,11 +1,11 @@
 from Player import *
 from Lippu import *
 from Kortit import *
-from PelaajanKortit import*
+
 from Lentokenttienhaku import *
 
 ph = PelaajanHallinta()
-pkh = PelaajanKorttienHallinta
+
 
 
 nimi = input("Nimi: ")
