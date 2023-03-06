@@ -9,17 +9,17 @@ ph = PelaajanHallinta()
 #rh.createReitti(4)
 #ph.uusiPelaajanKortti(1, 2)
 
+print(ph.getId("Miro"))
+#nimi = input("Nimi: ")
+#ph.create_player(nimi)
 
-nimi = input("Nimi: ")
-ph.create_player(nimi)
 
 
-
-kh = KortinHallinta()
+'''kh = KortinHallinta()
 kh.createKortti(1)
 kh.delete_all_kortit()
 lh = LipunHallinta()
-lh.createLippu()
+lh.createLippu()'''
 
 #kh = KortinHallinta
 #kh.createKortti("Punainen")

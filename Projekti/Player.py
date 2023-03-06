@@ -10,14 +10,14 @@ yhteys = mysql.connector.connect(
          autocommit=True
          )
 #ei muuten mitään hajuu tarviiks tätä ees
-class Player():
+'''class Player():
     def __init__(self, id, name):
         self.id = id
         self.name = name
     def get_id(self):
         return self.id
     def get_nimi(self):
-        return self.name
+        return self.name'''
 
 class PelaajanHallinta():
     def create_player(self, nimi): # Lisää yhden pelaajan tietokantaan. Default lokaatio Helsinki-Vantaa
@@ -31,12 +31,12 @@ class PelaajanHallinta():
         else:
             id = 1
         #nimi = input("Nimi: ")
-        player = Player(id, nimi)
+        #player = Player(id, nimi)
         sql2 = f"insert into player (id, kokonais_pisteet, bensa, nimi, location) values ({id}, 0, 500, '{nimi}', 'EFHK');"
 
         kursori.execute(sql2)
         print(f"Tietokantaan lisätty pelaaja: \nID: {id}\nKokonaispisteet: 0\nBensa: 500\nNimi:{nimi}\nLocation: EFHK")
-        return player
+        #return player
 
 
     def delete_all_players(self):
@@ -99,4 +99,13 @@ class PelaajanHallinta():
         result = kursori.fetchone()
         bensa = result[0]
         return bensa
+    def getId(self, nimi):
+        getid = f"select id from player where nimi = '{nimi}';"
+        cursor = yhteys.cursor()
+        cursor.execute(getid)
+        x = cursor.fetchone()
+
+
+        return x[0]
+
 
