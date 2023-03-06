@@ -7,25 +7,27 @@ from Lentokenttienhaku import *
 ph = PelaajanHallinta()
 #rh =ReittiHallinta()
 #rh.createReitti(4)
-ph.uusiPelaajanKortti(1, 2)
+#ph.uusiPelaajanKortti(1, 2)
 
-
-'''nimi = input("Nimi: ")
+'''
+nimi = input("Nimi: ")
 ph.create_player(nimi)
 
 lh = LipunHallinta()
 lh.createLippu()
 print(ph.pelaajaAloitus())
-
+'''
 kh = KortinHallinta
-kh.createKortti("Punainen")
+kh.createKortti(1)
+
 lh = LipunHallinta()
 lh.createLippu()
-kh = KortinHallinta
-kh.createKortti("Punainen")
 
-ph.uusiPelaajanKortti(1, 1)'''
+#kh = KortinHallinta
+#kh.createKortti("Punainen")
+
+#ph.uusiPelaajanKortti(2, 2)
 
 
-#pkh.delete_all_pelaajankortit("")
+#ph.delete_all_pelaajankortit()
 #ph.delete_all_players()

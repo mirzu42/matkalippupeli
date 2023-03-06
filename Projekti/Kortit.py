@@ -1,4 +1,7 @@
+import random
+
 import mysql.connector
+import math
 yhteys = mysql.connector.connect(
          host="127.0.0.1",
          port= 3306,
@@ -8,7 +11,10 @@ yhteys = mysql.connector.connect(
          autocommit=True
          )
 class KortinHallinta():
-    def createKortti(tyyppi):
+    def createKortti(self, pelaaja_id):
+        kortitLista = ["punainen", "keltainen", "sininen", "punainen", "keltainen", "sininen", "punainen", "keltainen",
+                  "sininen", "jokeri"]
+        kortti = random.choice(kortitLista)
         sql1="select id from kortit;"
         cursor = yhteys.cursor()
         cursor.execute(sql1)
@@ -18,9 +24,11 @@ class KortinHallinta():
         else:
             id = 1
 
-        sql2 = f"insert into kortit (id, tyyppi) values ('{id}', '{tyyppi}');"
+        sql2 = f"insert into kortit (id, tyyppi) values ('{id}', '{kortti}');"
         cursor.execute(sql2)
-        print(f"Tietokantaan listätty kortti:\nId:{id}\nTyyppi: {tyyppi}")
+        sql3 = f"insert into pelaajan_kortit (kortti_id, player_id) values ({pelaaja_id});"
+        cursor.execute(sql3)
+        print(f"Tietokantaan listätty kortti:\nId:{id}\nTyyppi: {kortti}")
 
 
 

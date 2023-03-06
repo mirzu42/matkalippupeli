@@ -37,6 +37,8 @@ class PelaajanHallinta():
         kursori.execute(sql2)
         print(f"Tietokantaan lisätty pelaaja: \nID: {id}\nKokonaispisteet: 0\nBensa: 500\nNimi:{nimi}\nLocation: EFHK")
         return player
+
+
     def delete_all_players(self):
         sql = "delete from player;"
         kursori = yhteys.cursor()
@@ -64,11 +66,11 @@ class PelaajanHallinta():
             return aloituslokaatio
         print(tulokset)
 
-    def uusiPelaajanKortti(self, pelaaja_id, kortti_id):
-        sql = f"insert into pelaajan_kortit (kortti_id, player_id) values ({pelaaja_id}, {kortti_id})"
+    '''def uusiPelaajanKortti(self, pelaaja_id, kortti_id):
+        sql = f"insert into pelaajan_kortit (kortti_id, player_id) values ({pelaaja_id}, {kortti_id});"
         cursor = yhteys.cursor()
         cursor.execute(sql)
-        print (f"Tietokantaan lisätty pelaajan kortti: \nKortti_id: {kortti_id}\npelaaja_id: {pelaaja_id}")
+        print (f"Tietokantaan lisätty pelaajan kortti: \nKortti_id: {kortti_id}\npelaaja_id: {pelaaja_id}")'''
     def delete_all_pelaajankortit(self):
         sql = "delete from pelaajan_kortit;"
         kursori = yhteys.cursor()
@@ -88,5 +90,16 @@ class PelaajanHallinta():
         cursor = yhteys.cursor()
         cursor.execute(sql)
         #pitää viel käytää bensaa
+    def bensakulutus(self, player_id, lkm):
+        sql1 = f"update player set bensa = bensa - 8 * '{lkm}' where id = '{player_id}';"
+        sql2 = f"select bensa from player where id = '{player_id}';"
+        kursori = yhteys.cursor()
+        kursori.execute(sql1)
+        kursori.execute(sql2)
+        result = kursori.fetchone()
+        bensa = result[0]
+        return bensa
+
+
 
 
