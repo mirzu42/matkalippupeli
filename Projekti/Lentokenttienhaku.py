@@ -62,3 +62,25 @@ def ilmanSuunnat(current_aport, in_range):
         compass_lookup = round(degrees_positive / 45) % 8
         a_port['ilmansuunta'] = compass_brackets[compass_lookup]
     return in_range
+
+
+
+
+'''def KenttienSkannaus(lentokenttä, lentokentät, lentokenttä_lat, lentokenttä_lon):
+        lentokenttä_lat, lentokenttä_lon = haeSijainti(lentokenttä)
+        lentokenttäetäisyys = []
+        for kenttä in lentokentät:
+            if kenttä != lentokenttä and kenttä in kentät:
+                lat, lon = haeSijainti(kenttä)
+                etäisyys = geodesic((lentokenttä_lat, lentokenttä_lon), (lat, lon)).km
+                lentokenttäetäisyys.append((kenttä, etäisyys))
+
+        Lähimmätkentät = sorted(lentokenttäetäisyys, key=lambda x: x[1])
+        Lähimmätkentät = Lähimmätkentät[:5]
+        return Lähimmätkentät
+
+    kentät = haeKaikkiKentat()
+    aloituslokaatio = pelaajaAloitus()
+    aloituslat, aloituslon = haeSijainti(aloituslokaatio)
+    lähimmätKentät = KenttienSkannaus(aloituslokaatio, kentät, aloituslat, aloituslon)
+    print(lähimmätKentät) '''
