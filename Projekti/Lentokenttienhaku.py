@@ -40,7 +40,7 @@ def laskeValimatka(icaoEka, icaoToka):
     return (distance(a, b))
 
 
-def saavutettavatLentokentät(icao, a_ports, p_range):
+def saavutettavatLentokentat(icao, a_ports, p_range):
     in_range = []
     for a_port in a_ports:
         dist = laskeValimatka(icao, a_port['ident'])

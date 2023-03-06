@@ -68,12 +68,20 @@ class PelaajanHallinta():
         cursor = yhteys.cursor()
         cursor.execute(sql)
         print (f"Tietokantaan lisätty pelaajan kortti: \nKortti_id: {kortti_id}\npelaaja_id: {pelaaja_id}")
+    def delete_all_pelaajankortit(self):
+        sql = "delete from pelaajan_kortit;"
+        kursori = yhteys.cursor()
+        kursori.execute(sql)
     def uusiPelaajanLippu(self, pelaaja_id, lippu_id):
         sql = f"insert into pelaajan_liput (player_id, liput_id) values ({pelaaja_id}, {lippu_id})"
         cursor = yhteys.cursor()
         cursor.execute(sql)
         print(f"Tietokantaan lisätty pelaajan lippu: \nlippuID: {lippu_id}\nPelaajaID: {pelaaja_id}")
 
+    def delete_all_pelaajanLiput(self):
+        sql = "delete from pelaajan_liput;"
+        kursori = yhteys.cursor()
+        kursori.execute(sql)
 
 
 
