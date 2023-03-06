@@ -23,5 +23,6 @@ class ReittiHallinta():
         kursori.execute(sql2)
 
     def reittiPisteet(self, reitti_id):
+        pass
 
 
