@@ -38,7 +38,6 @@ class PelaajanHallinta():
         print(f"Tietokantaan lisätty pelaaja: \nID: {id}\nKokonaispisteet: 0\nBensa: 500\nNimi:{nimi}\nLocation: EFHK")
         #return player
 
-
     def delete_all_players(self):
         sql = "delete from player;"
         kursori = yhteys.cursor()
@@ -66,11 +65,6 @@ class PelaajanHallinta():
             return aloituslokaatio
         print(tulokset)
 
-    '''def uusiPelaajanKortti(self, pelaaja_id, kortti_id):
-        sql = f"insert into pelaajan_kortit (kortti_id, player_id) values ({pelaaja_id}, {kortti_id});"
-        cursor = yhteys.cursor()
-        cursor.execute(sql)
-        print (f"Tietokantaan lisätty pelaajan kortti: \nKortti_id: {kortti_id}\npelaaja_id: {pelaaja_id}")'''
     def delete_all_pelaajankortit(self):
         sql = "delete from pelaajan_kortit;"
         kursori = yhteys.cursor()
@@ -91,12 +85,15 @@ class PelaajanHallinta():
         cursor.execute(sql1)
         muuttuja = cursor.fetchone()
 
+        sql2 = f"select kortit.id from kortit inner join pelaajan_kortit on pelaajan_kortit.kortti_id = kortit.id where player_id = {pelaaja_id} and kortit.tyyppi = 'jokeri';"
+        cursor.execute(sql2)
+
         ookkoNääPorvari = self.onkoPelaajaPaVaiPorvari(pelaaja_id, kortti_tyyppi, 1)
         if ookkoNääPorvari == True :
-            sql2 = f"delete from pelaajan_kortit where kortti_id = '{muuttuja[0]}';"
-            cursor.execute((sql2))
-            sql3 = f"delete from kortit where id = '{muuttuja[0]}';"
+            sql3 = f"delete from pelaajan_kortit where kortti_id = '{muuttuja[0]}';"
             cursor.execute(sql3)
+            sql4 = f"delete from kortit where id = '{muuttuja[0]}';"
+            cursor.execute(sql4)
         else:
             print("Vittu sää oot köyhä")
 
@@ -112,10 +109,13 @@ class PelaajanHallinta():
             return False
             #Pelaaja on persaukinen :)
 
-
     def kaytaMontaKorttia(self, lkm,  kortti_tyyppi, pelaaja_id):
-        for i in range(lkm):
-            self.kaytaPelaajanKortti(kortti_tyyppi, pelaaja_id)
+        ookkoNääPorvari = self.onkoPelaajaPaVaiPorvari(pelaaja_id, kortti_tyyppi, lkm)
+        if ookkoNääPorvari == True :
+            for i in range(lkm):
+                self.kaytaPelaajanKortti(kortti_tyyppi, pelaaja_id)
+        else:
+            print("Vitun köyhä :-D")
 
     def bensaKulutus(self, player_id, korttiLkm):
         sql1 = f"update player set bensa = bensa - 8 * '{korttiLkm}' where id = '{player_id}';"
@@ -126,6 +126,7 @@ class PelaajanHallinta():
         result = kursori.fetchone()
         bensa = result[0]
         return bensa
+
     def getId(self, nimi):
         getid = f"select id from player where nimi = '{nimi}';"
         cursor = yhteys.cursor()

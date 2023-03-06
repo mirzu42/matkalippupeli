@@ -7,7 +7,6 @@ yhteys = mysql.connector.connect(
          password="1234",
          autocommit=True
          )
-
 class ReittiHallinta():
     def createReitti(self, lippu_id):
         sql1 = "select id from reitti order by id asc;"
@@ -24,5 +23,3 @@ class ReittiHallinta():
 
     def reittiPisteet(self, reitti_id):
         pass
-
-

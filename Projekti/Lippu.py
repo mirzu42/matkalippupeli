@@ -10,8 +10,6 @@ yhteys = mysql.connector.connect(
          autocommit=True
          )
 class LipunHallinta():
-
-
     def createLippu(self):  # joo tää on sit ihan vitun sekava mut toimii. Jos joku keksii paremman tavan saa korjata
         cursor = yhteys.cursor(dictionary=True)
         sql = "select name from airport where iso_country = 'fi' and type in('medium_airport', 'large_airport') order by rand() limit 2"
@@ -36,15 +34,10 @@ class LipunHallinta():
 
         if (len(result5)) > 0:
             lippuID = result5[-1]['id']+1
-
         else:
             lippuID = 1
-
-
         #pisteiden lasku
         pisteet = round(laskeValimatka(merkkijono3, merkkijono4))
-
-
 
         updateLahtoJaKohde = f"insert into liput (id, lähtö, kohde, pisteet) values ({lippuID}, '{merkkijono3}', '{merkkijono4}', {pisteet});"
         cursor.execute(updateLahtoJaKohde)
