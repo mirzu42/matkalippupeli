@@ -5,11 +5,11 @@ from Reitti import *
 from Lentokenttienhaku import *
 
 ph = PelaajanHallinta()
-#rh =ReittiHallinta()
+rh =ReittiHallinta()
 #rh.createReitti(4)
 #ph.uusiPelaajanKortti(1, 2)
 
-print(ph.getId("f"))
+#print(ph.getId("f"))
 #nimi = input("Nimi: ")
 #ph.create_player(nimi)
 
@@ -21,8 +21,9 @@ kh = KortinHallinta()
 #kh.createKortti(1)
 #ph.kaytaPelaajanKortti("punainen", 2)
 #print(ph.getPuuttuva(lista, len(lista)))
-ph.kaytaMontaKorttia(2, "jokeri", 1)
+#ph.kaytaMontaKorttia(2, "jokeri", 1)
 #print(ph.getPelaajanKorttienLkm(2))
+print(rh.reittiPisteet('EFPR', 1, 4, 4, 'punainen'))
 '''kh.delete_all_kortit()
 
 
