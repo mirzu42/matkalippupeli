@@ -56,5 +56,6 @@ class LipunHallinta():
         cursor = yhteys.cursor()
         cursor.execute(sql1)
         cursor.execute(sql2)
-    def createAloitusLiput(self):
-        pass
+    def createAloitusLiput(self, p_id):
+        for i in range(3):
+            self.createLippu(p_id)
