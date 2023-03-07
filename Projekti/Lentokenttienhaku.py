@@ -60,10 +60,10 @@ def saavutettavatLentokentat(icao, p_range):
     return in_range
 
 
-def ilmanSuunnat(current_aport, aport_in_range):
+def ilmanSuunnat(current_aport, aports_in_range):
     current_lat, current_lon = haeSijainti(current_aport)
     compass_brackets = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
-    for a_port in aport_in_range:
+    for a_port in aports_in_range:
         lat, lon = haeSijainti(a_port['ident'])
         delta_lat = lat - current_lat
         delta_lon = lon - current_lon
@@ -72,22 +72,20 @@ def ilmanSuunnat(current_aport, aport_in_range):
         degrees_positive = (degrees + 360) % 360
         compass_lookup = round(degrees_positive / 45) % 8
         a_port['ilmansuunta'] = compass_brackets[compass_lookup]
-    return aport_in_range
+    return aports_in_range
 
 def getLentokenttaNimi(icao):
     sql = f"select name from airport where ident = '{icao}'"
     cursor = yhteys.cursor()
     cursor.execute(sql)
     x = cursor.fetchone()
-    print(x[0])
+    print(x)
 
 
-
-
-'''current_aport = "EFHK"
+current_aport = "EFHK"
 all_aports = haeKaikkiKentat()
 p_range = 400
 # Call the function
 in_range = saavutettavatLentokentat(current_aport, p_range)
-#testi = ilmanSuunnat(current_aport, in_range)
-print(in_range)'''
+ilmanSuunnat(current_aport, in_range)
+print(in_range[0]['name'],'\nIlmansuunta: ', in_range[0]['ilmansuunta'],'\nVaadittujen korttien lukumäärä: ', in_range[0]['distance_kortit'])
