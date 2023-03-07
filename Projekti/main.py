@@ -24,8 +24,13 @@ p_id1 = ph.getId(nimi1)
 nimi2 = input("Syötä pelaajan 2 nimi: ")
 ph.create_player(nimi2)
 p_id2 = ph.getId(nimi2)
+
+
+
 ph.getPelaajanKortit(1)
 ph.getPelaajanKortit(2)
+#while (True):
+
 
 
 
