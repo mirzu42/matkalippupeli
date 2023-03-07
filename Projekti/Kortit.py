@@ -1,6 +1,7 @@
 import random
 import mysql.connector
 
+
 yhteys = mysql.connector.connect(
          host="127.0.0.1",
          port= 3306,
@@ -48,3 +49,10 @@ class KortinHallinta():
         cursor = yhteys.cursor()
         cursor.execute(sql1)
         cursor.execute(sql2)
+
+    def VähennäPelaajanKortteja(self, pelaaja_id, korttien_lkm):
+        sql = f"'update reitti_pisteet set korttien_lkm = korttien_lkm - {korttien_lkm} where player_id = '{pelaaja_id}'"
+        cursor=yhteys.cursor()
+        cursor.execute(sql)
+        yhteys.commit()
+        print("Korttien lukumäärä on päivitetty")

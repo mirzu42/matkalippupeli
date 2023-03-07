@@ -240,6 +240,10 @@ class PelaajanHallinta():
                 icao = lentokentät[valinta - 1]['ident']
                 self.paivitaLokaatio(icao, p_id)
                 print("Siirrytty kentälle: ", lentokentät[valinta - 1]['name'])
+                matka = lentokentät['distance']
+                korttien_lkm += (matka // 62) * 6
+                KortinHallinta.VähennäPelaajanKortteja(p_id, korttien_lkm)
+
         return lentokentät[valinta - 1]['ident']
 
 
