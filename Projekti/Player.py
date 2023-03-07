@@ -154,8 +154,17 @@ class PelaajanHallinta():
     def Liike(self):
         icao = ("EFHK")
         p_range = 1000
-        airports = saavutettavatLentokentat(icao, p_range)
+        lentokentät = saavutettavatLentokentat(icao, p_range)
 
         print("Voit liikkua seuraaville lentokentille:")
-        for i, airport in airports:
-            print(f"{i + 1}. {airport['name']} ({airport['ident']})")
+        for i, lentokenttä in lentokentät:
+            print(f"{i + 1}. {lentokenttä['name']} ({lentokenttä['ident']})")
+
+        valinta = 0
+        while valinta < 1 or valinta > len(lentokentät):
+            try:
+                valinta = int(input("Valitse lentokenttä (1-5): "))
+            except ValueError:
+                print("Syötä numero")
+
+        return lentokentät[valinta - 1]['ident']
