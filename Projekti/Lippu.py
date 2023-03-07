@@ -49,6 +49,7 @@ class LipunHallinta():
         cursor.execute(sql4)
 
         return merkkijono1, merkkijono2
+
     def deleteLiput(self):
         sql1 = "delete from liput;"
         sql2 = "delete from pelaajan_liput;"
