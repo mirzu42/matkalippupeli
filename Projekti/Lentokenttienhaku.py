@@ -77,10 +77,10 @@ def ilmanSuunnat(current_aport, aport_in_range):
 
 
 
-current_aport = "EFHK"
+'''current_aport = "EFHK"
 all_aports = haeKaikkiKentat()
 p_range = 400
 # Call the function
 in_range = saavutettavatLentokentat(current_aport, p_range)
 #testi = ilmanSuunnat(current_aport, in_range)
-print(in_range)
+print(in_range)'''
