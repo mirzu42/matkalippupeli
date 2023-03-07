@@ -85,12 +85,12 @@ class PelaajanHallinta():
         if tulokset:
             aloituslokaatio = random.choice(tulokset)[0]
             return aloituslokaatio
-        print(tulokset)'''
+        print(tulokset)
     def uusiPelaajanLippu(self, pelaaja_id, lippu_id):
         sql = f"insert into pelaajan_liput (player_id, liput_id) values ({pelaaja_id}, {lippu_id})"
         cursor = yhteys.cursor()
         cursor.execute(sql)
-        print(f"Tietokantaan lisätty pelaajan lippu: \nlippuID: {lippu_id}\nPelaajaID: {pelaaja_id}")
+        print(f"Tietokantaan lisätty pelaajan lippu: \nlippuID: {lippu_id}\nPelaajaID: {pelaaja_id}")'''
 
     def delete_all_pelaajanLiput(self):
         sql = "delete from pelaajan_liput;"
@@ -167,26 +167,46 @@ class PelaajanHallinta():
         sql = f"select lähtö, kohde from liput inner join pelaajan_liput on id=liput_id where player_id = '{pelaaja_id}';"
         cursor = yhteys.cursor()
         cursor.execute(sql)
-        tulos = cursor.fetchall()
-        sql2 = f"select name from airport where ident = '{tulos[0][0]}'"
-        cursor.execute(sql2)
-        lahtoICAO = cursor.fetchone()
-        sql3 = f"select name from airport where ident = '{tulos[0][1]}'"
-        cursor.execute(sql3)
-        kohdeICAO = cursor.fetchone()
+        tulokset = cursor.fetchall()
 
         tmp = self.getNimi(pelaaja_id)
-        print(bcolors.WARNING+f'Pelaajan {tmp} lippu:''\n''\tLähtö:', kohdeICAO[0],'\n''\tKohde:',lahtoICAO[0])
+        #print(f'Pelaajan {tmp} liput:')
 
+        for tulos in tulokset:
+            sql2 = f"select name from airport where ident = '{tulos[0]}'"
+            cursor.execute(sql2)
+            lahtoICAO = cursor.fetchone()
+            sql3 = f"select name from airport where ident = '{tulos[1]}'"
+            cursor.execute(sql3)
+            kohdeICAO = cursor.fetchone()
 
+            print(bcolors.WARNING + f'Pelaajan {tmp} lippu:''\n''\tLähtö:', lahtoICAO[0], '\n''\tKohde:', kohdeICAO[0])
+            #print('\tLähtö:', lahtoICAO[0], '\n\tKohde:', kohdeICAO[0])
+            print()
+       # tmp = self.getNimi(pelaaja_id)
+
+    def getPelaajanLipunLahtoICAOT(self,pelaaja_id):
+        sql = f"select lähtö from liput inner join pelaajan_liput on id=liput_id where player_id = '{pelaaja_id}';"
+        cursor = yhteys.cursor()
+        cursor.execute(sql)
+        tulokset = cursor.fetchall()
+        lista = []
+
+        for tulos in tulokset:
+            sql2 = f"select ident from airport where ident = '{tulos[0]}';"
+            cursor.execute(sql2)
+            lahtoICAO = cursor.fetchall()
+            lista.append(lahtoICAO)
+
+        return lista
     # Alemmat funktiot vaativat lisätietoa. PelaajanAloitus tarvitsee jostain lipusta vaihtoehdot
         # Liike tarvitsee jostain parametrit saavutettaviin lentokenttiin
 
 
-    def PelaajaAloitusValinta(self):
+    def PelaajaAloitusPaikkaValinta(self, pelaaja_id):
 
         lipun_hallinta = LipunHallinta()
-        lippu1, lippu2 = lipun_hallinta.createLippu(1)
+        lippu1, lippu2 = lipun_hallinta.createLippu(pelaaja_id)
         userlocation = None
         userlocation2 = None
         print(f"Valitse lippu:")
@@ -195,7 +215,7 @@ class PelaajanHallinta():
         while True:
             valinta = input("Syötä valintasi (1 tai 2): ")
             if valinta == "1":
-                userlocation == lippu1
+                apu = self.paivitaLokaatio()
                 return lippu1
             elif valinta == "2":
                 userlocation2 == lippu2
