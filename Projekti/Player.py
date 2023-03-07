@@ -2,6 +2,7 @@ import random
 import mysql.connector
 from Kortit import *
 from Lentokenttienhaku import *
+from Lippu import *
 
 kh =KortinHallinta()
 
@@ -172,17 +173,25 @@ class PelaajanHallinta():
         # Liike tarvitsee jostain parametrit saavutettaviin lentokenttiin
 
 
-    def PelaajaAloitusValinta(Aloituslokaatiot):
-        print("Mistä haluat aloittaa?")
-        Vastaus = input("");
+    def PelaajaAloitusValinta(self):
 
-        if (Vastaus == 1):
-            print(f"Valitsit aloitus paikaksi {1}")
-            Aloituslokaatiot.paivitaLokaatio()
-
-        if (Vastaus == 2):
-            print(f"Valitsit aloitus paikaksi {1}")
-            Aloituslokaatiot.paivitaLokaatio()
+        lipun_hallinta = LipunHallinta()
+        lippu1, lippu2 = lipun_hallinta.createLippu(1)
+        userlocation = None
+        userlocation2 = None
+        print(f"Valitse lippu:")
+        print(f"1. {lippu1}")
+        print(f"2. {lippu2}")
+        while True:
+            valinta = input("Syötä valintasi (1 tai 2): ")
+            if valinta == "1":
+                userlocation == lippu1
+                return lippu1
+            elif valinta == "2":
+                userlocation2 == lippu2
+                return lippu2
+            else:
+                print("Viallinen syöte. Syötä 1 tai 2.")
 
     def Liike(self, p_id):
         p_range = self.bensaKulutus(p_id, 1) #VITTU KORJATKAA KORTTIEN_LKM FROM REITTI_PISTEET
@@ -201,3 +210,5 @@ class PelaajanHallinta():
                 print("Syötä numero")
 
         return lentokentät[valinta - 1]['ident']
+
+
