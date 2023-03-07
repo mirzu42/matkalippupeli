@@ -185,20 +185,7 @@ class PelaajanHallinta():
             print()
        # tmp = self.getNimi(pelaaja_id)
 
-    def getPelaajanLipunLahtoICAOT(self,pelaaja_id):
-        sql = f"select lähtö from liput inner join pelaajan_liput on id=liput_id where player_id = '{pelaaja_id}';"
-        cursor = yhteys.cursor()
-        cursor.execute(sql)
-        tulokset = cursor.fetchall()
-        lista = []
 
-        for tulos in tulokset:
-            sql2 = f"select ident from airport where ident = '{tulos[0]}';"
-            cursor.execute(sql2)
-            lahtoICAO = cursor.fetchall()
-            lista.append(lahtoICAO)
-
-        return lista
     # Alemmat funktiot vaativat lisätietoa. PelaajanAloitus tarvitsee jostain lipusta vaihtoehdot
         # Liike tarvitsee jostain parametrit saavutettaviin lentokenttiin
 
@@ -206,22 +193,35 @@ class PelaajanHallinta():
     def PelaajaAloitusPaikkaValinta(self, pelaaja_id):
 
         lipun_hallinta = LipunHallinta()
-        lippu1, lippu2 = lipun_hallinta.createLippu(pelaaja_id)
-        userlocation = None
-        userlocation2 = None
+        lippu1 = lipun_hallinta.createLippu(pelaaja_id)
+        lippu2 = lipun_hallinta.createLippu(pelaaja_id)
+
         print(f"Valitse lippu:")
         print(f"1. {lippu1}")
         print(f"2. {lippu2}")
-        while True:
-            valinta = input("Syötä valintasi (1 tai 2): ")
-            if valinta == "1":
-                apu = self.paivitaLokaatio()
-                return lippu1
-            elif valinta == "2":
-                userlocation2 == lippu2
-                return lippu2
-            else:
-                print("Viallinen syöte. Syötä 1 tai 2.")
+        try:
+            while True:
+                syote = int(input())
+                if (syote == 1):
+                    valinta = lippu1
+                    break
+                elif (syote==2):
+                    valinta = lippu2
+                    break
+                else:
+                    print("Virheellinen syöte!")
+
+        except:
+            print("Virheellinen syöte!")
+
+        #päivitetään pelaajan sijainti
+        sql = f"select ident from airport where name = '{valinta[0]}';"
+        cursor = yhteys.cursor()
+        cursor.execute(sql)
+        tulos = cursor.fetchone()
+        self.paivitaLokaatio(tulos[0], pelaaja_id)
+        #return tulos[0]
+
 
     def Liike(self, p_id):
         while True:

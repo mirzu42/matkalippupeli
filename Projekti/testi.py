@@ -13,13 +13,5 @@ yhteys = mysql.connector.connect(
          password="1234",
          autocommit=True
          )
-kh = KortinHallinta()
 ph = PelaajanHallinta()
-lh = LipunHallinta()
-rh = ReittiHallinta()
-
-#lh.createLippu(2)
-ph.getPelaajanLiput(1)
-print(ph.getPelaajanLipunLahtoICAO(1))
-#ph.Liike(4)
-#print(kh.getKorttien_lkm("EFHk"))
+ph.PelaajaAloitusPaikkaValinta(1)
