@@ -40,12 +40,13 @@ def laskeValimatka(icaoEka, icaoToka):
     return (distance(a, b)).km
 
 
-def saavutettavatLentokentat(icao, a_ports, p_range):
+def saavutettavatLentokentat(icao, p_range):
     in_range = []
-    for a_port in a_ports:
+    all_ports = haeKaikkiKentat()
+    for a_port in all_ports:
         dist = laskeValimatka(icao, a_port['ident'])
         a_port['distance'] = dist
-        if dist <= p_range and not dist == 0:
+        if dist <= p_range and not dist == 0 and not dist > 374:
             in_range.append(a_port)
     in_range = sorted(in_range, key=lambda x: x['distance'])[:5]
     return in_range
@@ -65,25 +66,12 @@ def ilmanSuunnat(current_aport, aport_in_range):
         a_port['ilmansuunta'] = compass_brackets[compass_lookup]
     return aport_in_range
 
-'''def korttienMatka(lentokenttä mille pelaaja menee):
-    max_matka = 374
-    max_kortti = 6
-    kortti = max_matka / max_kortti
-    for a_port in aport_in_range:
-        korttienmaara = round(a_port['distance']/kortti)
-        if korttienmaara < 1:
-            korttienmaara = 1
-        if korttienmaara > 6:
-            korttienmaara = 6
-    return korttienmaara
-'''
-'''
+
+
 current_aport = "EFHK"
 all_aports = haeKaikkiKentat()
 p_range = 400
 # Call the function
-in_range = saavutettavatLentokentat(current_aport, all_aports, p_range)
-korttienMatka(in_range)
+in_range = saavutettavatLentokentat(current_aport, p_range)
 testi = ilmanSuunnat(current_aport, in_range)
 print(testi)
-'''
