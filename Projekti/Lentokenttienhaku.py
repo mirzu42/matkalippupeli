@@ -57,7 +57,7 @@ def saavutettavatLentokentat(icao, p_range):
         if dist <= p_range and not dist == 0 and not dist > 374:
             in_range.append(a_port)
     in_range = sorted(in_range, key=lambda x: x['distance_kortit'])[:5]
-    return in_range, korttienmaara
+    return in_range
 
 
 def ilmanSuunnat(current_aport, aport_in_range):
