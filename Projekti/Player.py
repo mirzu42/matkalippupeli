@@ -2,6 +2,16 @@ import random
 import mysql.connector
 from Kortit import *
 from Lentokenttienhaku import *
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKCYAN = '\033[96m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
 
 kh =KortinHallinta()
 
@@ -148,9 +158,9 @@ class PelaajanHallinta():
         cursor.execute(sql)
         result = cursor.fetchall()
 
-        print(f"Pelaajalla {self.getNimi(p_id)} on: ")
+        print(bcolors.WARNING+f"Pelaajalla {self.getNimi(p_id)} on: ")
         for i in result:
-            print (i[2],"x", i[1])
+            print (bcolors.OKBLUE,+i[2],"x", i[1])
 
     def getPelaajanLiput(self, pelaaja_id):
         sql = f"select lähtö, kohde from liput inner join pelaajan_liput on id=liput_id where player_id = '{pelaaja_id}';"
@@ -165,7 +175,7 @@ class PelaajanHallinta():
         kohdeICAO = cursor.fetchone()
 
         tmp = self.getNimi(pelaaja_id)
-        print(f'Pelaajan {tmp} lippu:''\n''\tLähtö:', kohdeICAO[0],'\n''\tKohde:',lahtoICAO[0])
+        print(bcolors.WARNING+f'Pelaajan {tmp} lippu:''\n''\tLähtö:', kohdeICAO[0],'\n''\tKohde:',lahtoICAO[0])
 
 
     # Alemmat funktiot vaativat lisätietoa. PelaajanAloitus tarvitsee jostain lipusta vaihtoehdot
