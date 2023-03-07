@@ -44,6 +44,15 @@ class ReittiHallinta():
         superiortulos = cursor.fetchall()
         return superiortulos
 
+
+    def reittiPisteetTyyppi(self, icao):
+        sql = f"select tyyppi from reitti_pisteet where lentokenttä_ident = '{icao}'"
+        cursor = yhteys.cursor()
+        cursor.execute(sql)
+        tulos = cursor.fetchone()
+        return tulos
+
+
     def deleteReitti(self):
         sql = "delete from reitti;"
         cursor = yhteys.cursor()

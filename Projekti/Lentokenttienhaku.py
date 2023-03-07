@@ -58,10 +58,9 @@ def saavutettavatLentokentat(icao):
             in_range.append(a_port)
     in_range = sorted(in_range, key=lambda x: x['distance_kortit'])[:5]
     ilmanSuunnat(icao, in_range)
-    for i in range(len(in_range)):
-        print(f"{i+1}. {in_range[i]['name']}\nIlmansuunta: {in_range[i]['ilmansuunta']}\nVaadittujen korttien lukumäärä: {in_range[i]['distance_kortit']}\n")
-    return in_range
-
+    for i in range (len(in_range)):
+        print(in_range[i]['name'], '\nIlmansuunta: ', in_range[i]['ilmansuunta'], '\nVaadittujen korttien lukumäärä: ',
+          in_range[i]['distance_kortit'])
 
 def ilmanSuunnat(current_aport, aports_in_range):
     current_lat, current_lon = haeSijainti(current_aport)
@@ -82,13 +81,13 @@ def getLentokenttaNimi(icao):
     cursor = yhteys.cursor()
     cursor.execute(sql)
     x = cursor.fetchone()
-    print(x)
+    return x[0]
 
 
 '''current_aport = "EFHK"
 all_aports = haeKaikkiKentat()
+p_range = 400
 # Call the function
 in_range = saavutettavatLentokentat(current_aport)
 ilmanSuunnat(current_aport, in_range)
-print(in_range[0]['name'],'\nIlmansuunta: ', in_range[0]['ilmansuunta'],'\nVaadittujen korttien lukumäärä: ', in_range[0]['distance_kortit'])
-'''
+print(in_range[0]['name'],'\nIlmansuunta: ', in_range[0]['ilmansuunta'],'\nVaadittujen korttien lukumäärä: ', in_range[0]['distance_kortit'])'''
