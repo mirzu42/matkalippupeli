@@ -10,9 +10,9 @@ rh = ReittiHallinta()
 def deleteAll():
     rh.deleteReittiPisteet()
     kh.delete_all_kortit()
+    lh.deleteLiput()
     ph.delete_all_players()
     rh.deleteReitti()
-    lh.deleteLiput()
 #poista kaikki aikaisemmat arvot tietokannasta
 
 deleteAll()
@@ -30,13 +30,7 @@ lh.createAloitusLiput(p_id2)
 
 ph.getPelaajanKortit(1)
 ph.getPelaajanKortit(2)
-#while (True):
-
-
-
-
-
-
+#while True:
 
 
 

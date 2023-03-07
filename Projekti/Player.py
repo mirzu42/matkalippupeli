@@ -2,6 +2,7 @@ import random
 import mysql.connector
 from Kortit import *
 from Lentokenttienhaku import *
+
 kh =KortinHallinta()
 
 yhteys = mysql.connector.connect(
@@ -48,6 +49,13 @@ class PelaajanHallinta():
         sql = f"UPDATE player SET location = '{icao}' WHERE id = '{pelaaja_id}'"
         cursor = yhteys.cursor(dictionary=True)  # mitä tää dictionary ees tekee
         cursor.execute(sql)
+
+    def getPelaajanLokaatio(self, p_id):
+        sql = f"Select location from player where id = '{p_id}'"
+        cursor = yhteys.cursor()
+        cursor.execute(sql)
+        tulos = cursor.fetchone()
+        return tulos[0]
 
     '''def pelaajaAloitus(self): #ei salee tarvita tätä? lippu() tekee jo muutenki randomil ton
         sql = "select airport.ident from airport inner join country on airport.iso_country = country.iso_country where country.name = 'Finland' and type != 'closed' and type !='heliport' and type !='small_airport';"
@@ -135,7 +143,23 @@ class PelaajanHallinta():
         for i in result:
             print (i[2],"x", i[1])
 
-        # Alemmat funktiot vaativat lisätietoa. PelaajanAloitus tarvitsee jostain lipusta vaihtoehdot
+    def getPelaajanLiput(self, pelaaja_id):
+        sql = f"select lähtö, kohde from liput inner join pelaajan_liput on id=liput_id where player_id = '{pelaaja_id}';"
+        cursor = yhteys.cursor()
+        cursor.execute(sql)
+        tulos = cursor.fetchall()
+        sql2 = f"select name from airport where ident = '{tulos[0][0]}'"
+        cursor.execute(sql2)
+        lahtoICAO = cursor.fetchone()
+        sql3 = f"select name from airport where ident = '{tulos[0][1]}'"
+        cursor.execute(sql3)
+        kohdeICAO = cursor.fetchone()
+
+
+        print('Lippu:''\n''\tLähtö:', kohdeICAO[0],'\n''\tKohde:',lahtoICAO[0])
+
+
+    # Alemmat funktiot vaativat lisätietoa. PelaajanAloitus tarvitsee jostain lipusta vaihtoehdot
         # Liike tarvitsee jostain parametrit saavutettaviin lentokenttiin
 
 
@@ -151,13 +175,13 @@ class PelaajanHallinta():
             print(f"Valitsit aloitus paikaksi {1}")
             Aloituslokaatiot.paivitaLokaatio()
 
-    def Liike(self):
-        icao = ("EFHK")
-        p_range = 1000
+    def Liike(self, p_id):
+        p_range = self.bensaKulutus(p_id, 1) #VITTU KORJATKAA KORTTIEN_LKM FROM REITTI_PISTEET
+        icao = self.getPelaajanLokaatio(p_id)
         lentokentät = saavutettavatLentokentat(icao, p_range)
 
         print("Voit liikkua seuraaville lentokentille:")
-        for i, lentokenttä in lentokentät:
+        for i, lentokenttä in enumerate(lentokentät):
             print(f"{i + 1}. {lentokenttä['name']} ({lentokenttä['ident']})")
 
         valinta = 0
