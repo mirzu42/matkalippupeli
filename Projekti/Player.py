@@ -227,14 +227,11 @@ class PelaajanHallinta():
         while True:
             icao = self.getPelaajanLokaatio(p_id)
             korttien_lkm = kh.getLentokenttaKorttien_lkm(icao)
-            p_range = self.bensaKulutus(p_id, korttien_lkm)
-            lentokentät = saavutettavatLentokentat(icao, p_range)
+            self.bensaKulutus(p_id, korttien_lkm)
             print("Voit liikkua seuraaville lentokentille:")
-            for i, lentokenttä in enumerate(lentokentät):
-                print(f"{i + 1}. {lentokenttä['name']} ({lentokenttä['ident']})")
-
+            lentokentät = saavutettavatLentokentat(icao)
             valinta = 0
-            while valinta < 1 or valinta > len(lentokentät):
+            while valinta < 1 or valinta > 5:
                 try:
                     valinta = int(input("Valitse lentokenttä (1-5): "))
                 except ValueError:
