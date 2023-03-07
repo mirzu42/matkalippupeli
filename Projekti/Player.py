@@ -204,21 +204,25 @@ class PelaajanHallinta():
                 print("Viallinen syöte. Syötä 1 tai 2.")
 
     def Liike(self, p_id):
-        p_range = self.bensaKulutus(p_id, 1) #VITTU KORJATKAA KORTTIEN_LKM FROM REITTI_PISTEET
-        icao = self.getPelaajanLokaatio(p_id)
-        lentokentät = saavutettavatLentokentat(icao, p_range)
+        while True:
+            icao = self.getPelaajanLokaatio(p_id)
+            korttien_lkm = kh.getLentokenttaKorttien_lkm(icao)
+            p_range = self.bensaKulutus(p_id, korttien_lkm)
+            lentokentät = saavutettavatLentokentat(icao, p_range)
+            print("Voit liikkua seuraaville lentokentille:")
+            for i, lentokenttä in enumerate(lentokentät):
+                print(f"{i + 1}. {lentokenttä['name']} ({lentokenttä['ident']})")
 
-        print("Voit liikkua seuraaville lentokentille:")
-        for i, lentokenttä in enumerate(lentokentät):
-            print(f"{i + 1}. {lentokenttä['name']} ({lentokenttä['ident']})")
-
-        valinta = 0
-        while valinta < 1 or valinta > len(lentokentät):
-            try:
-                valinta = int(input("Valitse lentokenttä (1-5): "))
-            except ValueError:
-                print("Syötä numero")
-
+            valinta = 0
+            while valinta < 1 or valinta > len(lentokentät):
+                try:
+                    valinta = int(input("Valitse lentokenttä (1-5): "))
+                except ValueError:
+                    print("Syötä numero")
+            if valinta:
+                icao = lentokentät[valinta - 1]['ident']
+                self.paivitaLokaatio(icao, p_id)
+                print("Siirrytty kentälle: ", lentokentät[valinta - 1]['name'])
         return lentokentät[valinta - 1]['ident']
 
 

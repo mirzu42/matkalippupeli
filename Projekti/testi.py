@@ -20,4 +20,5 @@ rh = ReittiHallinta()
 
 #lh.createLippu(2)
 #ph.getPelaajanLiput(2)
-ph.Liike(2)
+ph.Liike(4)
+#print(kh.getKorttien_lkm("EFHk"))

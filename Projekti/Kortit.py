@@ -30,6 +30,14 @@ class KortinHallinta():
         #print(f"Tietokantaan listätty kortti:\nId:{id}\nTyyppi: {kortti}")
 
 
+    def getLentokenttaKorttien_lkm(self, aport_icao):
+        sql = f"select korttien_lkm from reitti_pisteet where lentokenttä_ident = '{aport_icao}'"
+        cursor = yhteys.cursor()
+        cursor.execute(sql)
+        tulos = cursor.fetchone()
+        return tulos[0]
+
+
     def createMultipleKortti(self, lkm, pelaaja_id):
         for i in range(lkm):
             self.createKortti(pelaaja_id)

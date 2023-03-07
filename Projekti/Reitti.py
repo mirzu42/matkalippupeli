@@ -21,6 +21,7 @@ class ReittiHallinta():
         sql2 = f"insert into reitti (id, lippu_id) values ({id}, {lippu_id})"
         kursori.execute(sql2)
 
+
     def reittiPisteet(self, icao, reitti_id, kortti_id, korttien_lkm, tyyppi):
         sql1 = "select id from reitti_pisteet order by id asc;"
         cursor = yhteys.cursor()
