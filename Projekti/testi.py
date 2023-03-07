@@ -14,4 +14,4 @@ yhteys = mysql.connector.connect(
          autocommit=True
          )
 ph = PelaajanHallinta()
-ph.PelaajaAloitusPaikkaValinta(1)
+ph.pelaajanAloituksenLippujenValinta(3)

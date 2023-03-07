@@ -190,7 +190,7 @@ class PelaajanHallinta():
         # Liike tarvitsee jostain parametrit saavutettaviin lentokenttiin
 
 
-    def PelaajaAloitusPaikkaValinta(self, pelaaja_id):
+    def pelaajanLipunValinta(self, pelaaja_id):
 
         lipun_hallinta = LipunHallinta()
         lippu1 = lipun_hallinta.createLippu(pelaaja_id)
@@ -246,3 +246,146 @@ class PelaajanHallinta():
         return lentokentät[valinta - 1]['ident']
 
 
+    def pelaajanAloituksenLippujenValinta(self, pelaaja_id):
+
+        lipun_hallinta = LipunHallinta()
+        lippu1 = lipun_hallinta.createLippu(pelaaja_id)
+        lippu2 = lipun_hallinta.createLippu(pelaaja_id)
+        lippu3 = lipun_hallinta.createLippu(pelaaja_id)
+
+        print("Sinulle annetaan kolme lippua, joista sinun tulee valita 2. Liput jotka valitset siirtyvät sinulle.")
+        print(f"Valitse ensimmäinen lippu: ")
+        print(f"1. {lippu1}\n2. {lippu2}\n3. {lippu3}")
+        try:
+            while True:
+                syote = int(input())
+                if (syote == 1):
+                    valinta1 = lippu1
+                    break
+                elif (syote==2):
+                    valinta1 = lippu2
+                    break
+                elif (syote==3):
+                    valinta1 = lippu3
+                    break
+                else:
+                    print("Virheellinen syöte!")
+
+        except:
+            print("Virheellinen syöte!")
+
+        print("Valitse toinen lippu: ")
+        print(f"1. {lippu1}\n2. {lippu2}\n3. {lippu3}")
+        try:
+            while True:
+                syote = int(input())
+                if (syote == 1):
+                    valinta2 = lippu1
+                    if(valinta2==valinta1):
+                        print("Et voi valita samaa lippua uudelleen!")
+                        continue
+                    else:
+                        break
+                elif (syote==2):
+                    valinta2 = lippu2
+                    if (valinta2 == valinta1):
+                        print("Et voi valita samaa lippua uudelleen!")
+                        continue
+                    else:
+                        break
+                elif (syote==3):
+                    valinta2 = lippu3
+                    if (valinta2 == valinta1):
+                        print("Et voi valita samaa lippua uudelleen!")
+                        continue
+                    else:
+                        break
+                else:
+                    print("Virheellinen syöte!")
+
+        except:
+            print("Virheellinen syöte!")
+        lippu1valittu = False
+        lippu2valittu = False
+        lippu3valittu = False
+        liput = []
+
+        if (lippu1==valinta1):
+            lippu1valittu = True
+
+        elif(lippu1==valinta2):
+            lippu1valittu = True
+        if (lippu2 == valinta1):
+            lippu2valittu = True
+        elif (lippu2 == valinta2):
+            lippu2valittu = True
+        if (lippu3 == valinta1):
+            lippu3valittu=True
+        elif(lippu3==valinta2):
+            lippu3valittu=True
+
+        liput.append(lippu1valittu)
+        liput.append(lippu2valittu)
+        liput.append(lippu3valittu)
+        for i, x in enumerate(liput):
+            print(i, x)
+            if (i==0 and x == False):
+                sqlforlahto = f"select ident from airport where name ='{lippu1[0]}';"
+                sqlforkohde = f"select ident from airport where name ='{lippu1[1]}';"
+                cursor = yhteys.cursor()
+                cursor.execute(sqlforlahto)
+                lahtolista = cursor.fetchone()
+                lahto = lahtolista[0]
+                cursor.execute(sqlforkohde)
+                kohdelista = cursor.fetchone()
+                kohde = kohdelista[0]
+
+                sqlforid = f"select id from liput inner join pelaajan_liput on id = liput_id where lähtö = '{lahto}' and kohde = '{kohde}' and player_id = {pelaaja_id};"
+                print(sqlforid)
+
+                cursor.execute(sqlforid)
+                idlist =cursor.fetchone()
+                id = idlist[0]
+                sql = f"delete from pelaajan_liput where liput_id={id};"
+                print (sql)
+                cursor.execute(sql)
+            elif (i==1 and x==False):
+                sqlforlahto = f"select ident from airport where name ='{lippu2[0]}';"
+                sqlforkohde = f"select ident from airport where name ='{lippu2[1]}';"
+                cursor = yhteys.cursor()
+                cursor.execute(sqlforlahto)
+                lahtolista = cursor.fetchone()
+                lahto = lahtolista[0]
+                cursor.execute(sqlforkohde)
+                kohdelista = cursor.fetchone()
+                kohde = kohdelista[0]
+                sqlforid = f"select id from liput inner join pelaajan_liput on id = liput_id where lähtö = '{lahto}' and kohde = '{kohde}' and player_id = {pelaaja_id};"
+                cursor.execute(sqlforid)
+                idlist = cursor.fetchone()
+                id = idlist[0]
+                sql = f"delete from pelaajan_liput where liput_id={id};"
+                cursor.execute(sql)
+            elif (i==2 and x==False):
+                sqlforlahto = f"select ident from airport where name ='{lippu3[0]}';"
+                sqlforkohde = f"select ident from airport where name ='{lippu3[1]}';"
+                cursor = yhteys.cursor()
+                cursor.execute(sqlforlahto)
+                lahtolista = cursor.fetchone()
+                lahto = lahtolista[0]
+                cursor.execute(sqlforkohde)
+                kohdelista = cursor.fetchone()
+                kohde = kohdelista[0]
+                sqlforid = f"select id from liput inner join pelaajan_liput on id = liput_id where lähtö = '{lahto}' and kohde = '{kohde}' and player_id = {pelaaja_id};"
+                cursor.execute(sqlforid)
+                idlist = cursor.fetchone()
+                id = idlist[0]
+                sql = f"delete from pelaajan_liput where liput_id={id};"
+                cursor.execute(sql)
+
+        #päivitetään pelaajan sijainti
+        '''sql = f"select ident from airport where name = '{valinta1[0]}';"
+        cursor = yhteys.cursor()
+        cursor.execute(sql)
+        tulos = cursor.fetchone()
+        self.paivitaLokaatio(tulos[0], pelaaja_id)
+        #return tulos[0]'''
