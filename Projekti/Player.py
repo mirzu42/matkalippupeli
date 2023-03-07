@@ -348,8 +348,10 @@ class PelaajanHallinta():
                 idlist =cursor.fetchone()
                 id = idlist[0]
                 sql = f"delete from pelaajan_liput where liput_id={id};"
+                sql2 = f"delete from liput where id = {id}"
                 print (sql)
                 cursor.execute(sql)
+                cursor.execute(sql2)
             elif (i==1 and x==False):
                 sqlforlahto = f"select ident from airport where name ='{lippu2[0]}';"
                 sqlforkohde = f"select ident from airport where name ='{lippu2[1]}';"
@@ -365,7 +367,9 @@ class PelaajanHallinta():
                 idlist = cursor.fetchone()
                 id = idlist[0]
                 sql = f"delete from pelaajan_liput where liput_id={id};"
+                sql2 = f"delete from liput where id = {id}"
                 cursor.execute(sql)
+                cursor.execute(sql2)
             elif (i==2 and x==False):
                 sqlforlahto = f"select ident from airport where name ='{lippu3[0]}';"
                 sqlforkohde = f"select ident from airport where name ='{lippu3[1]}';"
@@ -381,7 +385,9 @@ class PelaajanHallinta():
                 idlist = cursor.fetchone()
                 id = idlist[0]
                 sql = f"delete from pelaajan_liput where liput_id={id};"
+                sql2 = f"delete from liput where id = {id}"
                 cursor.execute(sql)
+                cursor.execute(sql2)
 
         #päivitetään pelaajan sijainti
         '''sql = f"select ident from airport where name = '{valinta1[0]}';"
