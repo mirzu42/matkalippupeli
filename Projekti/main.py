@@ -2,6 +2,15 @@ from Player import *
 from Lippu import *
 from Kortit import *
 from Reitti import *
+import keyboard
+
+sininen =bcolors.OKBLUE
+punainen = bcolors.FAIL
+keltainen = bcolors.WARNING
+cyan = bcolors.OKCYAN
+
+
+
 class bcolors:
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
@@ -12,6 +21,7 @@ class bcolors:
     ENDC = '\033[0m'
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
+
 
 
 #from Lentokenttienhaku import getLentokenttaNimi
@@ -31,22 +41,73 @@ def deleteAll():
 deleteAll()
 
 #main
-nimi1 = input (bcolors.OKBLUE+"Syötä pelaajan 1 nimi: ")
+nimi1 = input (sininen+"Syötä pelaajan 1 nimi: ")
 ph.create_player(nimi1)
 p_id1 = ph.getId(nimi1)
-nimi2 = input(bcolors.OKBLUE+"Syötä pelaajan 2 nimi: ")
+nimi2 = input(sininen+"Syötä pelaajan 2 nimi: ")
 ph.create_player(nimi2)
 p_id2 = ph.getId(nimi2)
 lh.createAloitusLiput(p_id1)
 lh.createAloitusLiput(p_id2)
 ph.getPelaajanLiput(p_id1)
 ph.getPelaajanLiput(p_id2)
-input(bcolors.FAIL+"Paina mitä tahansa näppäintä jatkaaksesi...")
+input(punainen+"Paina enter-näppäintä jatkaaksesi...")
+
 ph.getPelaajanKortit(1)
 ph.getPelaajanKortit(2)
+gameover = False
+while not gameover:
+    print(bcolors.OKBLUE+f"Pelaaja {punainen}{ph.getNimi(p_id1)}{sininen}, mitä haluat tehdä?")
+    print (f"{punainen}1) {sininen}Nostaa uuden menolipun\n{punainen}2) {sininen}Nostaa uuden kortin\n{punainen}3) {sininen}Rakentaa uuden reitin\n\n\n\n{punainen}Voit lopettaa painamalla 9\n\n\n\n")
+    #P1 vuoro
+    while True:
+        try:
+            syote = int(input())
+            if (syote == 1):
+                lh.createLippu(p_id1)
+                break
+            elif (syote == 2):
+                kh.createKortti(p_id1)
+                break
+            elif (syote == 3):  # öööö ei mitää käryy miten tää tehää
+                break
+            elif (syote == 9):
+                gameover = True
+                break
+            else:
+                print(keltainen + "Virheellinen syöte!")
+                continue
 
-#while True:
 
 
 
+        except:
+            print(keltainen+"Virheellinen syöte!")
+            continue
 
+    #input("Loop ohi, toinen loop ")
+    print(bcolors.OKBLUE + f"Pelaaja {punainen}{ph.getNimi(p_id2)}{sininen}, mitä haluat tehdä?")
+    print(f"{punainen}1) {sininen}Nostaa uuden menolipun\n{punainen}2) {sininen}Nostaa uuden kortin\n{punainen}3) {sininen}Rakentaa uuden reitin\n\n\n\n{punainen}Voit lopettaa painamalla 9\n\n\n\n")
+    #P2 vuoro
+    while True:
+        try:
+            syote = int(input())
+            if (syote == 1):
+                lh.createLippu(p_id2)
+                break
+            elif (syote == 2):
+                kh.createKortti(p_id2)
+                break
+            elif (syote == 3):  # öööö ei mitää käryy miten tää tehää
+                break
+            elif(syote==9):
+                gameover = True
+                break
+            else:
+                print(keltainen+"Virheellinen syöte!")
+                continue
+
+
+        except:
+            print(keltainen+"Virheellinen syöte!")
+            continue
