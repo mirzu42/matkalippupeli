@@ -43,12 +43,12 @@ class PelaajanHallinta():
         x = k.fetchall()
         for i in range(len(x)):
             print(x[i][0])
-    def paivitaLokaatio(self, icao, p_id):
-        sql = f"UPDATE player SET location = '{icao}' WHERE id = '{p_id}'"
+    def paivitaLokaatio(self, icao, pelaaja_id):
+        sql = f"UPDATE player SET location = '{icao}' WHERE id = '{pelaaja_id}'"
         cursor = yhteys.cursor(dictionary=True)  # mitä tää dictionary ees tekee
         cursor.execute(sql)
 
-    def pelaajaAloitus(self): #ei salee tarvita tätä? lippu() tekee jo muutenki randomil ton
+    '''def pelaajaAloitus(self): #ei salee tarvita tätä? lippu() tekee jo muutenki randomil ton
         sql = "select airport.ident from airport inner join country on airport.iso_country = country.iso_country where country.name = 'Finland' and type != 'closed' and type !='heliport' and type !='small_airport';"
         kursori = yhteys.cursor()
         kursori.execute(sql)
@@ -57,12 +57,7 @@ class PelaajanHallinta():
         if tulokset:
             aloituslokaatio = random.choice(tulokset)[0]
             return aloituslokaatio
-        print(tulokset)
-
-    '''def delete_all_pelaajankortit(self):
-        sql = "delete from pelaajan_kortit;"
-        kursori = yhteys.cursor()
-        kursori.execute(sql)'''
+        print(tulokset)'''
     def uusiPelaajanLippu(self, pelaaja_id, lippu_id):
         sql = f"insert into pelaajan_liput (player_id, liput_id) values ({pelaaja_id}, {lippu_id})"
         cursor = yhteys.cursor()
