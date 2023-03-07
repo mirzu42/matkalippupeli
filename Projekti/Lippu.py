@@ -10,7 +10,7 @@ yhteys = mysql.connector.connect(
          autocommit=True
          )
 class LipunHallinta():
-    def createLippu(self):  # joo tää on sit ihan vitun sekava mut toimii. Jos joku keksii paremman tavan saa korjata
+    def createLippu(self, p_id):  # joo tää on sit ihan vitun sekava mut toimii. Jos joku keksii paremman tavan saa korjata
         cursor = yhteys.cursor(dictionary=True)
         sql = "select name from airport where iso_country = 'fi' and type in('medium_airport', 'large_airport') order by rand() limit 2"
         cursor.execute(sql)
@@ -27,7 +27,7 @@ class LipunHallinta():
         merkkijono3 = result3['ident']
         merkkijono4 = result4['ident']
 
-        #insert into sql
+
         sql3 = "select id from liput order by id asc;"
         cursor.execute(sql3)
         result5 = cursor.fetchall()
@@ -39,8 +39,14 @@ class LipunHallinta():
         #pisteiden lasku
         pisteet = round(laskeValimatka(merkkijono3, merkkijono4))
 
+        #insert into sql
         updateLahtoJaKohde = f"insert into liput (id, lähtö, kohde, pisteet) values ({lippuID}, '{merkkijono3}', '{merkkijono4}', {pisteet});"
         cursor.execute(updateLahtoJaKohde)
+
+
+        #Lisätään lippu pelaajalle
+        sql4 = f"insert into pelaajan_liput (player_id, liput_id) values ({p_id}, {lippuID})"
+        cursor.execute(sql4)
 
         return merkkijono1, merkkijono2
     def deleteLiput(self):
@@ -49,3 +55,5 @@ class LipunHallinta():
         cursor = yhteys.cursor()
         cursor.execute(sql1)
         cursor.execute(sql2)
+    def createAloitusLiput(self):
+        pass

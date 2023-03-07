@@ -88,6 +88,7 @@ class PelaajanHallinta():
             cursor.execute(sql3)
             sql4 = f"delete from kortit where id = '{muuttuja[0]}';"
             cursor.execute(sql4)
+            self.bensaKulutus(pelaaja_id, 1)
         else:
             print("Vittu sää oot köyhä")
 
