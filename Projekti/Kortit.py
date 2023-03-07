@@ -11,7 +11,7 @@ yhteys = mysql.connector.connect(
          autocommit=True
          )
 class KortinHallinta():
-    def createKortti(self, pelaaja_id):
+    def createKortti(self, pelaaja_id):  #luodaan pelaajalle random kortti
         kortitLista = ["punainen", "keltainen", "sininen", "punainen", "keltainen", "sininen", "punainen", "keltainen",
                   "sininen", "jokeri"]
         kortti = random.choice(kortitLista)
@@ -28,8 +28,9 @@ class KortinHallinta():
         cursor.execute(sql2)
         sql3 = f"insert into pelaajan_kortit (kortti_id, player_id) values ('{id}', '{pelaaja_id}');"
         cursor.execute(sql3)
-        #print(f"Tietokantaan listätty kortti:\nId:{id}\nTyyppi: {kortti}")
-
+    def createMultipleKortti(self, lkm, pelaaja_id):  #luodaan pelaajalle monta korttia
+        for i in range(lkm):
+            self.createKortti(pelaaja_id)
 
     def getLentokenttaKorttien_lkm(self, aport_icao):
         sql = f"select korttien_lkm from reitti_pisteet where lentokenttä_ident = '{aport_icao}'"
@@ -38,12 +39,7 @@ class KortinHallinta():
         tulos = cursor.fetchone()
         return tulos[0]
 
-
-    def createMultipleKortti(self, lkm, pelaaja_id):
-        for i in range(lkm):
-            self.createKortti(pelaaja_id)
-
-    def delete_all_kortit(self):
+    def delete_all_kortit(self):  #poistetaan kaikki kortit
         sql1 = f'delete from pelaajan_kortit;'
         sql2 = f"delete from kortit;"
         cursor = yhteys.cursor()
