@@ -3,6 +3,7 @@ from Player import *
 from Lippu import *
 from Kortit import *
 from Reitti import *
+from Lentokenttienhaku import getLentokenttaNimi
 from Lentokenttienhaku import *
 yhteys = mysql.connector.connect(
          host="127.0.0.1",
@@ -12,8 +13,6 @@ yhteys = mysql.connector.connect(
          password="1234",
          autocommit=True
          )
-ph = PelaajanHallinta()
-kh = KortinHallinta()
-kh.createMultipleKortti(5, 1)
+
 
 

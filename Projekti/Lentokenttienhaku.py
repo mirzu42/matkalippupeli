@@ -74,6 +74,13 @@ def ilmanSuunnat(current_aport, aport_in_range):
         a_port['ilmansuunta'] = compass_brackets[compass_lookup]
     return aport_in_range
 
+def getLentokenttaNimi(icao):
+    sql = f"select name from airport where ident = '{icao}'"
+    cursor = yhteys.cursor()
+    cursor.execute(sql)
+    x = cursor.fetchone()
+    print(x[0])
+
 
 
 
