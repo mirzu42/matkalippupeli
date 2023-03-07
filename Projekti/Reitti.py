@@ -1,4 +1,6 @@
 import mysql.connector
+from Player import *
+
 yhteys = mysql.connector.connect(
          host="127.0.0.1",
          port= 3306,
@@ -50,3 +52,4 @@ class ReittiHallinta():
         sql = "delete from reitti_pisteet;"
         cursor = yhteys.cursor()
         cursor.execute(sql)
+

@@ -50,6 +50,15 @@ class LipunHallinta():
 
         return merkkijono1, merkkijono2
 
+    def getAloitusLipunIcao(self, p_id):
+        for i in range(3):
+            self.createLippu(p_id)
+        sql = f"select lähtö, kohde from liput inner join pelaajan_liput on id=liput_id where player_id = '{p_id}'"
+        cursor = yhteys.cursor()
+        cursor.execute(sql)
+        tulos = cursor.fetchall()
+        return tulos
+
     def deleteLiput(self):
         sql1 = "delete from pelaajan_liput;"
         sql2 = "delete from liput;"
