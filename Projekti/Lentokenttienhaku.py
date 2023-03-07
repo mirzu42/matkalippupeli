@@ -1,7 +1,8 @@
 import math
 from geopy.distance import distance
 import mysql.connector
-
+from Reitti import *
+rh = ReittiHallinta()
 yhteys = mysql.connector.connect(
          host="127.0.0.1",
          port= 3306,
@@ -58,9 +59,17 @@ def saavutettavatLentokentat(icao):
             in_range.append(a_port)
     in_range = sorted(in_range, key=lambda x: x['distance_kortit'])[:5]
     ilmanSuunnat(icao, in_range)
+    lentokentanTyyppi(in_range)
     for i in range(len(in_range)):
-        print(f"{i+1}. {in_range[i]['name']}\nIlmansuunta: {in_range[i]['ilmansuunta']}\nVaadittujen korttien lukumäärä: {in_range[i]['distance_kortit']}\n")
+        print(f"{i+1}. {in_range[i]['name']}\nIlmansuunta: {in_range[i]['ilmansuunta']}\nVaadittujen korttien lukumäärä: {in_range[i]['distance_kortit']}\nVäri: {in_range[i]['tyyppi']}\n")
     return in_range
+
+def lentokentanTyyppi(airports):
+    for airport in airports:
+        tyyppi = rh.reittiPisteetTyyppi(airport['ident'])
+        for i in tyyppi:
+            airport['tyyppi'] = i
+
 
 
 def ilmanSuunnat(current_aport, aports_in_range):
@@ -76,6 +85,7 @@ def ilmanSuunnat(current_aport, aports_in_range):
         compass_lookup = round(degrees_positive / 45) % 8
         a_port['ilmansuunta'] = compass_brackets[compass_lookup]
     return aports_in_range
+
 
 def getLentokenttaNimi(icao):
     sql = f"select name from airport where ident = '{icao}'"
