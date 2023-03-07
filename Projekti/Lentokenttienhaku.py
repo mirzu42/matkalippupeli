@@ -82,10 +82,11 @@ def getLentokenttaNimi(icao):
     print(x)
 
 
-current_aport = "EFHK"
+'''current_aport = "EFHK"
 all_aports = haeKaikkiKentat()
 p_range = 400
 # Call the function
 in_range = saavutettavatLentokentat(current_aport, p_range)
 ilmanSuunnat(current_aport, in_range)
 print(in_range[0]['name'],'\nIlmansuunta: ', in_range[0]['ilmansuunta'],'\nVaadittujen korttien lukumäärä: ', in_range[0]['distance_kortit'])
+'''

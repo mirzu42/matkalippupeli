@@ -2,7 +2,20 @@ from Player import *
 from Lippu import *
 from Kortit import *
 from Reitti import *
-from Lentokenttienhaku import getLentokenttaNimi
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKCYAN = '\033[96m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
+
+#from Lentokenttienhaku import getLentokenttaNimi
+
 kh = KortinHallinta()
 ph = PelaajanHallinta()
 lh = LipunHallinta()
@@ -26,10 +39,12 @@ ph.create_player(nimi2)
 p_id2 = ph.getId(nimi2)
 lh.createAloitusLiput(p_id1)
 lh.createAloitusLiput(p_id2)
-
-
+ph.getPelaajanLiput(p_id1)
+ph.getPelaajanLiput(p_id2)
+input("Paina mitä tahansa näppäintä jatkaaksesi.")
 ph.getPelaajanKortit(1)
 ph.getPelaajanKortit(2)
+print(bcolors.WARNING+"testi")
 #while True:
 
 

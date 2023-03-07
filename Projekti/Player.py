@@ -45,6 +45,14 @@ class PelaajanHallinta():
         x = k.fetchall()
         for i in range(len(x)):
             print(x[i][0])
+    def getNimi(self, p_id):
+        sql = f"select nimi from player where id = {p_id};"
+        cursor = yhteys.cursor()
+        cursor.execute(sql)
+        x = cursor.fetchone()
+        return x[0]
+
+
     def paivitaLokaatio(self, icao, pelaaja_id):
         sql = f"UPDATE player SET location = '{icao}' WHERE id = '{pelaaja_id}'"
         cursor = yhteys.cursor(dictionary=True)  # mitä tää dictionary ees tekee
@@ -139,7 +147,8 @@ class PelaajanHallinta():
         cursor =yhteys.cursor()
         cursor.execute(sql)
         result = cursor.fetchall()
-        print(f"Pelaajalla {p_id} on: ")
+
+        print(f"Pelaajalla {self.getNimi(p_id)} on: ")
         for i in result:
             print (i[2],"x", i[1])
 
@@ -155,8 +164,8 @@ class PelaajanHallinta():
         cursor.execute(sql3)
         kohdeICAO = cursor.fetchone()
 
-
-        print('Lippu:''\n''\tLähtö:', kohdeICAO[0],'\n''\tKohde:',lahtoICAO[0])
+        tmp = self.getNimi(pelaaja_id)
+        print(f'Pelaajan {tmp} lippu:''\n''\tLähtö:', kohdeICAO[0],'\n''\tKohde:',lahtoICAO[0])
 
 
     # Alemmat funktiot vaativat lisätietoa. PelaajanAloitus tarvitsee jostain lipusta vaihtoehdot
