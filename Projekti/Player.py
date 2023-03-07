@@ -1,6 +1,7 @@
 import random
 import mysql.connector
 from Kortit import *
+from Lentokenttienhaku import *
 kh =KortinHallinta()
 
 yhteys = mysql.connector.connect(
@@ -134,3 +135,36 @@ class PelaajanHallinta():
         for i in result:
             print (i[2],"x", i[1])
 
+        # Alemmat funktiot vaativat lisätietoa. PelaajanAloitus tarvitsee jostain lipusta vaihtoehdot
+        # Liike tarvitsee jostain parametrit saavutettaviin lentokenttiin
+
+
+    def PelaajaAloitusValinta(Aloituslokaatiot):
+        print("Mistä haluat aloittaa?")
+        Vastaus = input("");
+
+        if (Vastaus == 1):
+            print(f"Valitsit aloitus paikaksi {1}")
+            Aloituslokaatiot.paivitaLokaatio()
+
+        if (Vastaus == 2):
+            print(f"Valitsit aloitus paikaksi {1}")
+            Aloituslokaatiot.paivitaLokaatio()
+
+    def Liike(self):
+        icao = ("EFHK")
+        p_range = 1000
+        lentokentät = saavutettavatLentokentat(icao, p_range)
+
+        print("Voit liikkua seuraaville lentokentille:")
+        for i, lentokenttä in lentokentät:
+            print(f"{i + 1}. {lentokenttä['name']} ({lentokenttä['ident']})")
+
+        valinta = 0
+        while valinta < 1 or valinta > len(lentokentät):
+            try:
+                valinta = int(input("Valitse lentokenttä (1-5): "))
+            except ValueError:
+                print("Syötä numero")
+
+        return lentokentät[valinta - 1]['ident']
