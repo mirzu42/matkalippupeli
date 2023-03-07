@@ -1,5 +1,7 @@
 import random
 import mysql.connector
+from Kortit import *
+kh =KortinHallinta()
 
 yhteys = mysql.connector.connect(
          host="127.0.0.1",
@@ -9,15 +11,6 @@ yhteys = mysql.connector.connect(
          password="1234",
          autocommit=True
          )
-#ei muuten mitään hajuu tarviiks tätä ees
-'''class Player():
-    def __init__(self, id, name):
-        self.id = id
-        self.name = name
-    def get_id(self):
-        return self.id
-    def get_nimi(self):
-        return self.name'''
 
 class PelaajanHallinta():
     def create_player(self, nimi): # Lisää yhden pelaajan tietokantaan. Default lokaatio Helsinki-Vantaa
@@ -35,7 +28,8 @@ class PelaajanHallinta():
         sql2 = f"insert into player (id, kokonais_pisteet, bensa, nimi, location) values ({id}, 0, 500, '{nimi}', 'EFHK');"
 
         kursori.execute(sql2)
-        print(f"Tietokantaan lisätty pelaaja: \nID: {id}\nKokonaispisteet: 0\nBensa: 500\nNimi:{nimi}\nLocation: EFHK")
+        kh.createMultipleKortti(3, id)
+       # print(f"Tietokantaan lisätty pelaaja: \nID: {id}\nKokonaispisteet: 0\nBensa: 500\nNimi:{nimi}\nLocation: EFHK")
         #return player
 
     def delete_all_players(self):
@@ -65,10 +59,10 @@ class PelaajanHallinta():
             return aloituslokaatio
         print(tulokset)
 
-    def delete_all_pelaajankortit(self):
+    '''def delete_all_pelaajankortit(self):
         sql = "delete from pelaajan_kortit;"
         kursori = yhteys.cursor()
-        kursori.execute(sql)
+        kursori.execute(sql)'''
     def uusiPelaajanLippu(self, pelaaja_id, lippu_id):
         sql = f"insert into pelaajan_liput (player_id, liput_id) values ({pelaaja_id}, {lippu_id})"
         cursor = yhteys.cursor()
@@ -135,4 +129,12 @@ class PelaajanHallinta():
 
         return x[0]
 
+    def getPelaajanKortit(self, p_id):
+        sql =f"select player_id, tyyppi, count(tyyppi) from pelaajan_kortit, kortit where id= kortti_id and player_id = {p_id} group by tyyppi;"
+        cursor =yhteys.cursor()
+        cursor.execute(sql)
+        result = cursor.fetchall()
+        print(f"Pelaajalla {p_id} on: ")
+        for i in result:
+            print (i[2],"x", i[1])
 

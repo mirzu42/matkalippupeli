@@ -40,3 +40,12 @@ class ReittiHallinta():
         cursor.execute(sql3)
         superiortulos = cursor.fetchall()
         return superiortulos
+
+    def deleteReitti(self):
+        sql = "delete from reitti;"
+        cursor = yhteys.cursor()
+        cursor.execute(sql)
+    def deleteReittiPisteet(self):
+        sql = "delete from reitti_pisteet;"
+        cursor = yhteys.cursor()
+        cursor.execute(sql)

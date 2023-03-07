@@ -3,37 +3,31 @@ from Lippu import *
 from Kortit import *
 from Reitti import *
 from Lentokenttienhaku import *
-
-ph = PelaajanHallinta()
-rh =ReittiHallinta()
-#rh.createReitti(4)
-#ph.uusiPelaajanKortti(1, 2)
-
-#print(ph.getId("f"))
-#nimi = input("Nimi: ")
-#ph.create_player(nimi)
-
-
-#lista = [1,2,3,4,5,7,8,9]
-
 kh = KortinHallinta()
-#kh.createKortti(2)
-#kh.createKortti(1)
-#ph.kaytaPelaajanKortti("punainen", 2)
-#print(ph.getPuuttuva(lista, len(lista)))
-#ph.kaytaMontaKorttia(2, "jokeri", 1)
-#print(ph.getPelaajanKorttienLkm(2))
-print(rh.reittiPisteet('EFPR', 1, 4, 4, 'punainen'))
-'''kh.delete_all_kortit()
-
-
+ph = PelaajanHallinta()
 lh = LipunHallinta()
-lh.createLippu()
-lh = LipunHallinta()
-lh.createLippu()
+rh = ReittiHallinta()
+def deleteAll():
+    kh.delete_all_kortit()
+    ph.delete_all_players()
+    lh.deleteLiput()
+    rh.deleteReittiPisteet()
+    rh.deleteReitti()
+#poista kaikki aikaisemmat arvot tietokannasta
 
-#ph.uusiPelaajanKortti(2, 2)
+deleteAll()
 
-#ph.delete_all_pelaajankortit()
-#ph.delete_all_players()
-'''
+#main
+nimi1 = input ("Syötä pelaajan 1 nimi: ")
+ph.create_player(nimi1)
+p_id1 = ph.getId(nimi1)
+nimi2 = input("Syötä pelaajan 2 nimi: ")
+ph.create_player(nimi2)
+p_id2 = ph.getId(nimi2)
+ph.getPelaajanKortit(1)
+ph.getPelaajanKortit(2)
+
+
+
+
+

@@ -27,10 +27,16 @@ class KortinHallinta():
         cursor.execute(sql2)
         sql3 = f"insert into pelaajan_kortit (kortti_id, player_id) values ('{id}', '{pelaaja_id}');"
         cursor.execute(sql3)
-        print(f"Tietokantaan listätty kortti:\nId:{id}\nTyyppi: {kortti}")
+        #print(f"Tietokantaan listätty kortti:\nId:{id}\nTyyppi: {kortti}")
+
+
+    def createMultipleKortti(self, lkm, pelaaja_id):
+        for i in range(lkm):
+            self.createKortti(pelaaja_id)
 
     def delete_all_kortit(self):
         sql1 = f'delete from pelaajan_kortit;'
-        sql2 = f'delete from kortit;'
+        sql2 = f"delete from kortit;"
         cursor = yhteys.cursor()
-        cursor.execute(sql1, sql2)
+        cursor.execute(sql1)
+        cursor.execute(sql2)
