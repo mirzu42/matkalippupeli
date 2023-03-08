@@ -12,8 +12,9 @@ yhteys = mysql.connector.connect(
          password="1234",
          autocommit=True
          )
-#ph = PelaajanHallinta()
-#ph.pelaajanAloituksenLippujenValinta(3)
 
+ph = PelaajanHallinta()
+#ph.pelaajanAloituksenLippujenValinta(3)
 rh = ReittiHallinta()
-rh.reittiPisteetTyyppi()
+rh.deleteReittiPisteet()
+ph.Liike(1)

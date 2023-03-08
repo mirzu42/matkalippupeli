@@ -2,6 +2,7 @@ from Player import *
 from Lippu import *
 from Kortit import *
 from Reitti import *
+from Lentokenttienhaku import *
 #import keyboard
 
 sininen =bcolors.OKBLUE
@@ -37,8 +38,7 @@ def deleteAll():
 deleteAll()
 
 #main
-print("Menolippu peli.\nPelin ideana on suorittaa menolippuja, joista saa erinäisiä määriä pisteitä. Eniten pisteitä kerännyt pelaaja voittaa.")
-nimi1 = input (sininen+"Syötä pelaajan 1 nimi: ")
+rh.startingReittiPisteetTyyppi()
 pelaajat = ph.getAllPelaajat()
 while(True):
     nimi1 = input (sininen+"Syötä pelaajan 1 nimi: ")
@@ -87,8 +87,8 @@ while not gameover:
                 ph.getPelaajanKortit(p_id1)
                 break
             elif (syote == 3):  # reitin rakennus ...öööö ei mitää käryy miten tää tehää
+                print(f"{bcolors.OKBLUE}Olet " + getLentokenttaNimi(icao) + " lentokentällä")
                 icao = ph.getPelaajanLokaatio(p_id1)
-                print("Olet " + getLentokenttaNimi(icao) + " lentokentällä")
                 ph.Liike(p_id1)
                 break
             elif (syote == 9):  # lopetus
@@ -123,9 +123,9 @@ while not gameover:
                 ph.getPelaajanKortit(p_id2)
                 break
             elif (syote == 3):  #reitin rakennus ... öööö ei mitää käryy miten tää tehää
-                icao = ph.getPelaajanLokaatio(p_id1)
-                print("Olet " + getLentokenttaNimi(icao) + " lentokentällä")
-                saavutettavatLentokentat(icao)
+                icao = ph.getPelaajanLokaatio(p_id2)
+                print(f"{bcolors.OKBLUE}Olet " + getLentokenttaNimi(icao) + " lentokentällä")
+                ph.Liike(p_id2)
                 break
             elif(syote==9):
                 gameover = True

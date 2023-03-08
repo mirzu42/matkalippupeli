@@ -3,6 +3,18 @@ from geopy.distance import distance
 import mysql.connector
 from Reitti import *
 
+
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKCYAN = '\033[96m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
 rh = ReittiHallinta()
 yhteys = mysql.connector.connect(
          host="127.0.0.1",
@@ -60,14 +72,24 @@ def saavutettavatLentokentat(icao):
             in_range.append(a_port)
     in_range = sorted(in_range, key=lambda x: x['distance_kortit'])[:5]
     ilmanSuunnat(icao, in_range)
-    lentokentanTyyppi(in_range)
+    insertKorttien_lkm(in_range)
+    getReittipisteetTyyppi(in_range)
     for i in range(len(in_range)):
         print(f"{i+1}. {in_range[i]['name']}\nIlmansuunta: {in_range[i]['ilmansuunta']}\nVaadittujen korttien lukumäärä: {in_range[i]['distance_kortit']}\nVäri: {in_range[i]['tyyppi']}\n")
     return in_range
 
-def lentokentanTyyppi(airports):
+
+def insertKorttien_lkm(airports):
+    cursor = yhteys.cursor()
     for airport in airports:
-        tyyppi = rh.reittiPisteetTyyppi(airport['ident'])
+        dist = airport['distance_kortit']
+        icao = airport['ident']
+        sql = f"update reitti_pisteet set korttien_lkm = '{dist}' WHERE lentokenttä_ident = '{icao}'"
+        cursor.execute(sql)
+
+def getReittipisteetTyyppi(airports):
+    for airport in airports:
+        tyyppi = rh.getReittiPisteetTyyppi(airport['ident'])
         for i in tyyppi:
             airport['tyyppi'] = i
 
