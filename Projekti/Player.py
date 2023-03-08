@@ -283,44 +283,54 @@ class PelaajanHallinta():
         print(f"Valitse ensimmäinen lippu: ")
         print(f"1. {lippu1[0]}---{lippu1[1]} ({pisteet1[0]} pistettä)\n2. {lippu2[0]}---{lippu2[1]}({pisteet2[0]} pistettä)\n3. {lippu3[0]}---{lippu3[1]}({pisteet3[0]} pistettä)")
 
-        try:
-            while True:
+        while True:
+            try:
                 syote = int(input())
                 if (syote == 1):
                     valinta1 = lippu1
                     break
-                elif (syote==2):
+                elif (syote == 2):
                     valinta1 = lippu2
                     break
-                elif (syote==3):
+                elif (syote == 3):
                     valinta1 = lippu3
                     break
                 else:
                     print("Virheellinen syöte!")
+                    print(f"Valitse ensimmäinen lippu: ")
+                    print(f"1. {lippu1[0]}---{lippu1[1]} ({pisteet1[0]} pistettä)\n2. {lippu2[0]}---{lippu2[1]}({pisteet2[0]} pistettä)\n3. {lippu3[0]}---{lippu3[1]}({pisteet3[0]} pistettä)")
 
-        except:
-            print("Virheellinen syöte!")
+                    continue
+            except:
+                print("Virheellinen syöte!")
+                print(f"Valitse ensimmäinen lippu: ")
+                print(f"1. {lippu1[0]}---{lippu1[1]} ({pisteet1[0]} pistettä)\n2. {lippu2[0]}---{lippu2[1]}({pisteet2[0]} pistettä)\n3. {lippu3[0]}---{lippu3[1]}({pisteet3[0]} pistettä)")
+
+                continue
+
+
 
         print("Valitse toinen lippu: ")
         print(f"1. {lippu1[0]}---{lippu1[1]} ({pisteet1[0]} pistettä)\n2. {lippu2[0]}---{lippu2[1]}({pisteet2[0]} pistettä)\n3. {lippu3[0]}---{lippu3[1]}({pisteet3[0]} pistettä)")
-        try:
-            while True:
+
+        while True:
+            try:
                 syote = int(input())
                 if (syote == 1):
                     valinta2 = lippu1
-                    if(valinta2==valinta1):
+                    if (valinta2 == valinta1):
                         print("Et voi valita samaa lippua uudelleen!")
                         continue
                     else:
                         break
-                elif (syote==2):
+                elif (syote == 2):
                     valinta2 = lippu2
                     if (valinta2 == valinta1):
                         print("Et voi valita samaa lippua uudelleen!")
                         continue
                     else:
                         break
-                elif (syote==3):
+                elif (syote == 3):
                     valinta2 = lippu3
                     if (valinta2 == valinta1):
                         print("Et voi valita samaa lippua uudelleen!")
@@ -329,9 +339,14 @@ class PelaajanHallinta():
                         break
                 else:
                     print("Virheellinen syöte!")
+                    print("Valitse toinen lippu: ")
+                    print(f"1. {lippu1[0]}---{lippu1[1]} ({pisteet1[0]} pistettä)\n2. {lippu2[0]}---{lippu2[1]}({pisteet2[0]} pistettä)\n3. {lippu3[0]}---{lippu3[1]}({pisteet3[0]} pistettä)")
 
-        except:
-            print("Virheellinen syöte!")
+            except:
+                print("Virheellinen syöte!")
+                print("Valitse toinen lippu: ")
+                print(f"1. {lippu1[0]}---{lippu1[1]} ({pisteet1[0]} pistettä)\n2. {lippu2[0]}---{lippu2[1]}({pisteet2[0]} pistettä)\n3. {lippu3[0]}---{lippu3[1]}({pisteet3[0]} pistettä)")
+
         lippu1valittu = False
         lippu2valittu = False
         lippu3valittu = False

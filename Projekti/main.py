@@ -3,6 +3,7 @@ from Lippu import *
 from Kortit import *
 from Reitti import *
 from Lentokenttienhaku import *
+import time
 #import keyboard
 
 sininen =bcolors.OKBLUE
@@ -73,7 +74,7 @@ input(punainen+"Paina enter-näppäintä jatkaaksesi...")
 gameover = False
 while not gameover:
     print(bcolors.OKBLUE+f"Pelaaja {punainen}{ph.getNimi(p_id1)}{sininen}, mitä haluat tehdä?")
-    print (f"{punainen}1) {sininen}Nostaa uuden menolipun\n{punainen}2) {sininen}Nostaa uuden kortin\n{punainen}3) {sininen}Rakentaa uuden reitin\n\n{punainen}Voit lopettaa painamalla 9\n")
+    print (f"{punainen}1) {sininen}Nostaa uuden menolipun\n{punainen}2) {sininen}Nostaa uuden kortin\n{punainen}3) {sininen}Rakentaa uuden reitin\n4) Tulostaa kortit\n\n{punainen}Voit lopettaa painamalla 9\n")
     #P1 vuoro
     while True:
         try:
@@ -91,6 +92,12 @@ while not gameover:
                 icao = ph.getPelaajanLokaatio(p_id1)
                 ph.Liike(p_id1)
                 break
+            elif syote ==4:
+                ph.getPelaajanKortit(p_id1)
+                time.sleep(5)
+                continue
+
+
             elif (syote == 9):  # lopetus
                 gameover = True
                 print(f"{punainen}Kiitos pelaamisesta! :)")
@@ -127,6 +134,10 @@ while not gameover:
                 print(f"{bcolors.OKBLUE}Olet " + getLentokenttaNimi(icao) + " lentokentällä")
                 ph.Liike(p_id2)
                 break
+            elif syote ==4:
+                ph.getPelaajanKortit(p_id2)
+                time.sleep(5)
+                continue
             elif(syote==9):
                 gameover = True
                 print(f"{punainen}Kiitos pelaamisesta! :)")
