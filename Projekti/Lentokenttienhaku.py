@@ -83,6 +83,12 @@ def getLentokenttaNimi(icao):
     x = cursor.fetchone()
     return x[0]
 
+def getIcaoFromNimi(nimi):
+    sql = f"select ident from airport where name = '{nimi}'"
+    cursor = yhteys.cursor()
+    cursor.execute(sql)
+    x = cursor.fetchone()
+    return x[0]
 
 '''current_aport = "EFHK"
 all_aports = haeKaikkiKentat()

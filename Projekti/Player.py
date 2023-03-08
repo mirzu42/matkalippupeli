@@ -15,6 +15,7 @@ class bcolors:
     UNDERLINE = '\033[4m'
 
 kh =KortinHallinta()
+lh = LipunHallinta()
 
 yhteys = mysql.connector.connect(
          host="127.0.0.1",
@@ -40,7 +41,7 @@ class PelaajanHallinta():
         sql2 = f"insert into player (id, kokonais_pisteet, bensa, nimi, location) values ({id}, 0, 500, '{nimi}', 'EFHK');"
 
         kursori.execute(sql2)
-        kh.createMultipleKortti(3, id)
+        self.pelaajanAloituksenLippujenValinta(id)
 
     def delete_all_players(self):  #poistaa kaikki pelaajat
         sql = "delete from player;"
@@ -142,9 +143,17 @@ class PelaajanHallinta():
         cursor.execute(sql)
         result = cursor.fetchall()
 
-        print(bcolors.WARNING+f"Pelaajalla {self.getNimi(p_id)} on: ")
+        print(bcolors.OKBLUE+f"Pelaajalla{bcolors.FAIL} {self.getNimi(p_id)}{bcolors.OKBLUE} on: ")
         for i in result:
-            print (bcolors.OKBLUE,+i[2],"x", i[1])
+            if (i[1] == "punainen"):
+                print (bcolors.FAIL,+i[2],"x" ,i[1],bcolors.OKBLUE)
+            elif(i[1] =="sininen"):
+                print(bcolors.OKBLUE, +i[2], "x", i[1])
+            elif (i[1] == "keltainen"):
+                print(bcolors.WARNING, +i[2], "x", i[1], bcolors.OKBLUE)
+            elif (i[1]=="jokeri"):
+                print(bcolors.FAIL, +i[2], f"{bcolors.WARNING}x", f"{bcolors.OKBLUE}j{bcolors.WARNING}o{bcolors.FAIL}k{bcolors.OKBLUE}e{bcolors.WARNING}r{bcolors.FAIL}i{bcolors.OKBLUE}")
+        print("\n")
 
     def getPelaajanLiput(self, pelaaja_id):  #tulostaa pelaajalla olevat liput
         sql = f"select lähtö, kohde from liput inner join pelaajan_liput on id=liput_id where player_id = '{pelaaja_id}';"
@@ -167,7 +176,7 @@ class PelaajanHallinta():
             idlist = cursor.fetchone()
             id = idlist[0]
             sql4 = f"select pisteet from liput inner join pelaajan_liput on id=liput_id where player_id = {pelaaja_id} and liput_id= {id};"
-            print(sql4)
+            #print(sql4)
             cursor.execute(sql4)
             pisteet = cursor.fetchall()
 
@@ -243,10 +252,32 @@ class PelaajanHallinta():
         lippu1 = lipun_hallinta.createLippu(pelaaja_id)
         lippu2 = lipun_hallinta.createLippu(pelaaja_id)
         lippu3 = lipun_hallinta.createLippu(pelaaja_id)
+        l1lahto = getIcaoFromNimi(lippu1[0])
+        l1kohde = getIcaoFromNimi(lippu1[1])
+        l2lahto = getIcaoFromNimi(lippu2[0])
+        l2kohde = getIcaoFromNimi(lippu2[1])
+        l3lahto = getIcaoFromNimi(lippu3[0])
+        l3kohde = getIcaoFromNimi(lippu3[1])
+        id1 = lh.getLippuId(l1lahto, l1kohde, pelaaja_id)
+        id2 = lh.getLippuId(f'{l2lahto}', f'{l2kohde}', f'{pelaaja_id}')
+        id3 = lh.getLippuId(f'{l3lahto}', f'{l3kohde}', f'{pelaaja_id}')
+        sqlforid1 = f"select pisteet from liput inner join pelaajan_liput on id=liput_id where player_id = {pelaaja_id} and liput_id= {id1};"
+        sqlforid2 = f"select pisteet from liput inner join pelaajan_liput on id=liput_id where player_id = {pelaaja_id} and liput_id= {id2};"
+        sqlforid3 = f"select pisteet from liput inner join pelaajan_liput on id=liput_id where player_id = {pelaaja_id} and liput_id= {id3};"
+        cursor = yhteys.cursor()
+        #print(sqlforid1)
+        cursor.execute(sqlforid1)
+        pisteet1 = cursor.fetchone()
+        cursor.execute(sqlforid2)
+        pisteet2 = cursor.fetchone()
+        cursor.execute(sqlforid3)
+        pisteet3 = cursor.fetchone()
 
-        print("Sinulle annetaan kolme lippua, joista sinun tulee valita 2. Liput jotka valitset siirtyvät sinulle.")
+
+        print("Sinulle annetaan kolme lippua, joista sinun tulee valita 2. \nLiput jotka valitset siirtyvät sinulle.")
         print(f"Valitse ensimmäinen lippu: ")
-        print(f"1. {lippu1}\n2. {lippu2}\n3. {lippu3}")
+        print(f"1. {lippu1[0]}---{lippu1[1]} ({pisteet1[0]} pistettä)\n2. {lippu2[0]}---{lippu2[1]}({pisteet2[0]} pistettä)\n3. {lippu3[0]}---{lippu3[1]}({pisteet3[0]} pistettä)")
+
         try:
             while True:
                 syote = int(input())
@@ -266,7 +297,7 @@ class PelaajanHallinta():
             print("Virheellinen syöte!")
 
         print("Valitse toinen lippu: ")
-        print(f"1. {lippu1}\n2. {lippu2}\n3. {lippu3}")
+        print(f"1. {lippu1[0]}---{lippu1[1]} ({pisteet1[0]} pistettä)\n2. {lippu2[0]}---{lippu2[1]}({pisteet2[0]} pistettä)\n3. {lippu3[0]}---{lippu3[1]}({pisteet3[0]} pistettä)")
         try:
             while True:
                 syote = int(input())
@@ -319,7 +350,6 @@ class PelaajanHallinta():
         liput.append(lippu2valittu)
         liput.append(lippu3valittu)
         for i, x in enumerate(liput):
-            print(i, x)
             if (i==0 and x == False):
                 sqlforlahto = f"select ident from airport where name ='{lippu1[0]}';"
                 sqlforkohde = f"select ident from airport where name ='{lippu1[1]}';"
@@ -332,14 +362,14 @@ class PelaajanHallinta():
                 kohde = kohdelista[0]
 
                 sqlforid = f"select id from liput inner join pelaajan_liput on id = liput_id where lähtö = '{lahto}' and kohde = '{kohde}' and player_id = {pelaaja_id};"
-                print(sqlforid)
+
 
                 cursor.execute(sqlforid)
                 idlist =cursor.fetchone()
                 id = idlist[0]
                 sql = f"delete from pelaajan_liput where liput_id={id};"
                 sql2 = f"delete from liput where id = {id}"
-                print (sql)
+
                 cursor.execute(sql)
                 cursor.execute(sql2)
             elif (i==1 and x==False):
@@ -378,6 +408,7 @@ class PelaajanHallinta():
                 sql2 = f"delete from liput where id = {id}"
                 cursor.execute(sql)
                 cursor.execute(sql2)
+
 
         #päivitetään pelaajan sijainti
         '''sql = f"select ident from airport where name = '{valinta1[0]}';"

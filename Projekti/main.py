@@ -43,14 +43,15 @@ p_id1 = ph.getId(nimi1)
 nimi2 = input(sininen+"Syötä pelaajan 2 nimi: ")
 ph.create_player(nimi2)
 p_id2 = ph.getId(nimi2)
-lh.createAloitusLiput(p_id1)
-lh.createAloitusLiput(p_id2)
+kh.createMultipleKortti(3,p_id1)
+kh.createMultipleKortti(3,p_id2)
 ph.getPelaajanLiput(p_id1)
 ph.getPelaajanLiput(p_id2)
-input(punainen+"Paina enter-näppäintä jatkaaksesi...")
-
 ph.getPelaajanKortit(1)
 ph.getPelaajanKortit(2)
+input(punainen+"Paina enter-näppäintä jatkaaksesi...")
+
+
 gameover = False
 while not gameover:
     print(bcolors.OKBLUE+f"Pelaaja {punainen}{ph.getNimi(p_id1)}{sininen}, mitä haluat tehdä?")
