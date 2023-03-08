@@ -42,7 +42,12 @@ class PelaajanHallinta():
 
         kursori.execute(sql2)
         self.pelaajanAloituksenLippujenValinta(id)
-
+    def getAllPelaajat(self):
+        sql = "select nimi from player;"
+        k = yhteys.cursor()
+        k.execute(sql)
+        x = k.fetchall()
+        return k
     def delete_all_players(self):  #poistaa kaikki pelaajat
         sql = "delete from player;"
         kursori = yhteys.cursor()

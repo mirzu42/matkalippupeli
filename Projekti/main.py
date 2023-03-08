@@ -37,10 +37,27 @@ def deleteAll():
 deleteAll()
 
 #main
-nimi1 = input (sininen+"Syötä pelaajan 1 nimi: ")
+pelaajat = ph.getAllPelaajat()
+while(True):
+    nimi1 = input (sininen+"Syötä pelaajan 1 nimi: ")
+    if(nimi1==""):
+        print("Et voi syöttää tyhjää!")
+        continue
+    break
+
+
 ph.create_player(nimi1)
 p_id1 = ph.getId(nimi1)
-nimi2 = input(sininen+"Syötä pelaajan 2 nimi: ")
+while True:
+    nimi2 = input (sininen+"Syötä pelaajan 2 nimi: ")
+    if (nimi2.lower()==nimi1.lower()):
+        print("Et voi syöttää samaa nimeä useampaan kertaan!")
+        continue
+    elif (nimi2 ==""):
+        print("Et voi syöttää tyhjää!")
+        continue
+    break
+
 ph.create_player(nimi2)
 p_id2 = ph.getId(nimi2)
 kh.createMultipleKortti(3,p_id1)
