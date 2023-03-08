@@ -222,6 +222,18 @@ class PelaajanHallinta():
 
 
     def Liike(self, p_id):
+        sql = f"select kohde from liput inner join pelaajan_liput on id = liput_id where player_id = {p_id}"
+        cursor = yhteys.cursor()
+        cursor.execute(sql)
+        tulos = cursor.fetchall()
+        for i in tulos:
+            if i == self.getPelaajanLokaatio(p_id):
+                sql2 = f"select pisteet from liput inner join pelaajan_liput on id = liput_id where player_id = {p_id} and kohde ='{i}';"
+                cursor.execute(sql2)
+                x =cursor.fetchone()
+
+                sql3 = f"update player set kokonais_pisteet = kokonais_pisteet +{x[0]} where id = {p_id};"
+                cursor.execute(sql3)
         icao = self.getPelaajanLokaatio(p_id)
         korttien_lkm = kh.getLentokenttaKorttien_lkm(icao)
         self.bensaKulutus(p_id, korttien_lkm)
