@@ -47,6 +47,7 @@ class KortinHallinta():
         cursor.execute(sql2)
 
     def VähennäPelaajanKortteja(self, pelaaja_id, korttien_lkm):
+        #player_id ei ole reitti_pisteissä?
         sql = f"update reitti_pisteet set korttien_lkm = korttien_lkm - {korttien_lkm} where player_id = '{pelaaja_id}'"
         cursor=yhteys.cursor()
         cursor.execute(sql)
