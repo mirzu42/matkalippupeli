@@ -66,7 +66,6 @@ class PelaajanHallinta():
         x = cursor.fetchone()
         return x[0]
 
-
     def paivitaLokaatio(self, icao, pelaaja_id):  #päivittää pelaajan lokaation parametrissä annetun icao koodin mukaisesti
         sql = f"UPDATE player SET location = '{icao}' WHERE id = '{pelaaja_id}'"
         cursor = yhteys.cursor(dictionary=True)
@@ -181,17 +180,14 @@ class PelaajanHallinta():
             idlist = cursor.fetchone()
             id = idlist[0]
             sql4 = f"select pisteet from liput inner join pelaajan_liput on id=liput_id where player_id = {pelaaja_id} and liput_id= {id};"
-            #print(sql4)
             cursor.execute(sql4)
             pisteet = cursor.fetchall()
 
             print(bcolors.WARNING + f'Pelaajan {tmp} lippu:''\n''\tLähtö:', lahtoICAO[0], '\n''\tKohde:', kohdeICAO[0],'\n''\tPisteet:', pisteet[0][0])
             print()
 
-
     # Alemmat funktiot vaativat lisätietoa. PelaajanAloitus tarvitsee jostain lipusta vaihtoehdot
         # Liike tarvitsee jostain parametrit saavutettaviin lentokenttiin
-
 
     def pelaajanLipunValinta(self, pelaaja_id):  #arvottavien menolippujen valinta
 
@@ -250,9 +246,7 @@ class PelaajanHallinta():
 
         return lentokentät[valinta - 1]['ident']
 
-
     def pelaajanAloituksenLippujenValinta(self, pelaaja_id):
-
         lipun_hallinta = LipunHallinta()
         lippu1 = lipun_hallinta.createLippu(pelaaja_id)
         lippu2 = lipun_hallinta.createLippu(pelaaja_id)
@@ -270,14 +264,12 @@ class PelaajanHallinta():
         sqlforid2 = f"select pisteet from liput inner join pelaajan_liput on id=liput_id where player_id = {pelaaja_id} and liput_id= {id2};"
         sqlforid3 = f"select pisteet from liput inner join pelaajan_liput on id=liput_id where player_id = {pelaaja_id} and liput_id= {id3};"
         cursor = yhteys.cursor()
-        #print(sqlforid1)
         cursor.execute(sqlforid1)
         pisteet1 = cursor.fetchone()
         cursor.execute(sqlforid2)
         pisteet2 = cursor.fetchone()
         cursor.execute(sqlforid3)
         pisteet3 = cursor.fetchone()
-
 
         print("Sinulle annetaan kolme lippua, joista sinun tulee valita 2. \nLiput jotka valitset siirtyvät sinulle.")
         print(f"Valitse ensimmäinen lippu: ")
@@ -368,7 +360,6 @@ class PelaajanHallinta():
 
                 sqlforid = f"select id from liput inner join pelaajan_liput on id = liput_id where lähtö = '{lahto}' and kohde = '{kohde}' and player_id = {pelaaja_id};"
 
-
                 cursor.execute(sqlforid)
                 idlist =cursor.fetchone()
                 id = idlist[0]
@@ -413,7 +404,6 @@ class PelaajanHallinta():
                 sql2 = f"delete from liput where id = {id}"
                 cursor.execute(sql)
                 cursor.execute(sql2)
-
 
         #päivitetään pelaajan sijainti
         '''sql = f"select ident from airport where name = '{valinta1[0]}';"

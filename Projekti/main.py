@@ -37,6 +37,8 @@ def deleteAll():
 deleteAll()
 
 #main
+print("Menolippu peli.\nPelin ideana on suorittaa menolippuja, joista saa erinäisiä määriä pisteitä. Eniten pisteitä kerännyt pelaaja voittaa.")
+nimi1 = input (sininen+"Syötä pelaajan 1 nimi: ")
 pelaajat = ph.getAllPelaajat()
 while(True):
     nimi1 = input (sininen+"Syötä pelaajan 1 nimi: ")
@@ -68,7 +70,6 @@ ph.getPelaajanKortit(1)
 ph.getPelaajanKortit(2)
 input(punainen+"Paina enter-näppäintä jatkaaksesi...")
 
-
 gameover = False
 while not gameover:
     print(bcolors.OKBLUE+f"Pelaaja {punainen}{ph.getNimi(p_id1)}{sininen}, mitä haluat tehdä?")
@@ -88,7 +89,7 @@ while not gameover:
             elif (syote == 3):  # reitin rakennus ...öööö ei mitää käryy miten tää tehää
                 icao = ph.getPelaajanLokaatio(p_id1)
                 print("Olet " + getLentokenttaNimi(icao) + " lentokentällä")
-                saavutettavatLentokentat(icao)
+                ph.Liike(p_id1)
                 break
             elif (syote == 9):  # lopetus
                 gameover = True
