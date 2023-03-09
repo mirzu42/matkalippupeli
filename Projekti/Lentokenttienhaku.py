@@ -110,6 +110,7 @@ def ilmanSuunnat(current_aport, aports_in_range):
     return aports_in_range
 
 
+
 def getLentokenttaNimi(icao):
     sql = f"select name from airport where ident = '{icao}'"
     cursor = yhteys.cursor()

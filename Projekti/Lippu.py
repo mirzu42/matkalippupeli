@@ -73,3 +73,4 @@ class LipunHallinta():
         tulos = cursor.fetchone()
         return tulos[0]
 
+

@@ -232,6 +232,7 @@ class PelaajanHallinta():
                 cursor.execute(sql2)
                 x =cursor.fetchone()
 
+
                 sql3 = f"update player set kokonais_pisteet = kokonais_pisteet +{x[0]} where id = {p_id};"
                 cursor.execute(sql3)
         icao = self.getPelaajanLokaatio(p_id)

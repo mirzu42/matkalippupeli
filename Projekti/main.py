@@ -94,8 +94,8 @@ while not gameover:
                 break
             elif syote ==4:
                 ph.getPelaajanKortit(p_id1)
-                time.sleep(5)
-                continue
+                x= time.sleep(2)
+
 
 
             elif (syote == 9):  # lopetus
@@ -136,7 +136,7 @@ while not gameover:
                 break
             elif syote ==4:
                 ph.getPelaajanKortit(p_id2)
-                time.sleep(5)
+                time.sleep(5.42)
                 continue
             elif(syote==9):
                 gameover = True

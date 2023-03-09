@@ -74,6 +74,7 @@ class ReittiHallinta():
                 else:
                     id = 1
 
+
                 tyyppi = random.choice(tyyppilista)
                 icao = n['ident']
                 sql3 = f"INSERT into reitti_pisteet (id, lentokenttä_ident, korttien_lkm, tyyppi) values ('{id}', '{icao}',0, '{tyyppi}')"

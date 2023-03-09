@@ -16,5 +16,5 @@ yhteys = mysql.connector.connect(
 ph = PelaajanHallinta()
 #ph.pelaajanAloituksenLippujenValinta(3)
 rh = ReittiHallinta()
-rh.deleteReittiPisteet()
+
 ph.Liike(1)
