@@ -237,7 +237,7 @@ class PelaajanHallinta():
                 cursor.execute(sql3)
         icao = self.getPelaajanLokaatio(p_id)
         korttien_lkm = kh.getLentokenttaKorttien_lkm(icao)
-        #   self.kaytaMontaKorttia(korttien_lkm,)
+        self.kaytaMontaKorttia(korttien_lkm,)
         self.bensaKulutus(p_id, korttien_lkm)
         print("Voit liikkua seuraaville lentokentille:")
         lentokentät = saavutettavatLentokentat(icao)
