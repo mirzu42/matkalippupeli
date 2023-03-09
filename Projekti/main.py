@@ -39,6 +39,8 @@ def deleteAll():
 deleteAll()
 
 #main
+print(f"{bcolors.OKBLUE}Menolippu peli.\nPelin ideana on suorittaa menolippuja, joista saa erinäisiä määriä pisteitä. Eniten pisteitä kerännyt pelaaja voittaa.")
+
 rh.startingReittiPisteetTyyppi()
 pelaajat = ph.getAllPelaajat()
 while(True):

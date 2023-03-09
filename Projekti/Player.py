@@ -1,3 +1,4 @@
+
 import random
 import mysql.connector
 from Kortit import *
@@ -232,12 +233,10 @@ class PelaajanHallinta():
                 cursor.execute(sql2)
                 x =cursor.fetchone()
 
-
                 sql3 = f"update player set kokonais_pisteet = kokonais_pisteet +{x[0]} where id = {p_id};"
                 cursor.execute(sql3)
         icao = self.getPelaajanLokaatio(p_id)
         korttien_lkm = kh.getLentokenttaKorttien_lkm(icao)
-        self.kaytaMontaKorttia(korttien_lkm,)
         self.bensaKulutus(p_id, korttien_lkm)
         print("Voit liikkua seuraaville lentokentille:")
         lentokentät = saavutettavatLentokentat(icao)
@@ -437,3 +436,4 @@ class PelaajanHallinta():
         tulos = cursor.fetchone()
         self.paivitaLokaatio(tulos[0], pelaaja_id)
         #return tulos[0]'''
+
