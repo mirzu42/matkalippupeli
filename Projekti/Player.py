@@ -39,33 +39,40 @@ class PelaajanHallinta():
         else:
             id = 1
 
-        sql2 = f"insert into player (id, kokonais_pisteet, bensa, nimi, location) values ({id}, 0, 500, '{nimi}', 'EFHK');"
+        sql2 = f"insert into player (id, kokonais_pisteet, bensa, nimi) values ({id}, 0, 500, '{nimi}');"
 
         kursori.execute(sql2)
         self.pelaajanAloituksenLippujenValinta(id)
+
     def getAllPelaajat(self):
         sql = "select nimi from player;"
-        k = yhteys.cursor()
-        k.execute(sql)
-        x = k.fetchall()
-        return k
+        cursor = yhteys.cursor()
+        cursor.execute(sql)
+        tulos = cursor.fetchall()
+        return tulos
+
+
     def delete_all_players(self):  #poistaa kaikki pelaajat
         sql = "delete from player;"
         kursori = yhteys.cursor()
         kursori.execute(sql)
+
+
     def tulosta_pelaajat(self):  #tulostaa pelaajat
         sql = "select nimi from player;"
-        k = yhteys.cursor()
-        k.execute(sql)
-        x = k.fetchall()
-        for i in range(len(x)):
-            print(x[i][0])
+        cursor = yhteys.cursor()
+        cursor.execute(sql)
+        tulos = cursor.fetchall()
+        for i in range(len(tulos)):
+            print(tulos[i][0])
+
+
     def getNimi(self, p_id):  #hakee pelaajan nimen tämän pelaaja id:llä
         sql = f"select nimi from player where id = {p_id};"
         cursor = yhteys.cursor()
         cursor.execute(sql)
-        x = cursor.fetchone()
-        return x[0]
+        tulos = cursor.fetchone()
+        return tulos[0]
 
     def paivitaLokaatio(self, icao, pelaaja_id):  #päivittää pelaajan lokaation parametrissä annetun icao koodin mukaisesti
         sql = f"UPDATE player SET location = '{icao}' WHERE id = '{pelaaja_id}'"
@@ -131,16 +138,14 @@ class PelaajanHallinta():
         kursori.execute(sql1)
         kursori.execute(sql2)
         result = kursori.fetchone()
-        bensa = result[0]
-        return bensa
+        return result[0]
 
     def getId(self, nimi):  #palauttaa pelaajan id:n
         getid = f"select id from player where nimi = '{nimi}';"
         cursor = yhteys.cursor()
         cursor.execute(getid)
-        x = cursor.fetchone()
-
-        return x[0]
+        result = cursor.fetchone()
+        return result[0]
 
     def getPelaajanKortit(self, p_id):  #tulostaa pelaajan kortit
         sql =f"select player_id, tyyppi, count(tyyppi) from pelaajan_kortit, kortit where id= kortti_id and player_id = {p_id} group by tyyppi;"
@@ -222,7 +227,7 @@ class PelaajanHallinta():
         self.paivitaLokaatio(tulos[0], pelaaja_id)
 
 
-    def Liike(self, p_id):
+    def pelaajanLiike(self, p_id):
         sql = f"select kohde from liput inner join pelaajan_liput on id = liput_id where player_id = {p_id}"
         cursor = yhteys.cursor()
         cursor.execute(sql)
@@ -231,12 +236,12 @@ class PelaajanHallinta():
             if i == self.getPelaajanLokaatio(p_id):
                 sql2 = f"select pisteet from liput inner join pelaajan_liput on id = liput_id where player_id = {p_id} and kohde ='{i}';"
                 cursor.execute(sql2)
-                x =cursor.fetchone()
-
+                x = cursor.fetchone()
                 sql3 = f"update player set kokonais_pisteet = kokonais_pisteet +{x[0]} where id = {p_id};"
                 cursor.execute(sql3)
         icao = self.getPelaajanLokaatio(p_id)
         korttien_lkm = kh.getLentokenttaKorttien_lkm(icao)
+        #self.kaytaMontaKorttia(korttien_lkm,)
         self.bensaKulutus(p_id, korttien_lkm)
         print("Voit liikkua seuraaville lentokentille:")
         lentokentät = saavutettavatLentokentat(icao)
@@ -250,9 +255,9 @@ class PelaajanHallinta():
             icao = lentokentät[valinta - 1]['ident']
             self.paivitaLokaatio(icao, p_id)
             print("Siirrytty kentälle: ", lentokentät[valinta - 1]['name'])
-            #matka = lentokentät['distance']
-            #korttien_lkm += (matka // 62) * 6
-            #KortinHallinta.VähennäPelaajanKortteja(p_id, korttien_lkm)
+            matka = lentokentät['distance']
+            korttien_lkm += (matka // 62) * 6
+            KortinHallinta.VähennäPelaajanKortteja(p_id, korttien_lkm)
         return lentokentät[valinta - 1]['ident']
 
     def pelaajanAloituksenLippujenValinta(self, pelaaja_id):
@@ -383,6 +388,8 @@ class PelaajanHallinta():
                 kohde = kohdelista[0]
 
                 sqlforid = f"select id from liput inner join pelaajan_liput on id = liput_id where lähtö = '{lahto}' and kohde = '{kohde}' and player_id = {pelaaja_id};"
+                self.paivitaLokaatio(lahto, pelaaja_id)
+
 
                 cursor.execute(sqlforid)
                 idlist =cursor.fetchone()
@@ -402,7 +409,10 @@ class PelaajanHallinta():
                 cursor.execute(sqlforkohde)
                 kohdelista = cursor.fetchone()
                 kohde = kohdelista[0]
+
                 sqlforid = f"select id from liput inner join pelaajan_liput on id = liput_id where lähtö = '{lahto}' and kohde = '{kohde}' and player_id = {pelaaja_id};"
+                self.paivitaLokaatio(lahto, pelaaja_id)
+
                 cursor.execute(sqlforid)
                 idlist = cursor.fetchone()
                 id = idlist[0]
@@ -420,7 +430,10 @@ class PelaajanHallinta():
                 cursor.execute(sqlforkohde)
                 kohdelista = cursor.fetchone()
                 kohde = kohdelista[0]
+
                 sqlforid = f"select id from liput inner join pelaajan_liput on id = liput_id where lähtö = '{lahto}' and kohde = '{kohde}' and player_id = {pelaaja_id};"
+                self.paivitaLokaatio(lahto, pelaaja_id)
+
                 cursor.execute(sqlforid)
                 idlist = cursor.fetchone()
                 id = idlist[0]

@@ -69,14 +69,12 @@ kh.createMultipleKortti(3,p_id1)
 kh.createMultipleKortti(3,p_id2)
 ph.getPelaajanLiput(p_id1)
 ph.getPelaajanLiput(p_id2)
-ph.getPelaajanKortit(1)
-ph.getPelaajanKortit(2)
 input(punainen+"Paina enter-näppäintä jatkaaksesi...")
 
 gameover = False
 while not gameover:
     print(bcolors.OKBLUE+f"Pelaaja {punainen}{ph.getNimi(p_id1)}{sininen}, mitä haluat tehdä?")
-    print (f"{punainen}1) {sininen}Nostaa uuden menolipun\n{punainen}2) {sininen}Nostaa uuden kortin\n{punainen}3) {sininen}Rakentaa uuden reitin\n4) Tulostaa kortit\n\n{punainen}Voit lopettaa painamalla 9\n")
+    print(f"{punainen}1) {sininen}Nostaa uuden menolipun\n{punainen}2) {sininen}Nostaa uuden kortin\n{punainen}3) {sininen}Rakentaa uuden reitin\n4) Tulostaa kortit\n\n{punainen}Voit lopettaa painamalla 9\n")
     #P1 vuoro
     while True:
         try:
@@ -89,14 +87,14 @@ while not gameover:
                 kh.createKortti(p_id1)
                 ph.getPelaajanKortit(p_id1)
                 break
-            elif (syote == 3):  # reitin rakennus ...öööö ei mitää käryy miten tää tehää
-                print(f"{bcolors.OKBLUE}Olet " + getLentokenttaNimi(icao) + " lentokentällä")
+            elif (syote == 3):  # reitin rakennus
                 icao = ph.getPelaajanLokaatio(p_id1)
-                ph.Liike(p_id1)
+                print(f"{bcolors.OKBLUE}Olet " + getLentokenttaNimi(icao) + " lentokentällä")
+                ph.pelaajanLiike(p_id1)
                 break
-            elif syote ==4:
+            elif syote == 4:
                 ph.getPelaajanKortit(p_id1)
-                x= time.sleep(2)
+                time.sleep(2)
 
 
 
@@ -117,7 +115,7 @@ while not gameover:
         break
     #input("Loop ohi, toinen loop ")
     print(bcolors.OKBLUE + f"Pelaaja {punainen}{ph.getNimi(p_id2)}{sininen}, mitä haluat tehdä?")
-    print(f"{punainen}1) {sininen}Nostaa uuden menolipun\n{punainen}2) {sininen}Nostaa uuden kortin\n{punainen}3) {sininen}Rakentaa uuden reitin\n\n{punainen}Voit lopettaa painamalla 9\n")
+    print(f"{punainen}1) {sininen}Nostaa uuden menolipun\n{punainen}2) {sininen}Nostaa uuden kortin\n{punainen}3) {sininen}Rakentaa uuden reitin\n4) Tulostaa kortit\n\n{punainen}Voit lopettaa painamalla 9\n")
     #P2 vuoro
 
     while True:
@@ -134,13 +132,13 @@ while not gameover:
             elif (syote == 3):  #reitin rakennus ... öööö ei mitää käryy miten tää tehää
                 icao = ph.getPelaajanLokaatio(p_id2)
                 print(f"{bcolors.OKBLUE}Olet " + getLentokenttaNimi(icao) + " lentokentällä")
-                ph.Liike(p_id2)
+                ph.pelaajanLiike(p_id2)
                 break
-            elif syote ==4:
+            elif syote == 4:
                 ph.getPelaajanKortit(p_id2)
                 time.sleep(5.42)
                 continue
-            elif(syote==9):
+            elif syote == 9:
                 gameover = True
                 print(f"{punainen}Kiitos pelaamisesta! :)")
                 break

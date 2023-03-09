@@ -37,7 +37,7 @@ def haeKaikkiKentat():
     return result
 
 
-def haeSijainti(icaoKoodi):
+def haeLatLon(icaoKoodi):
     lat, lon = (0, 0)
     sql = "select latitude_deg, longitude_deg from airport where ident ='" + icaoKoodi + "'"
     kursori = yhteys.cursor()
@@ -49,24 +49,19 @@ def haeSijainti(icaoKoodi):
 
 
 def laskeValimatka(icaoEka, icaoToka):
-    a = haeSijainti(icaoEka)
-    b = haeSijainti(icaoToka)
+    a = haeLatLon(icaoEka)
+    b = haeLatLon(icaoToka)
     return (distance(a, b)).km
 
+#TODO
+#Ei duplikaatti ilmansuuntia, sekä yksi kuuden kortin matka.
 
 def saavutettavatLentokentat(icao):
-    max_matka = 374
-    max_kortti = 6
     in_range = []
     all_ports = haeKaikkiKentat()
     for a_port in all_ports:
         dist = laskeValimatka(icao, a_port['ident'])
-        kortti = max_matka / max_kortti
-        korttienmaara = round(dist / kortti)
-        if korttienmaara < 1:
-            korttienmaara = 1
-        if korttienmaara > 6:
-            korttienmaara = 6
+        korttienmaara = laskeVaadittavatKortit(dist)
         a_port['distance_kortit'] = korttienmaara
         if dist <= 374 and not dist == 0 and not dist > 374:
             in_range.append(a_port)
@@ -79,6 +74,17 @@ def saavutettavatLentokentat(icao):
     return in_range
 
 
+def laskeVaadittavatKortit(dist):
+    max_matka = 374
+    max_kortti = 6
+    kortti = max_matka / max_kortti
+    korttienmaara = round(dist / kortti)
+    if korttienmaara < 1:
+        korttienmaara = 1
+    if korttienmaara > 6:
+        korttienmaara = 6
+    return korttienmaara
+
 def insertKorttien_lkm(airports):
     cursor = yhteys.cursor()
     for airport in airports:
@@ -86,6 +92,7 @@ def insertKorttien_lkm(airports):
         icao = airport['ident']
         sql = f"update reitti_pisteet set korttien_lkm = '{dist}' WHERE lentokenttä_ident = '{icao}'"
         cursor.execute(sql)
+
 
 def getReittipisteetTyyppi(airports):
     for airport in airports:
@@ -96,10 +103,10 @@ def getReittipisteetTyyppi(airports):
 
 
 def ilmanSuunnat(current_aport, aports_in_range):
-    current_lat, current_lon = haeSijainti(current_aport)
+    current_lat, current_lon = haeLatLon(current_aport)
     compass_brackets = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
     for a_port in aports_in_range:
-        lat, lon = haeSijainti(a_port['ident'])
+        lat, lon = haeLatLon(a_port['ident'])
         delta_lat = lat - current_lat
         delta_lon = lon - current_lon
         radians = math.atan2(delta_lon, delta_lat)
@@ -108,7 +115,6 @@ def ilmanSuunnat(current_aport, aports_in_range):
         compass_lookup = round(degrees_positive / 45) % 8
         a_port['ilmansuunta'] = compass_brackets[compass_lookup]
     return aports_in_range
-
 
 
 def getLentokenttaNimi(icao):
@@ -124,11 +130,3 @@ def getIcaoFromNimi(nimi):
     cursor.execute(sql)
     x = cursor.fetchone()
     return x[0]
-
-'''current_aport = "EFHK"
-all_aports = haeKaikkiKentat()
-# Call the function
-in_range = saavutettavatLentokentat(current_aport)
-ilmanSuunnat(current_aport, in_range)
-print(in_range[0]['name'],'\nIlmansuunta: ', in_range[0]['ilmansuunta'],'\nVaadittujen korttien lukumäärä: ', in_range[0]['distance_kortit'])
-'''
