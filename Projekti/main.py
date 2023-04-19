@@ -77,7 +77,6 @@ while not gameover:
     print(f"{punainen}1) {sininen}Nostaa uuden menolipun\n{punainen}2) {sininen}Nostaa uuden kortin\n{punainen}3) {sininen}Rakentaa uuden reitin\n4) Tulostaa kortit\n\n{punainen}Voit lopettaa painamalla 9\n")
     #P1 vuoro
     while True:
-        try:
             syote = int(input())
             if (syote == 1):  # uuden menolipun nosto
                 ph.pelaajanLipunValinta(p_id1)
@@ -106,10 +105,6 @@ while not gameover:
                 print(keltainen + "Virheellinen syöte!")
                 continue
 
-        except Exception as e:
-            print(str(e))
-            print(keltainen+"Virheellinen syöte!")
-            continue
 
     if gameover == True:
         break
