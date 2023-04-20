@@ -192,8 +192,7 @@ class PelaajanHallinta():
             print(bcolors.WARNING + f'Pelaajan {tmp} lippu:''\n''\tLähtö:', lahtoICAO[0], '\n''\tKohde:', kohdeICAO[0],'\n''\tPisteet:', pisteet[0][0])
             print()
 
-    # Alemmat funktiot vaativat lisätietoa. PelaajanAloitus tarvitsee jostain lipusta vaihtoehdot
-        # Liike tarvitsee jostain parametrit saavutettaviin lentokenttiin
+
 
     def pelaajanLipunValinta(self, pelaaja_id):  #arvottavien menolippujen valinta
 

@@ -33,6 +33,10 @@ function initMap() {
     }
 lentokenttaMarkers()
 
+    // Piirtää viivat lentokenttien välille.
+    const airportCoordinates = suomiLentokentat.map(airport => [airport.latitude_deg, airport.longitude_deg]);
+    const polyline = L.polyline(airportCoordinates, {color: 'blue'}).addTo(map);
+
 
 }
 document.addEventListener('DOMContentLoaded', initMap);
