@@ -13,7 +13,6 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 const apiUrl = 'http://127.0.0.1:5000/';
 const startLoc = '';
-const pi = document.querySelector('#player-input')
 
 document.addEventListener('DOMContentLoaded', async (evt) => {
     evt.preventDefault();
