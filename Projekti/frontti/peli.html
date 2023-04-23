@@ -8,13 +8,21 @@
     <title>OpenWeatherMap Example</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
      integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin=""/>
+    <link rel="stylesheet" href="index.css">
      <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
      integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
      crossorigin=""></script>
-    <script src="lentokenttäMarkerit.js" defer></script>
+    <script src="main.js" defer></script>
 </head>
 <body>
-    <div id="map" style="width: 40%; height: 100vh;"></div>
+    <div id="map" class="gameboard" style="width: 40%; height: 100vh;"></div>
+
+    <div id="player-input">
+        <form id="player-form">
+            <input type="text" id="player-name" placeholder="Player name" required>
+            <input type="submit" value="start game">
+        </form>
+    </div>
 
 </body>
 </html>
