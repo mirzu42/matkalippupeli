@@ -4,14 +4,21 @@
     padding: 0;
 }
 
+body{
+    background-image: url("matkalippupeli_background.jpg");
+    background-size: cover;
+    box-sizing: border-box;
+}
+
 #player-input {
     background-color: red;
-    height: 10em;
+    height: 7em;
     width: 50%;
     margin: auto;
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 20%;
 }
 
 input[type="text"] {
@@ -36,6 +43,16 @@ input[type="submit"] {
 
 input[type="submit"]:hover {
     transform: scale(1.1);
+}
+#mainTitle{
+    justify-content: center;
+    height: 50%;
+    background-color: aquamarine;
+    box-sizing: border-box;
+    width: 50%;
+    margin: auto;
+    display: flex;
+    font-size: x-large;
 }
 
 .test {

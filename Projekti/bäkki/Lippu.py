@@ -57,20 +57,18 @@ class LipunHallinta():
         tulos = cursor.fetchall()
         return tulos
 
-    def deleteLiput(self):  #poistaa kaikki pelaajan liput ja liput
+    def deleteLiput(self):  #poistaa kaikki pelaajan liput
         sql1 = "delete from pelaajan_liput;"
         sql2 = "delete from liput;"
         cursor = yhteys.cursor()
         cursor.execute(sql1)
         cursor.execute(sql2)
-    def createAloitusLiput(self, p_id):  #luo pelaajalle 3 lippua
+    '''def createAloitusLiput(self, p_id):  #luo pelaajalle 3 lippua
         for i in range(3):
-            self.createLippu(p_id)
+            self.createLippu(p_id)'''
     def getLippuId(self, lahto, kohde, p_id):
         getid = f"select id from liput inner join pelaajan_liput on id = liput_id where kohde = '{kohde}' and lähtö ='{lahto}' and player_id = {p_id};"
         cursor = yhteys.cursor()
         cursor.execute(getid)
         tulos = cursor.fetchone()
         return tulos[0]
-
-

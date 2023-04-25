@@ -28,6 +28,8 @@ document.querySelector('#player-form').addEventListener('submit', (evt) => {
     showGame.forEach((element) => {
         element.style.display = 'block'
         document.querySelector('#player-input').style.display = 'none'
+        document.body.style.backgroundImage='none';
+        document.querySelector('article').style.display = 'none'
     });
 
 })

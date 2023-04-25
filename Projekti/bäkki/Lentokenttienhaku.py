@@ -36,7 +36,6 @@ def haeKaikkiKentat():
     result = cursor.fetchall()
     return result
 
-
 def haeLatLon(icaoKoodi):
     lat, lon = (0, 0)
     sql = "select latitude_deg, longitude_deg from airport where ident ='" + icaoKoodi + "'"

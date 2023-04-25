@@ -68,18 +68,15 @@ class ReittiHallinta():
                 cursor.execute(sql1)
                 tulos = cursor.fetchall()
 
-
                 if (len(tulos)) > 0:
                     id = tulos[-1][0] + 1
                 else:
                     id = 1
 
-
                 tyyppi = random.choice(tyyppilista)
                 icao = n['ident']
                 sql3 = f"INSERT into reitti_pisteet (id, lentokenttä_ident, korttien_lkm, tyyppi) values ('{id}', '{icao}',0, '{tyyppi}')"
                 cursor.execute(sql3)
-
 
     def getReittiPisteetTyyppi(self, icao):
         sql = f"select tyyppi from reitti_pisteet where lentokenttä_ident = '{icao}'"

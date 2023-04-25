@@ -17,6 +17,7 @@ class bcolors:
 
 kh =KortinHallinta()
 lh = LipunHallinta()
+BENSA = 500
 
 yhteys = mysql.connector.connect(
          host="127.0.0.1",
@@ -39,7 +40,7 @@ class PelaajanHallinta():
         else:
             id = 1
 
-        sql2 = f"insert into player (id, kokonais_pisteet, bensa, nimi) values ({id}, 0, 500, '{nimi}');"
+        sql2 = f"insert into player (id, kokonais_pisteet, bensa, nimi) values ({id}, 0, '{BENSA}', '{nimi}');"
 
         kursori.execute(sql2)
         self.pelaajanAloituksenLippujenValinta(id)
@@ -265,18 +266,24 @@ class PelaajanHallinta():
         lippu1 = lipun_hallinta.createLippu(pelaaja_id)
         lippu2 = lipun_hallinta.createLippu(pelaaja_id)
         lippu3 = lipun_hallinta.createLippu(pelaaja_id)
+
         l1lahto = getIcaoFromNimi(lippu1[0])
         l1kohde = getIcaoFromNimi(lippu1[1])
+
         l2lahto = getIcaoFromNimi(lippu2[0])
         l2kohde = getIcaoFromNimi(lippu2[1])
+
         l3lahto = getIcaoFromNimi(lippu3[0])
         l3kohde = getIcaoFromNimi(lippu3[1])
-        id1 = lh.getLippuId(l1lahto, l1kohde, pelaaja_id)
+
+        id1 = lh.getLippuId(f'{l1lahto}', f'{l1kohde}', f'{pelaaja_id}')
         id2 = lh.getLippuId(f'{l2lahto}', f'{l2kohde}', f'{pelaaja_id}')
         id3 = lh.getLippuId(f'{l3lahto}', f'{l3kohde}', f'{pelaaja_id}')
+
         sqlforid1 = f"select pisteet from liput inner join pelaajan_liput on id=liput_id where player_id = {pelaaja_id} and liput_id= {id1};"
         sqlforid2 = f"select pisteet from liput inner join pelaajan_liput on id=liput_id where player_id = {pelaaja_id} and liput_id= {id2};"
         sqlforid3 = f"select pisteet from liput inner join pelaajan_liput on id=liput_id where player_id = {pelaaja_id} and liput_id= {id3};"
+
         cursor = yhteys.cursor()
         cursor.execute(sqlforid1)
         pisteet1 = cursor.fetchone()

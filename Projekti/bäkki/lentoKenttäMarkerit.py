@@ -1,6 +1,6 @@
 import json
 from flask import Flask
-from database import Database
+from Projekti.bäkki.database import Database
 from flask_cors import CORS
 
 db = Database()

@@ -94,9 +94,6 @@ while not gameover:
             elif syote == 4:
                 ph.getPelaajanKortit(p_id1)
                 time.sleep(2)
-
-
-
             elif (syote == 9):  # lopetus
                 gameover = True
                 print(f"{punainen}Kiitos pelaamisesta! :)")
