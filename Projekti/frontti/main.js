@@ -11,7 +11,7 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 
 
-const apiUrl = 'http://127.0.0.1:5000/';
+const apiUrl = 'http://127.0.0.1:3000/';
 const startLoc = '';
 
 document.addEventListener('DOMContentLoaded', async (evt) => {
@@ -30,8 +30,15 @@ document.querySelector('#player-form').addEventListener('submit', (evt) => {
         document.querySelector('#player-input').style.display = 'none'
         document.body.style.backgroundImage='none';
         document.querySelector('article').style.display = 'none'
+
+        element.style.display = 'block'
+        setup()
     });
 
+})
+
+document.querySelectorAll('.leaflet-popup-content-wrapper').addEventListener('submit', (evt) => {
+    evt.preventDefault()
 })
 
 async function getData(url) {
@@ -42,33 +49,46 @@ async function getData(url) {
 }
 
 
-async function lentokenttaMarkers() {
-    const gameData = await getData('http://127.0.0.1:3000/airport/fi');
-
-
-    // looppaa airporttie läpi ja lisää markerit
-    gameData.forEach(airport => {
+async function setup(url) {
+    try {
+        const gameData = await getData(`${apiUrl}airport/fi`);
+        gameData.forEach(airport => {
         const marker = L.circleMarker([airport.latitude_deg, airport.longitude_deg], {
             color: 'indigo',
             fillColor: '#1220ec',
             fillOpacity: 0.7,
             radius: 10,
-        }).addTo(map)
+        }).addTo(map).bindTooltip(`${airport.name}`)
+
+
 
         // näyttää nimen ku hiiri on markkerin päällä
-        marker.on('mouseover', (e) => {
-            marker.bindPopup(airport.name).openPopup()
+       marker.on('click', (e) => {
+           marker.bindPopup(airport.name).openPopup()
+
         })
-        marker.on('mouseout', (e) => {
-            marker.closePopup()
-        })
+
 
     });
+        let pid = "1"
+        const currLocData = await getData(`${apiUrl}loc/${pid}`)
+        let currentLoc = currLocData[0].ident
 
-    const airportCoordinates = gameData.map(airport => [airport.latitude_deg, airport.longitude_deg]);
-    const polyline = L.polyline(airportCoordinates, {color: 'blue'}).addTo(map);
+        const airportLine = await getData(`${apiUrl}fly/${currentLoc}`)
 
+        let startLoc = L.latLng(currLocData[0].latitude_deg, currLocData[0].longitude_deg)
+        let endLoc = airportLine.map(airport => L.latLng(airport.latitude_deg, airport.longitude_deg));
+
+        console.log(endLoc)
+        endLoc.forEach(e => {
+            console.log(e)
+            const polyline = L.polyline([startLoc, e], {color: 'blue'}).addTo(map);        console.log(polyline)
+        })
+
+
+    } catch (error) {
+        console.log(error)
+    }
 }
 
-
-lentokenttaMarkers()
+//TODO FIKSAA LENTO KNETTÄ VIIVAT esim jos on helsingistä se yhistää currentAirportista 5 viereiseen

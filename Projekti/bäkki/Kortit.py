@@ -51,4 +51,4 @@ class KortinHallinta():
         cursor = yhteys.cursor()
         cursor.execute(sql)
         yhteys.commit()
-        print("Korttien lukumäärä on päivitetty")
+
