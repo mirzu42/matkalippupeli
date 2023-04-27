@@ -261,6 +261,12 @@ class PelaajanHallinta():
             kh.vahennaPelaajanKortteja(p_id, korttien_lkm)
         return lentokentät[valinta - 1]['ident']
 
+    def luoAloitusliput(self, pelaaja_id):
+        lipun_hallinta = LipunHallinta()
+        lippu1 = lipun_hallinta.createLippu(pelaaja_id)
+        lippu2 = lipun_hallinta.createLippu(pelaaja_id)
+        lippu3 = lipun_hallinta.createLippu(pelaaja_id)
+        return lippu1, lippu2, lippu3
     def pelaajanAloituksenLippujenValinta(self, pelaaja_id):
         lipun_hallinta = LipunHallinta()
         lippu1 = lipun_hallinta.createLippu(pelaaja_id)
