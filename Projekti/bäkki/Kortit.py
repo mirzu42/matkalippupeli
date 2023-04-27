@@ -33,7 +33,7 @@ class KortinHallinta():
             self.createKortti(pelaaja_id)
 
     def getLentokenttaKorttien_lkm(self, aport_icao):
-        sql = f"select korttien_lkm from reitti_pisteet where lentokenttä_ident = '{aport_icao}'"
+        sql = f"select korttien_lkm from valietappi where lentokenttä_ident = '{aport_icao}'"
         cursor = yhteys.cursor()
         cursor.execute(sql)
         tulos = cursor.fetchone()
@@ -47,7 +47,7 @@ class KortinHallinta():
         cursor.execute(sql2)
 
     def vahennaPelaajanKortteja(self, pelaaja_id, korttien_lkm):
-        sql = f"update reitti_pisteet set korttien_lkm = korttien_lkm - {korttien_lkm} where player_id = '{pelaaja_id}'"
+        sql = f"update valietappi set korttien_lkm = korttien_lkm - {korttien_lkm} where player_id = '{pelaaja_id}'"
         cursor = yhteys.cursor()
         cursor.execute(sql)
         yhteys.commit()

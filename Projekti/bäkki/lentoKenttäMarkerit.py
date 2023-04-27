@@ -48,7 +48,7 @@ def fly(loc):
 
 @app.route('/airport/<iso_country>')
 def airport(iso_country):
-    sql = f'''SELECT name, latitude_deg, longitude_deg
+    sql = f'''SELECT name, latitude_deg, longitude_deg, ident
               FROM airport
               WHERE iso_country=%s'''
     cursor = db.get_conn().cursor(dictionary=True)

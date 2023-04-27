@@ -9,20 +9,23 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     className: 'map-tiles'
 }).addTo(map);
 
-
-
+// global
 const apiUrl = 'http://127.0.0.1:3000/';
 const startLoc = '';
+const airportMarkers = L.featureGroup().addTo(map);
 
+// piilottaa mapin heti alussa
 document.addEventListener('DOMContentLoaded', async (evt) => {
     evt.preventDefault();
     const hideGame = document.querySelectorAll(".gameboard")
     hideGame.forEach((element) => {
         element.style.display = 'none'
     });
+
 })
 
-document.querySelector('#player-form').addEventListener('submit', (evt) => {
+// piilottaa pelaajan formin kun pelaaja on lisännyt nimen
+document.querySelector('#player-form').addEventListener('submit', async(evt) => {
     evt.preventDefault()
     const showGame = document.querySelectorAll(".gameboard")
     showGame.forEach((element) => {
@@ -37,9 +40,9 @@ document.querySelector('#player-form').addEventListener('submit', (evt) => {
 
 })
 
-document.querySelectorAll('.leaflet-popup-content-wrapper').addEventListener('submit', (evt) => {
-    evt.preventDefault()
-})
+
+
+
 
 async function getData(url) {
   const response = await fetch(url);
@@ -52,6 +55,7 @@ async function getData(url) {
 async function setup(url) {
     try {
         const gameData = await getData(`${apiUrl}airport/fi`);
+        // lisää markkerit mapille
         gameData.forEach(airport => {
         const marker = L.circleMarker([airport.latitude_deg, airport.longitude_deg], {
             color: 'indigo',
@@ -59,16 +63,21 @@ async function setup(url) {
             fillOpacity: 0.7,
             radius: 10,
         }).addTo(map).bindTooltip(`${airport.name}`)
-
-
-
-        // näyttää nimen ku hiiri on markkerin päällä
-       marker.on('click', (e) => {
-           marker.bindPopup(airport.name).openPopup()
-
-        })
-
-
+            // lisää markereihin formin jotta pelaaja voi vaihtaa kenttää
+            airportMarkers.addLayer(marker);
+            const popupContent = document.createElement('div');
+            const h4 = document.createElement('h4');
+            h4.innerHTML = airport.name;
+            console.log(airport.ident)
+            popupContent.append(h4);
+            const goButton = document.createElement('button');
+            goButton.classList.add('button');
+            goButton.innerHTML = 'Fly here';
+            popupContent.append(goButton);
+            const p = document.createElement('p');
+            p.innerHTML = `Distance `;
+            popupContent.append(p);
+            marker.bindPopup(popupContent);
     });
         let pid = "1"
         const currLocData = await getData(`${apiUrl}loc/${pid}`)
@@ -86,9 +95,8 @@ async function setup(url) {
         })
 
 
+
     } catch (error) {
         console.log(error)
     }
 }
-
-//TODO FIKSAA LENTO KNETTÄ VIIVAT esim jos on helsingistä se yhistää currentAirportista 5 viereiseen

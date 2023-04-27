@@ -26,7 +26,7 @@ class ReittiHallinta():
 
 
     def reittiPisteet(self, icao, reitti_id, kortti_id, korttien_lkm, tyyppi):
-        sql1 = "select id from reitti_pisteet order by id asc;"
+        sql1 = "select id from valietappi order by id asc;"
         cursor = yhteys.cursor()
         cursor.execute(sql1)
         tulos = cursor.fetchall()
@@ -36,11 +36,11 @@ class ReittiHallinta():
         else:
             id = 1
 
-        sql2 = f"""insert into reitti_pisteet(id, lentokenttä_ident, reitti_id, kortti_id, korttien_lkm, tyyppi)
+        sql2 = f"""insert into valietapi(id, lentokenttä_ident, reitti_id, kortti_id, korttien_lkm, tyyppi)
                 values ('{id}', '{icao}', '{reitti_id}', '{kortti_id}', '{korttien_lkm}', '{tyyppi}');"""
         cursor.execute(sql2)
 
-        sql3 = f"select * from reitti_pisteet; "
+        sql3 = f"select * from valietappi; "
         cursor.execute(sql3)
         superiortulos = cursor.fetchall()
         return superiortulos
@@ -63,7 +63,7 @@ class ReittiHallinta():
         while i < len(aport_ident):
             for n in aport_ident:
                 i += 1
-                sql1 = "select id from reitti_pisteet order by id asc;"
+                sql1 = "select id from valietappi order by id asc;"
                 cursor = yhteys.cursor()
                 cursor.execute(sql1)
                 tulos = cursor.fetchall()
@@ -75,11 +75,11 @@ class ReittiHallinta():
 
                 tyyppi = random.choice(tyyppilista)
                 icao = n['ident']
-                sql3 = f"INSERT into reitti_pisteet (id, lentokenttä_ident, korttien_lkm, tyyppi) values ('{id}', '{icao}',0, '{tyyppi}')"
+                sql3 = f"INSERT into valietappi (id, lentokenttä_ident, korttien_lkm, tyyppi) values ('{id}', '{icao}',0, '{tyyppi}')"
                 cursor.execute(sql3)
 
     def getReittiPisteetTyyppi(self, icao):
-        sql = f"select tyyppi from reitti_pisteet where lentokenttä_ident = '{icao}'"
+        sql = f"select tyyppi from valietappi where lentokenttä_ident = '{icao}'"
         cursor = yhteys.cursor()
         cursor.execute(sql)
         tulos = cursor.fetchone()
@@ -91,7 +91,7 @@ class ReittiHallinta():
         cursor = yhteys.cursor()
         cursor.execute(sql)
     def deleteReittiPisteet(self):
-        sql = "delete from reitti_pisteet;"
+        sql = "delete from valietappi;"
         cursor = yhteys.cursor()
         cursor.execute(sql)
 

@@ -89,7 +89,7 @@ def insertKorttien_lkm(airports):
     for airport in airports:
         dist = airport['distance_kortit']
         icao = airport['ident']
-        sql = f"update reitti_pisteet set korttien_lkm = '{dist}' WHERE lentokenttä_ident = '{icao}'"
+        sql = f"update valietappi set korttien_lkm = '{dist}' WHERE lentokenttä_ident = '{icao}'"
         cursor.execute(sql)
 
 
