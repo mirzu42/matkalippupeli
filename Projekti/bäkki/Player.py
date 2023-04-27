@@ -59,13 +59,13 @@ class PelaajanHallinta():
         kursori.execute(sql)
 
 
-    def tulosta_pelaajat(self):  #tulostaa pelaajat
+    '''def tulosta_pelaajat(self):  #tulostaa pelaajat
         sql = "select nimi from player;"
         cursor = yhteys.cursor()
         cursor.execute(sql)
         tulos = cursor.fetchall()
         for i in range(len(tulos)):
-            print(tulos[i][0])
+            print(tulos[i][0])'''#ei tarvii tätä varmaa
 
 
     def getNimi(self, p_id):  #hakee pelaajan nimen tämän pelaaja id:llä
@@ -109,8 +109,6 @@ class PelaajanHallinta():
             sql4 = f"delete from kortit where id = '{muuttuja[0]}';"
             cursor.execute(sql4)
             self.bensaKulutus(pelaaja_id, 1)
-        else:
-            print("Sinulla ei ole tarpeeksi montaa samanväristä korttia")
 
     def onkoPelaajallaVaraa(self, pelaaja_id, kortinVari, tarvittavaLkm):  #Tarkistaa onko pelaajalla tarvittava lkm tietynväristä korttia
         sql = f"select count(*) as pelaajan_korttien_lkm from pelaajan_kortit inner join kortit on id = kortti_id where tyyppi = '{kortinVari}' and player_id = '{pelaaja_id}';"
@@ -129,8 +127,7 @@ class PelaajanHallinta():
         if onkoVaraa == True :
             for i in range(lkm):
                 self.kaytaPelaajanKortti(kortti_tyyppi, pelaaja_id)
-        else:
-            print("Sinulla ei ole tarpeeksi montaa samanväristä korttia")
+
 
     def bensaKulutus(self, player_id, korttiLkm):  #kuluttaa bensaa käytettyjen korttien lukumäärän mukaan
         sql1 = f"update player set bensa = bensa - 8 * '{korttiLkm}' where id = '{player_id}';"
@@ -153,19 +150,21 @@ class PelaajanHallinta():
         cursor =yhteys.cursor()
         cursor.execute(sql)
         result = cursor.fetchall()
-
-        print(bcolors.OKBLUE+f"Pelaajalla{bcolors.FAIL} {self.getNimi(p_id)}{bcolors.OKBLUE} on: ")
+        punaiset = {"punainen", 0}
+        siniset = {"sininen", 0}
+        keltaiset = {"keltainen", 0}
+        jokerit = {"jokeri", 0}
         for i in result:
             if (i[1] == "punainen"):
-                print (bcolors.FAIL,+i[2],"x" ,i[1],bcolors.OKBLUE)
+                punaiset = {"punainen", i[2]}
             elif(i[1] =="sininen"):
-                print(bcolors.OKBLUE, +i[2], "x", i[1])
-            elif (i[1] == "keltainen"):
-                print(bcolors.WARNING, +i[2], "x", i[1], bcolors.OKBLUE)
-            elif (i[1]=="jokeri"):
-                print(bcolors.FAIL, +i[2], f"{bcolors.WARNING}x", f"{bcolors.OKBLUE}j{bcolors.WARNING}o{bcolors.FAIL}k{bcolors.OKBLUE}e{bcolors.WARNING}r{bcolors.FAIL}i{bcolors.OKBLUE}")
-        print("\n")
 
+                siniset = {"sininen", i[2]}
+            elif (i[1] == "keltainen"):
+                keltaiset = {"keltainen", i[2]}
+            elif (i[1]=="jokeri"):
+                jokerit = {"jokeri", i[2]}
+        return punaiset, siniset, keltaiset, jokerit
     def getPelaajanLiput(self, pelaaja_id):  #tulostaa pelaajalla olevat liput
         sql = f"select lähtö, kohde from liput inner join pelaajan_liput on id=liput_id where player_id = '{pelaaja_id}';"
         cursor = yhteys.cursor()
