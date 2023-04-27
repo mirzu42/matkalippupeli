@@ -19,8 +19,18 @@ def currentLoc(pid):
     FROM player
     WHERE id = %s
     '''
-    cursor = db.get_conn().cursor(dictionary=True)
+    cursor = db.get_conn().cursor()
     cursor.execute(sql, (pid,))
+    location = cursor.fetchone()
+
+    sql2 = f'''
+    SELECT ident, latitude_deg, longitude_deg
+    FROM airport
+    WHERE ident = %s
+    '''
+
+    cursor = db.get_conn().cursor(dictionary=True)
+    cursor.execute(sql2, (location[0],))
     result = cursor.fetchall()
 
     json_data = json.dumps(result, default=lambda o: o.__dict__, indent=4)

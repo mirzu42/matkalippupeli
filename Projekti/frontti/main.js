@@ -37,12 +37,17 @@ document.querySelector('#player-form').addEventListener('submit', (evt) => {
 
 })
 
+document.querySelectorAll('.leaflet-popup-content-wrapper').addEventListener('submit', (evt) => {
+    evt.preventDefault()
+})
+
 async function getData(url) {
   const response = await fetch(url);
   if (!response.ok) throw new Error('Invalid server input!');
   const data = await response.json();
   return data;
 }
+
 
 async function setup(url) {
     try {
@@ -53,32 +58,33 @@ async function setup(url) {
             fillColor: '#1220ec',
             fillOpacity: 0.7,
             radius: 10,
-        }).addTo(map).bindPopup(`${airport.name}`)
+        }).addTo(map).bindTooltip(`${airport.name}`)
 
 
 
         // näyttää nimen ku hiiri on markkerin päällä
-/*        marker.on('mouseover', (e) => {
-            marker.bindPopup(airport.name).openPopup()
-        })
-        marker.on('mouseout', (e) => {
-            marker.closePopup()
-        })
-*/
+       marker.on('click', (e) => {
+           marker.bindPopup(airport.name).openPopup()
 
-        // lisää viivat lentokenttien välille
-        console.log(airport)
+        })
+
 
     });
         let pid = "1"
-        const currLoc = await getData(`${apiUrl}loc/${pid}`)
-        console.log(currLoc)
-        const airportLine = await getData(`${apiUrl}fly/${currLoc}`)
-        console.log(airportLine)
-        airportLine.forEach(e => {
-            const airportCoordinates = airportLine.map(airport => [airport.latitude_deg, airport.longitude_deg]);
-            const polyline = L.polyline(airportCoordinates, {color: 'blue'}).addTo(map);
+        const currLocData = await getData(`${apiUrl}loc/${pid}`)
+        let currentLoc = currLocData[0].ident
+
+        const airportLine = await getData(`${apiUrl}fly/${currentLoc}`)
+
+        let startLoc = L.latLng(currLocData[0].latitude_deg, currLocData[0].longitude_deg)
+        let endLoc = airportLine.map(airport => L.latLng(airport.latitude_deg, airport.longitude_deg));
+
+        console.log(endLoc)
+        endLoc.forEach(e => {
+            console.log(e)
+            const polyline = L.polyline([startLoc, e], {color: 'blue'}).addTo(map);        console.log(polyline)
         })
+
 
     } catch (error) {
         console.log(error)
