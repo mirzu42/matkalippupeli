@@ -60,3 +60,42 @@ input[type="submit"]:hover {
     height: 100px
 }
 
+
+   .buttons {
+    position: absolute;
+    top: 20%;
+    right: 350px;
+    display: flex;
+    flex-direction: row;
+    transform: translateY(-50%);
+}
+.button {
+    margin-left: 10px;
+    padding: 10px;
+    background-color: #ddd;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+}
+#matkaliput-button {
+    background-color: #FDCD03;
+}
+.kortit {
+    position: absolute;
+    top: 40%; /* Korttien korkeus */
+    right: 250px; /* lmao hard koodattu lokaatio */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 100px;
+}
+.kortti {
+    margin: 0 10px;
+    width: 100px;
+    height: 150px;
+    object-fit: contain;
+}

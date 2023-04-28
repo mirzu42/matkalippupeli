@@ -2,7 +2,7 @@ import mysql.connector
 
 
 class Database:
-    def __init__(self):
+    def init(self):
         self.conn = mysql.connector.connect(
                  host="mysql.metropolia.fi",
                  port= 3306,
