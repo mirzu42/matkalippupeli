@@ -84,6 +84,10 @@ input[type="submit"]:hover {
 #matkaliput-button {
     background-color: #FDCD03;
 }
+#säännöt-button {
+    background-color: lavender;
+
+}
 .kortit {
     position: absolute;
     top: 40%; /* Korttien korkeus */

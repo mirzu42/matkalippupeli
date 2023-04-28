@@ -20,6 +20,8 @@ document.addEventListener('DOMContentLoaded', async (evt) => {
     const hideGame = document.querySelectorAll(".gameboard")
     hideGame.forEach((element) => {
         element.style.display = 'none'
+        document.querySelector('.kortit').style.display = 'none'; //piilottaa kortit pelin alussa
+        document.querySelector('.buttons').style.display = 'none'; //piilottaa napit pelin alussa
     });
 
 })
@@ -33,14 +35,19 @@ document.querySelector('#player-form').addEventListener('submit', async(evt) => 
         document.querySelector('#player-input').style.display = 'none'
         document.body.style.backgroundImage='none';
         document.querySelector('article').style.display = 'none'
+         document.querySelector('.kortit').style.display = 'flex'; //tuo kortit takaisin näkyviin
+        document.querySelector('.buttons').style.display = 'flex'; //tuo napit takaisin näkyviin
+
 
         element.style.display = 'block'
         setup()
     });
 
 })
+/*document.querySelector('#säännöt-button').addEventListener('onClick', async(evt)=> {
+    evt.preventDefault()
 
-
+})*/
 
 
 
