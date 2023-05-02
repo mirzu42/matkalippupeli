@@ -42,7 +42,7 @@ class PelaajanHallinta():
         sql2 = f"insert into player (id, kokonais_pisteet, bensa, nimi) values ({id}, 0, '{BENSA}', '{nimi}');"
 
         kursori.execute(sql2)
-        self.pelaajanAloituksenLippujenValinta(id)
+        return id
 
     def getAllPelaajat(self):
         sql = "select nimi from player;"

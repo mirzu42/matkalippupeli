@@ -19,8 +19,7 @@ cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 @app.route('/')
 def index():
-    player_id = 123
-    return render_template('peli.html', player_id=player_id)
+    return render_template('peli.html')
 
 @app.route('/createkortti/<playerid>')
 def createKortti(playerid):
@@ -33,6 +32,11 @@ def createKortti(playerid):
 
     return tulos[-1][-1]
 
+@app.route('/createplayer/<name>')
+def createPlayer(name):
+    id = ph.create_player(name)
+    json_data = json.dumps(id)
+    return json_data
 
 
 @app.route('/loc/<loc>')
@@ -63,7 +67,6 @@ def flyto():
     args = request.args
     dest = args.get("dest")
     json_data = fly(dest)
-    print("*** Called flyto endpoint ***")
     return json_data
 
 

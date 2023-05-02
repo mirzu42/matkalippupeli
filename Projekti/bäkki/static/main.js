@@ -3,6 +3,21 @@
 const map = L.map('map', {tap: false}).setView([64.18415870306524, 25.801859531170816], 5);
 
 const sääntöButton = document.querySelector('#säännöt-button');
+let form = document.getElementById('player-form');
+let pname = document.getElementById('player-name');
+let pid;
+  form.addEventListener('submit', (event) => {
+    const playerName = pname.value;
+    console.log(playerName);
+    fetch(`/createplayer/${playerName}`)
+        .then(response => response.json())
+        .then(jsonData => {
+        pid = jsonData;
+
+  })
+  .catch(error => console.error(error));
+
+  })
 sääntöButton.addEventListener('click', () => {
   alert('Pelin ideana on kerätä mahdollisimman paljon pisteitä suorittamalla matkalippuja ennenkuin pelaajalta loppuu bensa.\n' +
       'Pelin alussa pelaajalle arvotaan kolme(3) matkalippua, joista pelaaja valitsee kaksi(2). Pelaajalle' +
@@ -31,26 +46,10 @@ const airportMarkers = L.featureGroup().addTo(map);
 const newPolyLines = L.featureGroup().addTo(map);
 
 const korttiButton = document.querySelector('#nostakortti');
-
-/*function setupEventListeners() {
-  const korttiButton = document.querySelector('#nostakortti');
-
-  korttiButton.addEventListener('click', () => {
-    console.log('Player ID:', playerId);
-    fetch(`/createkortti/${playerId}`)
-      .then(response => response.json())
-      .then(data => {
-        // Process the response data here
-        console.log(data);
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
-  });
-
-
-}
- */
+  korttiButton.addEventListener('click', function(evt){
+      console.log('Player ID:', pid);
+      fetch(`/createkortti/${pid}`)
+});
 
 // piilottaa mapin heti alussa
 
