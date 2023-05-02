@@ -13,7 +13,7 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 const apiUrl = 'http://127.0.0.1:3000/';
 let currentLoc = 'efhk';
 const airportMarkers = L.featureGroup().addTo(map);
-const polyLine = L.featureGroup().addTo(map)
+const newPolyLines = L.featureGroup().addTo(map);
 
 // piilottaa mapin heti alussa
 document.addEventListener('DOMContentLoaded', async (evt) => {
@@ -75,7 +75,7 @@ async function lentokenttaViivat(newLoc) {
     let endLoc = airportLine.map(airport => L.latLng(airport.latitude_deg, airport.longitude_deg));
     console.log(endLoc)
 
-    const newPolyLines = L.featureGroup().addTo(map);
+
 
     endLoc.forEach(e => {
         L.polyline([...startLoc, e], {color: 'blue'}).addTo(newPolyLines);
@@ -120,8 +120,9 @@ async function setup(url) {
                 setup(`${apiUrl}flyto?dest=${dest}`);
                 currentLoc = dest;
                 dest.toLowerCase()
-                console.log("kissa koira " + dest)
                 lentokenttaViivat(dest)
+                newPolyLines.clearLayers();
+
             })
         });
 
