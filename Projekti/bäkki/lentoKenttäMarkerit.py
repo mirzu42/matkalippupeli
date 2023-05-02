@@ -1,4 +1,4 @@
-from flask import Flask, json
+from flask import Flask, json, request
 from database import Database
 from flask_cors import CORS
 
@@ -11,6 +11,7 @@ db = Database()
 app = Flask(__name__)
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
+
 
 @app.route('/loc/<pid>')
 def currentLoc(pid):
@@ -36,13 +37,34 @@ def currentLoc(pid):
     json_data = json.dumps(result, default=lambda o: o.__dict__, indent=4)
     return json_data
 
-@app.route('/fly/<loc>')
+
 def fly(loc):
-    nearby = saavutettavatLentokentat(loc)
     kentat = []
+
+    sql = f'''
+    SELECT ident, latitude_deg, longitude_deg
+    FROM airport
+    WHERE ident = %s
+    '''
+
+    cursor = db.get_conn().cursor(dictionary=True)
+    cursor.execute(sql, (loc,))
+    result = cursor.fetchone()
+
+    nearby = saavutettavatLentokentat(loc)
+    kentat.append(result)
     for a in nearby:
         kentat.append(a)
     json_data = json.dumps(kentat, default=lambda o: o.__dict__, indent=4)
+    return json_data
+
+
+@app.route('/flyto')
+def flyto():
+    args = request.args
+    dest = args.get("dest")
+    json_data = fly(dest)
+    print("*** Called flyto endpoint ***")
     return json_data
 
 
@@ -55,6 +77,7 @@ def airport(iso_country):
     cursor.execute(sql, (iso_country,))
     result = cursor.fetchall()
     return json.dumps(result)
+
 
 if __name__ == '__main__':
     app.run(use_reloader=True, host='127.0.0.1', port=3000)

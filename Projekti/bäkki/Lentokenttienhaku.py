@@ -3,6 +3,7 @@ from geopy.distance import distance
 import mysql.connector
 from Reitti import *
 
+rh = ReittiHallinta()
 
 class bcolors:
     HEADER = '\033[95m'
@@ -15,16 +16,14 @@ class bcolors:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
-rh = ReittiHallinta()
 yhteys = mysql.connector.connect(
-         host="127.0.0.1",
+         host="mysql.metropolia.fi",
          port= 3306,
-         database="matkalippupeli",
-         user="root",
+         database="lucasla",
+         user="lucasla",
          password="1234",
          autocommit=True
-)
-
+         )
 def haeKaikkiKentat():
     sql = """SELECT ident, name, latitude_deg, longitude_deg
      FROM airport

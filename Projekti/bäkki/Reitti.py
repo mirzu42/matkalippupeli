@@ -3,13 +3,14 @@ import random
 import mysql.connector
 
 yhteys = mysql.connector.connect(
-         host="127.0.0.1",
+         host="mysql.metropolia.fi",
          port= 3306,
-         database="matkalippupeli",
-         user="root",
+         database="lucasla",
+         user="lucasla",
          password="1234",
          autocommit=True
          )
+
 class ReittiHallinta():
     def createReitti(self, lippu_id):
         sql1 = "select id from reitti order by id asc;"

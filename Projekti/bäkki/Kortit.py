@@ -3,13 +3,13 @@ import mysql.connector
 
 
 yhteys = mysql.connector.connect(
-         host="127.0.0.1",
-         port= 3306,
-         database="matkalippupeli",
-         user="root",
-         password="1234",
-         autocommit=True
-         )
+     host="mysql.metropolia.fi",
+     port= 3306,
+     database="lucasla",
+     user="lucasla",
+     password="1234",
+     autocommit=True
+     )
 class KortinHallinta():
     def createKortti(self, pelaaja_id):  #luodaan pelaajalle random kortti
         kortitLista = ["punainen", "keltainen", "sininen", "punainen", "keltainen", "sininen", "punainen", "keltainen",

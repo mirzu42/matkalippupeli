@@ -1,14 +1,15 @@
 import mysql.connector
 import geopy
 from Lentokenttienhaku import laskeValimatka
+
 yhteys = mysql.connector.connect(
-         host="127.0.0.1",
-         port= 3306,
-         database="matkalippupeli",
-         user="root",
-         password="1234",
-         autocommit=True
-         )
+     host="mysql.metropolia.fi",
+     port= 3306,
+     database="lucasla",
+     user="lucasla",
+     password="1234",
+     autocommit=True
+     )
 class LipunHallinta():
     def createLippu(self, p_id):  #luodaan pelaajalle menolippu suomessa olevista isoista ja keskikokoisista lentokentistä
         cursor = yhteys.cursor(dictionary=True)

@@ -20,14 +20,13 @@ lh = LipunHallinta()
 BENSA = 500
 
 yhteys = mysql.connector.connect(
-         host="127.0.0.1",
-         port= 3306,
-         database="matkalippupeli",
-         user="root",
-         password="1234",
-         autocommit=True
-         )
-
+             host="mysql.metropolia.fi",
+             port= 3306,
+             database="lucasla",
+             user="lucasla",
+             password="1234",
+             autocommit=True
+             )
 class PelaajanHallinta():
     def create_player(self, nimi): # Lisää yhden pelaajan tietokantaan. Default lokaatio Helsinki-Vantaa
 

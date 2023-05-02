@@ -11,8 +11,9 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 // global
 const apiUrl = 'http://127.0.0.1:3000/';
-const startLoc = '';
+let currentLoc = 'efhk';
 const airportMarkers = L.featureGroup().addTo(map);
+const polyLine = L.featureGroup().addTo(map)
 
 // piilottaa mapin heti alussa
 document.addEventListener('DOMContentLoaded', async (evt) => {
@@ -40,8 +41,10 @@ document.querySelector('#player-form').addEventListener('submit', async(evt) => 
 
 
         element.style.display = 'block'
-        setup()
     });
+    await setup()
+    await lentokenttaViivat(currentLoc)
+
 
 })
 
@@ -61,6 +64,21 @@ for(i =0; i < rules.length; i++){
 }
 
 
+async function lentokenttaViivat(newLoc) {
+    const airportLine = await getData(`${apiUrl}flyto?dest=${newLoc}`);
+    console.log("alla " + newLoc);
+
+    let currentLoc = L.latLng(airportLine[0].latitude_deg, airportLine[0].longitude_deg);
+    let endLoc = airportLine.map(airport => L.latLng(airport.latitude_deg, airport.longitude_deg));
+
+    const newPolyLines = L.featureGroup().addTo(map);
+
+    endLoc.forEach(e => {
+        const polyline = L.polyline([currentLoc, e], {color: 'blue'}).addTo(newPolyLines);
+    });
+
+}
+
 
 async function getData(url) {
   const response = await fetch(url);
@@ -72,7 +90,7 @@ async function getData(url) {
 
 async function setup(url) {
     try {
-        const gameData = await getData(`${apiUrl}airport/fi`);
+        const gameData = await getData('http://127.0.0.1:3000/airport/fi');
         // lisää markkerit mapille
         gameData.forEach(airport => {
         const marker = L.circleMarker([airport.latitude_deg, airport.longitude_deg], {
@@ -86,32 +104,20 @@ async function setup(url) {
             const popupContent = document.createElement('div');
             const h4 = document.createElement('h4');
             h4.innerHTML = airport.name;
-            console.log(airport.ident)
             popupContent.append(h4);
             const goButton = document.createElement('button');
-            goButton.classList.add('button');
+            goButton.classList.add('FlyTo');
             goButton.innerHTML = 'Fly here';
             popupContent.append(goButton);
-            const p = document.createElement('p');
-            p.innerHTML = `Distance `;
-            popupContent.append(p);
             marker.bindPopup(popupContent);
-    });
-        let pid = "1"
-        const currLocData = await getData(`${apiUrl}loc/${pid}`)
-        let currentLoc = currLocData[0].ident
-
-        const airportLine = await getData(`${apiUrl}fly/${currentLoc}`)
-
-        let startLoc = L.latLng(currLocData[0].latitude_deg, currLocData[0].longitude_deg)
-        let endLoc = airportLine.map(airport => L.latLng(airport.latitude_deg, airport.longitude_deg));
-
-        console.log(endLoc)
-        endLoc.forEach(e => {
-            console.log(e)
-            const polyline = L.polyline([startLoc, e], {color: 'blue'}).addTo(map);        console.log(polyline)
-        })
-
+            goButton.addEventListener('click',  () => {
+                const dest = airport.ident;
+                setup(`${apiUrl}flyto?dest=${dest}`);
+                currentLoc = dest;
+                console.log("ylla " + currentLoc)
+                lentokenttaViivat(dest)
+            })
+        });
 
 
     } catch (error) {
