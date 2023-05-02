@@ -1,5 +1,8 @@
 'use strict';
 
+
+
+
 const map = L.map('map', {tap: false}).setView([64.18415870306524, 25.801859531170816], 5);
 
 const sääntöButton = document.querySelector('#säännöt-button');
@@ -28,7 +31,12 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 const apiUrl = 'http://127.0.0.1:3000/';
 let currentLoc = 'efhk';
 const airportMarkers = L.featureGroup().addTo(map);
-const polyLine = L.featureGroup().addTo(map)
+const newPolyLines = L.featureGroup().addTo(map);
+
+/*const korttiButton = document.querySelector('#nostakortti');
+korttiButton.addEventListener('click', () => {
+
+});*/
 
 // piilottaa mapin heti alussa
 document.addEventListener('DOMContentLoaded', async (evt) => {
@@ -83,14 +91,14 @@ for(i =0; i < rules.length; i++){
 
 async function lentokenttaViivat(newLoc) {
     console.log("testi " + newLoc)
-    const airportLine = await getData(`${apiUrl}flyto?dest=${newLoc}`);
+    const airportLine = await getData(`${apiUrl}/flyto?dest=${newLoc}`);
     let currentLoc = await getData(`${apiUrl}/loc/${newLoc}`)
     let startLoc = currentLoc.map(airport => L.latLng(airport.latitude_deg, airport.longitude_deg))
     console.log(startLoc)
     let endLoc = airportLine.map(airport => L.latLng(airport.latitude_deg, airport.longitude_deg));
     console.log(endLoc)
 
-    const newPolyLines = L.featureGroup().addTo(map);
+
 
     endLoc.forEach(e => {
         L.polyline([...startLoc, e], {color: 'blue'}).addTo(newPolyLines);
@@ -135,8 +143,9 @@ async function setup(url) {
                 setup(`${apiUrl}flyto?dest=${dest}`);
                 currentLoc = dest;
                 dest.toLowerCase()
-                console.log("kissa koira " + dest)
                 lentokenttaViivat(dest)
+                newPolyLines.clearLayers();
+
             })
         });
 

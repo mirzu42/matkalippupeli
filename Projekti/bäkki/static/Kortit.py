@@ -28,6 +28,10 @@ class KortinHallinta():
         cursor.execute(sql2)
         sql3 = f"insert into pelaajan_kortit (kortti_id, player_id) values ('{id}', '{pelaaja_id}');"
         cursor.execute(sql3)
+        cursor.execute(sql1)
+        result2 = cursor.fetchall()
+        viimeinenId = result2[-1][0]
+        return viimeinenId
     def createMultipleKortti(self, lkm, pelaaja_id):  #luodaan pelaajalle monta korttia
         for i in range(lkm):
             self.createKortti(pelaaja_id)

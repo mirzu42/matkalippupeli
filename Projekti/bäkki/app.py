@@ -1,12 +1,17 @@
 from flask import Flask, render_template, json, request
+from Kortit import KortinHallinta
+from Lippu import LipunHallinta
+from Reitti import ReittiHallinta
 
 from database import Database
 from flask_cors import CORS
 
 from Lentokenttienhaku import *
 from Player import PelaajanHallinta
-
+rh = ReittiHallinta()
 ph = PelaajanHallinta()
+kh = KortinHallinta()
+lh = LipunHallinta()
 
 db = Database()
 app = Flask(__name__)
@@ -14,7 +19,18 @@ cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('peli.html')
+
+@app.route('/createkortti/<playerid>')
+def createKortti(playerid):
+    korttiId = kh.createKortti(playerid)
+    sql = f"select tyyppi from kortit inner join pelaajan_kortit on kortit.id = pelaajan_kortit.kortti_id where pelaajan_kortit.player_id = {playerid};"
+    cursor = db.get_conn().cursor()
+    cursor.execute(sql)
+    tulos = cursor.fetchall()
+
+    return tulos[-1][-1]
+
 
 
 @app.route('/loc/<loc>')
