@@ -29,6 +29,7 @@ def createKortti(playerid):
     cursor.execute(sql)
     tulos = cursor.fetchall()
 
+
     return tulos[-1][-1]
 
 
