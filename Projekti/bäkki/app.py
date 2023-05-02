@@ -19,7 +19,8 @@ cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 @app.route('/')
 def index():
-    return render_template('peli.html')
+    player_id = 123
+    return render_template('peli.html', player_id=player_id)
 
 @app.route('/createkortti/<playerid>')
 def createKortti(playerid):
@@ -78,4 +79,4 @@ def airport(iso_country):
 
 
 if __name__ == '__main__':
-    app.run(use_reloader=True, host='127.0.0.1', port=3000)
+    app.run(use_reloader=True, host='127.0.0.1', port=5000)

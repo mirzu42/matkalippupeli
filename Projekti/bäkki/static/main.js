@@ -1,8 +1,5 @@
 'use strict';
 
-
-
-
 const map = L.map('map', {tap: false}).setView([64.18415870306524, 25.801859531170816], 5);
 
 const sääntöButton = document.querySelector('#säännöt-button');
@@ -28,15 +25,32 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 // global
-const apiUrl = 'http://127.0.0.1:3000/';
+const apiUrl = 'http://127.0.0.1:5000/';
 let currentLoc = 'efhk';
 const airportMarkers = L.featureGroup().addTo(map);
 const newPolyLines = L.featureGroup().addTo(map);
 
-/*const korttiButton = document.querySelector('#nostakortti');
-korttiButton.addEventListener('click', () => {
+const korttiButton = document.querySelector('#nostakortti');
 
-});*/
+/*function setupEventListeners() {
+  const korttiButton = document.querySelector('#nostakortti');
+
+  korttiButton.addEventListener('click', () => {
+    console.log('Player ID:', playerId);
+    fetch(`/createkortti/${playerId}`)
+      .then(response => response.json())
+      .then(data => {
+        // Process the response data here
+        console.log(data);
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  });
+
+
+}
+ */
 
 // piilottaa mapin heti alussa
 
@@ -119,7 +133,7 @@ async function getData(url) {
 
 async function setup(url) {
     try {
-        const gameData = await getData('http://127.0.0.1:3000/airport/fi');
+        const gameData = await getData('http://127.0.0.1:5000/airport/fi');
         // lisää markkerit mapille
         gameData.forEach(airport => {
         const marker = L.circleMarker([airport.latitude_deg, airport.longitude_deg], {

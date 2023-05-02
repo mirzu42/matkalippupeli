@@ -14,6 +14,9 @@
      crossorigin=""></script>
     <script src="../static/main.js" defer></script>
     <script src = "../static/Pelaaja.js"></script>
+    <script>
+        window.playerId = "{{ player_id }}";
+</script>
 </head>
 <body>
 
@@ -21,7 +24,7 @@
 
     <div class="buttons">
         <button class="button matkaliput" id="matkaliput-button">Matkaliput</button>
-        <button class="button nostakortti">Nosta kortti</button>
+        <button class="button nostakortti" id="nostakortti">Nosta kortti</button>
         <button class ="button säännöt" id = "säännöt-button">Säännöt</button>
     </div>
 

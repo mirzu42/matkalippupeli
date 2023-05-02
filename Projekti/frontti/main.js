@@ -10,7 +10,7 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 // global
-const apiUrl = 'http://127.0.0.1:3000/';
+const apiUrl = 'http://127.0.0.1:5000/';
 let currentLoc = 'efhk';
 const airportMarkers = L.featureGroup().addTo(map);
 const polyLine = L.featureGroup().addTo(map)
