@@ -62,6 +62,7 @@ document.addEventListener('DOMContentLoaded', async (evt) => {
         document.querySelector('.buttons').style.display = 'none'; //piilottaa napit pelin alussa
     });
 
+
 })
 
 // piilottaa pelaajan formin kun pelaaja on lisännyt nimen

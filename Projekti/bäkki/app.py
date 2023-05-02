@@ -38,7 +38,6 @@ def createPlayer(name):
     json_data = json.dumps(id)
     return json_data
 
-
 @app.route('/loc/<loc>')
 def currentLoc(loc):
     sql2 = f'''

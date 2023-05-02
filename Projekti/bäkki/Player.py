@@ -44,6 +44,7 @@ class PelaajanHallinta():
         kursori.execute(sql2)
         return id
 
+
     def getAllPelaajat(self):
         sql = "select nimi from player;"
         cursor = yhteys.cursor()

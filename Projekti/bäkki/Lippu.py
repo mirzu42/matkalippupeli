@@ -49,6 +49,7 @@ class LipunHallinta():
 
         return merkkijono1, merkkijono2
 
+
     def getAloitusLipunIcao(self, p_id):
         for i in range(3):
             self.createLippu(p_id)
