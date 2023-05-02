@@ -15,46 +15,25 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 @app.route('/')
 def index():
     return render_template('index.html')
-@app.route('/loc/<pid>')
-def currentLoc(pid):
-    sql = f'''
-    SELECT location
-    FROM player
-    WHERE id = %s
-    '''
-    cursor = db.get_conn().cursor()
-    cursor.execute(sql, (pid,))
-    location = cursor.fetchone()
 
+
+@app.route('/loc/<loc>')
+def currentLoc(loc):
     sql2 = f'''
     SELECT ident, latitude_deg, longitude_deg
     FROM airport
     WHERE ident = %s
     '''
-
     cursor = db.get_conn().cursor(dictionary=True)
-    cursor.execute(sql2, (location[0],))
+    cursor.execute(sql2, (loc,))
     result = cursor.fetchall()
-
     json_data = json.dumps(result, default=lambda o: o.__dict__, indent=4)
     return json_data
 
 
 def fly(loc):
     kentat = []
-
-    sql = f'''
-    SELECT ident, latitude_deg, longitude_deg
-    FROM airport
-    WHERE ident = %s
-    '''
-
-    cursor = db.get_conn().cursor(dictionary=True)
-    cursor.execute(sql, (loc,))
-    result = cursor.fetchone()
-
     nearby = saavutettavatLentokentat(loc)
-    kentat.append(result)
     for a in nearby:
         kentat.append(a)
     json_data = json.dumps(kentat, default=lambda o: o.__dict__, indent=4)

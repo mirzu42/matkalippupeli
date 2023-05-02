@@ -36,7 +36,7 @@ document.querySelector('#player-form').addEventListener('submit', async(evt) => 
         document.querySelector('#player-input').style.display = 'none'
         document.body.style.backgroundImage='none';
         document.querySelector('article').style.display = 'none'
-         document.querySelector('.kortit').style.display = 'flex'; //tuo kortit takaisin näkyviin
+        document.querySelector('.kortit').style.display = 'flex'; //tuo kortit takaisin näkyviin
         document.querySelector('.buttons').style.display = 'flex'; //tuo napit takaisin näkyviin
 
 
@@ -64,20 +64,25 @@ for(i =0; i < rules.length; i++){
 }
 
 
-async function lentokenttaViivat(newLoc) {
-    const airportLine = await getData(`${apiUrl}flyto?dest=${newLoc}`);
-    console.log("alla " + newLoc);
 
-    let currentLoc = L.latLng(airportLine[0].latitude_deg, airportLine[0].longitude_deg);
+
+async function lentokenttaViivat(newLoc) {
+    console.log("testi " + newLoc)
+    const airportLine = await getData(`${apiUrl}flyto?dest=${newLoc}`);
+    let currentLoc = await getData(`${apiUrl}/loc/${newLoc}`)
+    let startLoc = currentLoc.map(airport => L.latLng(airport.latitude_deg, airport.longitude_deg))
+    console.log(startLoc)
     let endLoc = airportLine.map(airport => L.latLng(airport.latitude_deg, airport.longitude_deg));
+    console.log(endLoc)
 
     const newPolyLines = L.featureGroup().addTo(map);
 
     endLoc.forEach(e => {
-        const polyline = L.polyline([currentLoc, e], {color: 'blue'}).addTo(newPolyLines);
+        L.polyline([...startLoc, e], {color: 'blue'}).addTo(newPolyLines);
     });
 
 }
+
 
 
 async function getData(url) {
@@ -110,11 +115,12 @@ async function setup(url) {
             goButton.innerHTML = 'Fly here';
             popupContent.append(goButton);
             marker.bindPopup(popupContent);
-            goButton.addEventListener('click',  () => {
+            goButton.addEventListener('click',  (e) => {
                 const dest = airport.ident;
                 setup(`${apiUrl}flyto?dest=${dest}`);
                 currentLoc = dest;
-                console.log("ylla " + currentLoc)
+                dest.toLowerCase()
+                console.log("kissa koira " + dest)
                 lentokenttaViivat(dest)
             })
         });
