@@ -39,6 +39,7 @@ korttiButton.addEventListener('click', () => {
 });*/
 
 // piilottaa mapin heti alussa
+
 document.addEventListener('DOMContentLoaded', async (evt) => {
     evt.preventDefault();
     const hideGame = document.querySelectorAll(".gameboard")
