@@ -40,7 +40,6 @@ const korttiButton = document.querySelector('#nostakortti');
     fetch(`/createkortti/${playerId}`)
       .then(response => response.json())
       .then(data => {
-        // Process the response data here
         console.log(data);
       })
       .catch(error => {
