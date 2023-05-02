@@ -1,0 +1,113 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    background-image: url("matkalippupeli_background.jpg");
+    background-size: cover;
+    box-sizing: border-box;
+}
+
+#player-input {
+    background-color: red;
+    height: 7em;
+    width: 50%;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20%;
+}
+
+input[type="text"] {
+    min-height: 3em;
+    font-size: 1.1em;
+    padding: 10px 10px;
+    text-align: center;
+    box-shadow: 2px 2px 5px 5px black;
+}
+
+input[type="submit"] {
+    font-size: 1.1em;
+    min-height: 3em;
+    width: 100px;
+    background-color: steelblue;
+    border: none;
+    border-radius: 10px;
+    margin-left: 10px;
+    padding: 10px;
+    transition: 0.5s;
+}
+
+input[type="submit"]:hover {
+    transform: scale(1.1);
+}
+#mainTitle{
+    justify-content: center;
+    height: 50%;
+    background-color: aquamarine;
+    box-sizing: border-box;
+    width: 50%;
+    margin: auto;
+    display: flex;
+    font-size: x-large;
+}
+
+.leaflet-popup-content-wrapper {
+    width: 150px;
+    height: 100px
+}
+
+
+   .buttons {
+    position: absolute;
+    top: 20%;
+    right: 350px;
+    display: flex;
+    flex-direction: row;
+    transform: translateY(-50%);
+}
+.button {
+    margin-left: 10px;
+    padding: 10px;
+    background-color: #ddd;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+}
+#matkaliput-button {
+    background-color: #FDCD03;
+}
+#säännöt-button {
+    background-color: lavender;
+}
+.content {
+    padding: 0 18px;
+    display: none;
+    overflow: hidden;
+    background-color: #f1f1f1;
+}
+.kortit {
+    position: absolute;
+    top: 40%; /* Korttien korkeus */
+    right: 250px; /* lmao hard koodattu lokaatio */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 100px;
+}
+.kortti {
+    margin: 0 10px;
+    width: 100px;
+    height: 150px;
+    object-fit: contain;
+}
+#more {
+    display: none;
+}
