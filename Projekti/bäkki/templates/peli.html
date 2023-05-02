@@ -19,6 +19,7 @@
 </script>
 </head>
 <body>
+<div id="container">
     <div id="map" class="gameboard" style="width: 40%; height: 100vh;"></div>
 
     <div class="buttons">
@@ -26,14 +27,25 @@
         <button class="button nostakortti" id="nostakortti">Nosta kortti</button>
         <button class ="button säännöt" id = "säännöt-button">Säännöt</button>
     </div>
-
     <div class="kortit">
+        <div>
+        <p id="jokeri_nr"></p>
         <img class="kortti" src="../static/kortit/jokeri_kortti.jpg" alt="jokeri kortti">
+        </div>
+        <div>
+        <p id="keltainen_nr"></p>
         <img class="kortti" src="../static/kortit/keltainen_kortti.jpg" alt="keltainen kortti">
+        </div>
+        <div>
+        <p id="punainen_nr"></p>
         <img class="kortti" src="../static/kortit/punainen_kortti.jpg" alt="punainen kortti">
+        </div>
+        <div>
+        <p id="sininen_nr"></p>
         <img class="kortti" src="../static/kortit/sininen_kortti.jpg" alt="sininen kortti">
+            </div>
     </div>
-
+</div>
 
     <div id="player-input">
         <form id="player-form">
