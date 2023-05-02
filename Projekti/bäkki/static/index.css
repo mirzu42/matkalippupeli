@@ -55,6 +55,10 @@ input[type="submit"]:hover {
     font-size: x-large;
 }
 
+#map {
+    display: inline-block;
+}
+
 .leaflet-popup-content-wrapper {
     width: 150px;
     height: 100px
@@ -102,36 +106,41 @@ input[type="submit"]:hover {
     background-color: #f1f1f1;
 }
 .kortit {
-    position: absolute;
-    top: 40%; /* Korttien korkeus */
-    left: 55%;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 100px;
+    margin-top: 300px;
+    margin-right: 200px;
+    width: 40%;
+    clear: both;
 }
 
-.jokeri_kortti {
+.kortit p {
+    text-align: center;
+}
+
+#container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.kortti {
     margin: 0 10px;
-    width: 100px;
-    height: 150px;
     object-fit: contain;
+    width: 90%;
+    padding: 10px;
 }
 .punainen_kortti{
     margin: 0 10px;
-    width: 100px;
-    height: 150px;
     object-fit: contain;
 }
 .sininen_kortti{
     margin: 0 10px;
-    width: 100px;
-    height: 150px;
     object-fit: contain;
 }
 .keltainen_kortti{
     margin: 0 10px;
-    width: 100px;
-    height: 150px;
     object-fit: contain;
 }

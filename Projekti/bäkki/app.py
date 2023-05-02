@@ -21,14 +21,24 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 def index():
     return render_template('peli.html')
 
+
+@app.route('/kortit/<playerid>')
+def korttienMaara(playerid):
+    sql = f'''
+    SELECT tyyppi, count(tyyppi) as maara from kortit inner join pelaajan_kortit on kortit.id = pelaajan_kortit.kortti_id where pelaajan_kortit.player_id = {playerid} GROUP by tyyppi;
+    '''
+    cursor = db.get_conn().cursor(dictionary=True)
+    cursor.execute(sql)
+    tulos = cursor.fetchall()
+    return json.dumps(tulos)
+
 @app.route('/createkortti/<playerid>')
 def createKortti(playerid):
-    korttiId = kh.createKortti(playerid) #älkää poistako vaikkei tätä käytetäkkää
+    test = kh.createKortti(playerid) #älkää poistako vaikkei tätä käytetäkkää
     sql = f"select tyyppi from kortit inner join pelaajan_kortit on kortit.id = pelaajan_kortit.kortti_id where pelaajan_kortit.player_id = {playerid};"
     cursor = db.get_conn().cursor()
     cursor.execute(sql)
     tulos = cursor.fetchall()
-
 
     return tulos[-1][-1]
 
@@ -85,4 +95,4 @@ def airport(iso_country):
 
 
 if __name__ == '__main__':
-    app.run(use_reloader=True, host='127.0.0.1', port=5000)
+    app.run(use_reloader=True, host='127.0.0.1', port=3000)
