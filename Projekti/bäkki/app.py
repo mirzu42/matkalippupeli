@@ -24,7 +24,7 @@ def index():
 
 @app.route('/createkortti/<playerid>')
 def createKortti(playerid):
-    korttiId = kh.createKortti(playerid)
+    korttiId = kh.createKortti(playerid) #älkää poistako vaikkei tätä käytetäkkää
     sql = f"select tyyppi from kortit inner join pelaajan_kortit on kortit.id = pelaajan_kortit.kortti_id where pelaajan_kortit.player_id = {playerid};"
     cursor = db.get_conn().cursor()
     cursor.execute(sql)
