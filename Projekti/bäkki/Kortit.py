@@ -46,7 +46,7 @@ class KortinHallinta():
         cursor.execute(sql1)
         cursor.execute(sql2)
 
-    def vahennaPelaajanKortteja(self, pelaaja_id, korttien_lkm):
+    def vahennaPelaajanKortteja(self, pelaaja_id, korttien_lkm, vari):
         sql = f"update valietappi set korttien_lkm = korttien_lkm - {korttien_lkm} where player_id = '{pelaaja_id}'"
         cursor = yhteys.cursor()
         cursor.execute(sql)

@@ -38,6 +38,10 @@ def createPlayer(name):
     json_data = json.dumps(id)
     return json_data
 
+@app.route('/usekortti/<pid>/<vari>/<maara>')
+def useKortti(pid, vari, maara):
+    ph.kaytaMontaKorttia(maara, vari, pid)
+
 @app.route('/loc/<loc>')
 def currentLoc(loc):
     sql2 = f'''
