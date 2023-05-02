@@ -2,6 +2,21 @@
 
 const map = L.map('map', {tap: false}).setView([64.18415870306524, 25.801859531170816], 5);
 
+const sääntöButton = document.querySelector('#säännöt-button');
+sääntöButton.addEventListener('click', () => {
+  alert('Pelin ideana on kerätä mahdollisimman paljon pisteitä suorittamalla matkalippuja ennenkuin pelaajalta loppuu bensa.\n' +
+      'Pelin alussa pelaajalle arvotaan kolme(3) matkalippua, joista pelaaja valitsee kaksi(2). Pelaajalle' +
+      'arvotaan myös pelikortteja, joiden värejä ovat punainen, sininen ja keltainen. Lisäksi' +
+      'on myös jokeri kortti, jota voi käyttää minkätahansa värisenä korttina.\n' +
+      '\n' +
+      'Jokaisella vuorolla pelaaja voi joko nostaa itselleen lisää kortteja, jolloin pelaajalle arvotaan uusi kortti, nostaa uuden matkalipun, tai\n' +
+      'rakentaa uuden reitin.\n' +
+      'Matkalipussa on lähtöpaikka ja kohde sekä kuinka paljon pisteitä kyseisen matkalipun suorittamisesta saa.' +
+      '\n' +
+      'Reittien rakentaminen toimii siten, että pelaajalla on oltava matkaan vaadittu määrä tietyn väristä korttia,' +
+      'esimerkiksi, jos matka Helsingistä Tampereelle vaatii 3 punaista korttia, on pelaajalla oltava' +
+      'joko kolme punaista korttia, tai esimerkiksi kaksi punaista korttia sekä yksi jokerikortti.\n');
+});
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 8,
     minZoom: 3,
