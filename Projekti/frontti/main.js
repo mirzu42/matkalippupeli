@@ -44,10 +44,21 @@ document.querySelector('#player-form').addEventListener('submit', async(evt) => 
     });
 
 })
-/*document.querySelector('#säännöt-button').addEventListener('onClick', async(evt)=> {
-    evt.preventDefault()
 
-})*/
+const rules = document.getElementsByClassName("button säännöt");
+let i;
+
+for(i =0; i < rules.length; i++){
+    rules[i].addEventListener("click", function(){
+        this.classList.toggle("active");
+        const content = this.nextElementSibling;
+        if(content.style.display === "block"){
+            content.style.display = "none";
+        } else {
+            content.style.display = "block";
+        }
+    })
+}
 
 
 

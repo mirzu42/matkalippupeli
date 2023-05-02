@@ -86,7 +86,12 @@ input[type="submit"]:hover {
 }
 #säännöt-button {
     background-color: lavender;
-
+}
+.content {
+    padding: 0 18px;
+    display: none;
+    overflow: hidden;
+    background-color: #f1f1f1;
 }
 .kortit {
     position: absolute;
@@ -102,4 +107,7 @@ input[type="submit"]:hover {
     width: 100px;
     height: 150px;
     object-fit: contain;
+}
+#more {
+    display: none;
 }
