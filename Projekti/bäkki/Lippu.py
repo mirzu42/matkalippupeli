@@ -74,3 +74,4 @@ class LipunHallinta():
         cursor.execute(getid)
         tulos = cursor.fetchone()
         return tulos[0]
+

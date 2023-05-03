@@ -72,12 +72,20 @@ korttiButton.addEventListener('click', async function(evt) {
             'sininen') sininen.innerHTML = element['maara'];
     });
 });
+let liput = []
 
 async function createLippu(pelaajaid) {
     let lippu = await getData(`${apiUrl}createlippu/${pelaajaid}`)
+    console.log(lippu)
+    liput.push(lippu)
     alert("lähtö: " + lippu[0] + " kohde: " + lippu[1])
     currentLoc = lippu[3]
+    return liput
 }
+
+matkalippu.addEventListener('click', async e => {
+    alert("lähtö: " + liput[0][0] + "\nkohde: " + liput[0][1])
+})
 
 
 // piilottaa mapin heti alussa
