@@ -7,18 +7,20 @@ const sääntöButton = document.querySelector('#säännöt-button');
 let form = document.getElementById('player-form');
 let pname = document.getElementById('player-name');
 let pid;
-  form.addEventListener('submit', (event) => {
+
+
+form.addEventListener('submit', (event) => {
     const playerName = pname.value;
     console.log(playerName);
-    fetch(`/createplayer/${playerName}`)
-        .then(response => response.json())
-        .then(jsonData => {
-        pid = jsonData;
+    fetch(`/createplayer/${playerName}`).
+        then(response => response.json()).
+        then(jsonData => {
+            pid = jsonData;
 
-  })
-  .catch(error => console.error(error));
+        }).
+        catch(error => console.error(error));
 
-  })
+});
 sääntöButton.addEventListener('click', () => {
     alert(
         'Pelin ideana on kerätä mahdollisimman paljon pisteitä suorittamalla matkalippuja ennenkuin pelaajalta loppuu bensa.\n' +
@@ -48,33 +50,34 @@ const airportMarkers = L.featureGroup().addTo(map);
 const newPolyLines = L.featureGroup().addTo(map);
 
 const korttiButton = document.querySelector('#nostakortti');
-let jokeri = document.querySelector('#jokeri_nr')
-let keltainen = document.querySelector('#keltainen_nr')
-let punainen = document.querySelector('#punainen_nr')
-let sininen = document.querySelector('#sininen_nr')
+const matkalippu = document.querySelector('#matkaliput-button')
+let jokeri = document.querySelector('#jokeri_nr');
+let keltainen = document.querySelector('#keltainen_nr');
+let punainen = document.querySelector('#punainen_nr');
+let sininen = document.querySelector('#sininen_nr');
 
+korttiButton.addEventListener('click', async function(evt) {
+    console.log('Player ID:', pid);
+    await fetch(`/createkortti/${pid}`);
 
-korttiButton.addEventListener('click', async function(evt){
-      console.log('Player ID:', pid);
-      await fetch(`/createkortti/${pid}`)
+    let kortit = await getData(`${apiUrl}/kortit/${pid}`);
 
-      let kortit = await getData(`${apiUrl}/kortit/${pid}`)
-
-      kortit.forEach(element => {
-          if (element["tyyppi"] === "jokeri") jokeri.innerHTML = element["maara"]
-          else if (element["tyyppi"] === "keltainen") keltainen.innerHTML = element["maara"]
-          else if (element["tyyppi"] === "punainen") punainen.innerHTML = element["maara"]
-          else if (element["tyyppi"] === "sininen") sininen.innerHTML = element["maara"]
-      });
+    kortit.forEach(element => {
+        if (element['tyyppi'] === 'jokeri') jokeri.innerHTML = element['maara'];
+        else if (element['tyyppi'] ===
+            'keltainen') keltainen.innerHTML = element['maara'];
+        else if (element['tyyppi'] ===
+            'punainen') punainen.innerHTML = element['maara'];
+        else if (element['tyyppi'] ===
+            'sininen') sininen.innerHTML = element['maara'];
+    });
 });
 
-
-
-
-
-
-
-
+async function createLippu(pelaajaid) {
+    let lippu = await getData(`${apiUrl}createlippu/${pelaajaid}`)
+    alert("lähtö: " + lippu[0] + " kohde: " + lippu[1])
+    currentLoc = lippu[3]
+}
 
 
 // piilottaa mapin heti alussa
@@ -87,7 +90,6 @@ document.addEventListener('DOMContentLoaded', async (evt) => {
         document.querySelector('.kortit').style.display = 'none'; //piilottaa kortit pelin alussa
         document.querySelector('.buttons').style.display = 'none'; //piilottaa napit pelin alussa
     });
-
 
 });
 
@@ -107,6 +109,7 @@ document.querySelector('#player-form').
             element.style.display = 'block';
         });
         await setup();
+        await createLippu(pid)
         await lentokenttaViivat(currentLoc);
 
     });
@@ -127,6 +130,7 @@ for (i = 0; i < rules.length; i++) {
 }
 
 async function lentokenttaViivat(newLoc) {
+
     console.log('testi ' + newLoc);
     const airportLine = await getData(`${apiUrl}flyto?dest=${newLoc}`);
     let currentLoc = await getData(`${apiUrl}/loc/${newLoc}`);
@@ -145,6 +149,11 @@ async function lentokenttaViivat(newLoc) {
     });
 }
 
+// /usekortti/<pid>/<vari>/<maara>
+
+
+
+
 async function getData(url) {
     const response = await fetch(url);
     if (!response.ok) throw new Error('Invalid server input!');
@@ -152,15 +161,17 @@ async function getData(url) {
     return data;
 }
 
-
 async function setup(url) {
     try {
         const gameData = await getData(`${apiUrl}/airport/fi`);
 
         // lisää markkerit mapille
         gameData.forEach(airport => {
-            const marker = L.circleMarker([airport.latitude_deg, airport.longitude_deg]).addTo(map).bindTooltip(`${airport.name}`);
-            marker.setStyle({ color: 'blue', fillColor: '#03246c' });
+            const marker = L.circleMarker(
+                [airport.latitude_deg, airport.longitude_deg]).
+                addTo(map).
+                bindTooltip(`${airport.name}`);
+            marker.setStyle({color: 'blue', fillColor: '#03246c'});
             // lisää markereihin formin jotta pelaaja voi vaihtaa kenttää
             airportMarkers.addLayer(marker);
             const popupContent = document.createElement('div');
@@ -168,8 +179,12 @@ async function setup(url) {
             h4.innerHTML = airport.name;
             popupContent.append(h4);
             const goButton = document.createElement('button');
-            goButton.classList.add('FlyTo');
+            const kortinKaytto = document.createElement('button');
+            kortinKaytto.classList.add('FlyTo');
+            kortinKaytto.innerHTML = 'Kortit';
+            popupContent.append(kortinKaytto);
             goButton.innerHTML = 'Fly here';
+            goButton.classList.add('FlyTo');
             popupContent.append(goButton);
             marker.bindPopup(popupContent);
             goButton.addEventListener('click', (e) => {
@@ -180,6 +195,7 @@ async function setup(url) {
                 lentokenttaViivat(dest);
                 newPolyLines.clearLayers();
             });
+
         });
 
     } catch (error) {

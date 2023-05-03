@@ -47,7 +47,7 @@ class LipunHallinta():
         sql4 = f"insert into pelaajan_liput (player_id, liput_id) values ({p_id}, {lippuID})"
         cursor.execute(sql4)
 
-        return merkkijono1, merkkijono2, pisteet
+        return merkkijono1, merkkijono2, pisteet, merkkijono3
 
 
     def getAloitusLipunIcao(self, p_id):

@@ -61,7 +61,7 @@ input[type="submit"]:hover {
 
 .leaflet-popup-content-wrapper {
     width: 150px;
-    height: 100px
+    height: 150px
 }
 
 .buttons {
@@ -83,6 +83,11 @@ input[type="submit"]:hover {
     font-weight: bold;
     text-align: center;
     text-transform: uppercase;
+    transition: 0.5s;
+}
+
+.button:hover {
+    transform: scale(1.2);
 }
 #matkaliput-button {
     background-color: #FDCD03;
@@ -145,4 +150,22 @@ input[type="submit"]:hover {
 .keltainen_kortti{
     margin: 0 10px;
     object-fit: contain;
+}
+
+.FlyTo {
+    font-size: 1.1em;
+    min-height: 3em;
+    width: 70px;
+    background-color: steelblue;
+    border: none;
+    border-radius: 10px;
+    margin-left: 10px;
+    transition: 0.5s;
+    margin-top: 5px;
+
+}
+
+.FlyTo:hover {
+    transform: scale(1.2);
+
 }
