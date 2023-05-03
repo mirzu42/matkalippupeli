@@ -48,6 +48,14 @@ def createPlayer(name):
     json_data = json.dumps(id)
     return json_data
 
+@app.route('/createlippu/<pid>') #palauttaa lähtö, kohde, pisteet
+def createLippu(pid):
+    lippu = lh.createLippu(pid)
+    json_data = json.dumps(lippu)
+    return json_data
+
+
+
 @app.route('/usekortti/<pid>/<vari>/<maara>')
 def useKortti(pid, vari, maara):
     ph.kaytaMontaKorttia(maara, vari, pid)
